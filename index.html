@@ -348,10 +348,10 @@
                 </div>
                 
                 <!-- Month/Year Picker Controls -->
-                <div class="flex items-center gap-3 bg-white dark:bg-slate-800 p-2 rounded-xl shadow-premium dark:shadow-premium-dark border border-slate-200/50 dark:border-slate-700/50">
-                    <button onclick="changeMonth(-1)" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 transition-colors"><i class="fa-solid fa-chevron-left"></i></button>
-                    <span id="cal-month-year" class="font-bold text-base md:text-lg min-w-[160px] text-center text-slate-800 dark:text-white">กรกฎาคม 2026</span>
-                    <button onclick="changeMonth(1)" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 transition-colors"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="flex items-center justify-between gap-3 bg-white dark:bg-slate-800 p-2 rounded-xl shadow-premium dark:shadow-premium-dark border border-slate-200/50 dark:border-slate-700/50 w-full md:w-auto">
+                    <button onclick="changeMonth(-1)" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 transition-colors flex-shrink-0"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="cal-month-year" class="font-bold text-base md:text-lg w-full text-center text-slate-800 dark:text-white flex-1 min-w-[120px]">กรกฎาคม 2026</span>
+                    <button onclick="changeMonth(1)" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 transition-colors flex-shrink-0"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
             
@@ -473,16 +473,17 @@
     </main>
 
     <!-- ================= MODAL: RECEIVING FORM ================= -->
-    <div id="receive-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div id="receive-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('receive-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-lg mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in">
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-lg sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in flex flex-col max-h-[90vh]">
             <!-- Header modal -->
-            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-5 flex justify-between items-center text-white">
+            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-5 flex justify-between items-center text-white flex-shrink-0">
                 <h3 class="font-extrabold text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i> บันทึกข้อมูลตรวจรับพัสดุ</h3>
                 <button onclick="closeModal('receive-modal')" class="text-white/80 hover:text-white hover:scale-110 transition-all"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-6">
+            <!-- Body -->
+            <div class="p-5 sm:p-6 overflow-y-auto flex-1">
                 <!-- Info of selected item -->
                 <div class="bg-slate-50 dark:bg-slate-900/40 p-4.5 rounded-2xl mb-5 border border-slate-100 dark:border-slate-700">
                     <div class="flex justify-between items-start">
@@ -516,7 +517,7 @@
                                 </div>
                                 <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 line-clamp-1" id="upload-status-text">แตะเพื่อถ่าย/อัปภาพ</span>
                             </div>
-                            <input type="file" id="modal-input-document" accept="image/*,application/pdf" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
+                            <input type="file" id="modal-input-document" accept="image/*" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
                         </div>
                     </div>
                     <div>
@@ -538,15 +539,15 @@
     </div>
 
     <!-- ================= MODAL: DASHBOARD CARD DETAILS ================= -->
-    <div id="dash-items-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div id="dash-items-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('dash-items-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-4xl mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[85vh] fade-in">
-            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-4 flex justify-between items-center text-white">
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-4xl sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[90vh] fade-in">
+            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-4 flex justify-between items-center text-white flex-shrink-0">
                 <h3 class="font-extrabold text-base md:text-lg flex items-center"><i class="fa-solid fa-list mr-2"></i> <span id="dash-modal-title">รายการอุปกรณ์ที่ค้นหา</span></h3>
                 <button onclick="closeModal('dash-items-modal')" class="text-white/80 hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-750 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-750 grid grid-cols-1 sm:grid-cols-3 gap-3 flex-shrink-0">
                 <div>
                     <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">ตัวกรองสถานะ</label>
                     <select id="dash-modal-filter-status" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:ring-1 focus:ring-brand-500 outline-none">
@@ -570,7 +571,7 @@
                 </div>
             </div>
             
-            <div class="overflow-y-auto p-6 flex-1">
+            <div class="overflow-y-auto p-4 sm:p-6 flex-1">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -588,18 +589,18 @@
                 </div>
             </div>
             
-            <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                <p class="text-[11px] text-slate-400 font-bold"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> คลิกที่แถวข้อมูลพัสดุใดๆ เพื่อเรียกรายงานความก้าวหน้าอย่างละเอียด</p>
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center flex-shrink-0">
+                <p class="text-[11px] text-slate-400 font-bold"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> คลิกที่แถวข้อมูลพัสดุเพื่อเรียกดูเพิ่มเติม</p>
                 <button type="button" onclick="closeModal('dash-items-modal')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-800 dark:text-white font-extrabold transition-colors text-xs">ปิดหน้าต่าง</button>
             </div>
         </div>
     </div>
 
     <!-- ================= MODAL: ITEM FULL DETAILS ================= -->
-    <div id="details-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div id="details-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('details-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-lg mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in">
-            <div class="bg-slate-100 dark:bg-slate-900/60 px-6 py-5 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700">
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-lg sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in flex flex-col max-h-[90vh]">
+            <div class="bg-slate-100 dark:bg-slate-900/60 px-6 py-5 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700 flex-shrink-0">
                 <h3 class="text-slate-800 dark:text-white font-extrabold text-md md:text-lg flex items-center">
                     <i class="fa-solid fa-circle-info mr-2 text-brand-500"></i> 
                     <span id="det-title-text">รายละเอียดพัสดุครุภัณฑ์</span>
@@ -607,7 +608,7 @@
                 <button onclick="closeModal('details-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-6">
+            <div class="p-5 sm:p-6 overflow-y-auto flex-1">
                 <!-- VIEW MODE CONTAINER -->
                 <div id="det-view-mode" class="space-y-4">
                     <div class="flex justify-between items-center mb-5">
@@ -639,7 +640,7 @@
                             <div class="w-2/3 text-slate-800 dark:text-slate-200 font-mono font-bold bg-slate-50 dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200/50 dark:border-slate-800 shadow-inner" id="det-sn"></div>
                         </div>
                         <div class="flex flex-col pt-2" id="det-doc-container">
-                            <span class="text-slate-400 dark:text-slate-500 font-bold mb-2"><i class="fa-solid fa-file-invoice w-5 text-brand-500"></i> หลักฐานเอกสารประกอบ (คอลัมน์ N):</span>
+                            <span class="text-slate-400 dark:text-slate-500 font-bold mb-2"><i class="fa-solid fa-file-invoice w-5 text-brand-500"></i> หลักฐานเอกสารประกอบ:</span>
                             <div id="det-doc-status" class="text-xs text-slate-600 dark:text-slate-400"></div>
                         </div>
                     </div>
@@ -662,7 +663,7 @@
                     <div class="bg-slate-50 dark:bg-slate-900/40 p-4.5 rounded-2xl border border-slate-100 dark:border-slate-700 space-y-2">
                         <div class="flex justify-between text-xs font-bold">
                             <span class="text-brand-600 dark:text-brand-400">แก้ไขข้อมูลพัสดุ ID: <span id="det-edit-id-label"></span></span>
-                            <span class="text-slate-400">ระบุข้อมูลจริงเพื่อลงบันทึก Sheets</span>
+                            <span class="text-slate-400">ระบุข้อมูลจริงเพื่อลงบันทึก</span>
                         </div>
                         <div id="det-edit-name-label" class="text-sm font-extrabold text-slate-800 dark:text-white leading-snug"></div>
                     </div>
@@ -689,10 +690,7 @@
                     <!-- Modernized Tap-to-Photo section inside Detail Editor -->
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">ภาพใบรับเอกสาร / ลิงก์ Drive (คอลัมน์ N)</label>
-                            <a href="https://drive.google.com/drive/folders/1MNHSnlQ3MBXWiQd275kwUmFhQK1okF64?usp=drive_link" target="_blank" class="text-xs font-bold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
-                                <i class="fa-solid fa-folder-open text-amber-500"></i> เปิด Google Drive 📂
-                            </a>
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">ภาพใบรับเอกสาร</label>
                         </div>
                         
                         <!-- Tap to Photo Area -->
@@ -702,9 +700,7 @@
                             </div>
                             <span class="text-xs font-bold text-slate-600 dark:text-slate-300" id="edit-upload-status-text">แตะเพื่อถ่าย/อัปภาพ</span>
                         </div>
-                        <input type="file" id="det-edit-file-input" accept="image/*,application/pdf" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
-                        
-                        <input type="text" id="det-edit-doc-input" placeholder="หรือวางลิงก์เอกสารจาก Google Drive..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none shadow-inner">
+                        <input type="file" id="det-edit-file-input" accept="image/*" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
                     </div>
 
                     <div>
@@ -722,14 +718,14 @@
     </div>
 
     <!-- ================= MODAL: CALENDAR DAY DETAILS ================= -->
-    <div id="cal-day-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div id="cal-day-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('cal-day-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-md mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in">
-            <div class="bg-slate-100 dark:bg-slate-900/60 px-6 py-4 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700">
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-md sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in flex flex-col max-h-[90vh]">
+            <div class="bg-slate-100 dark:bg-slate-900/60 px-6 py-4 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700 flex-shrink-0">
                 <h3 class="text-slate-800 dark:text-white font-extrabold" id="cal-day-title">รายการวันที่ --/--/----</h3>
                 <button onclick="closeModal('cal-day-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-times text-lg"></i></button>
             </div>
-            <div class="p-0 max-h-[60vh] overflow-y-auto" id="cal-day-list"></div>
+            <div class="p-0 overflow-y-auto flex-1 custom-scrollbar" id="cal-day-list"></div>
         </div>
     </div>
 
@@ -744,19 +740,10 @@
         // Endpoint Google Apps Script API_URL
         const API_URL = "https://script.google.com/macros/s/AKfycbxlsSiwLAiWk3l1_ilBWH0yVXfel76GhH1NoFfsFxFTNPAR3ZkcOYDj0Zv9a9IJiVM/exec";
         
-        // Mockup Database fallback - All reset to "pending" with empty receive values (0 Mockup Progress)
-        let equipmentData = [
-            { no: 1, id: "AMS-01", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ้นส่วนจำกัด พลอยแพรี่", planDate: "15/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" },
-            { no: 2, id: "AMS-02", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ้นส่วนจำกัด พลอยแพรี่", planDate: "15/05/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" }, 
-            { no: 3, id: "AMS-86", name: "C-Band Transceiver 40W", brand: "Amplus", model: "AM-9443", vendor: "บริษัท ทีซี บิลเลี่ยน จำกัด", planDate: "31/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" },
-            { no: 4, id: "AMS-87", name: "High Performance Converter", brand: "Amplus", model: "AM-9220", vendor: "บริษัท ทีซี บิลเลี่ยน จำกัด", planDate: "31/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" },
-            { no: 5, id: "AMS-88", name: "NTP GPS Network Lantime", brand: "Meinberg", model: "Lantime M320", vendor: "บริษัท ทีซี บิลเลี่ยน จำกัด", planDate: "01/06/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" }, 
-            { no: 6, id: "AMS-91", name: "ID Card Printer", brand: "Zebra", model: "ZC300", vendor: "บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด", planDate: "06/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" },
-            { no: 7, id: "AMS-92", name: "Ribbon แบบสีเครื่องปริ้นท์", brand: "Zebra", model: "Color-YMCKO", vendor: "บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด", planDate: "06/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" },
-            { no: 8, id: "AMS-93", name: "ID Card for Car and Employee", brand: "Bosch", model: "AC", vendor: "บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด", planDate: "10/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false, docUrl: "" }
-        ];
+        // Mockup Database fallback - Set to zero as requested
+        let equipmentData = [];
 
-        const today = new Date(2026, 5, 23); // Mock Current Date to June 23, 2026
+        const today = new Date();
         today.setHours(0,0,0,0);
 
         function updateUploadStatus(input, textId) {
@@ -807,7 +794,7 @@
         let statusChartInst = null;
         let vendorChartInst = null;
         let timelineChartInst = null; 
-        let currentCalDate = new Date(2026, 6, 1); // Default to July 2026 based on mock data timeline
+        let currentCalDate = new Date(); 
         let uniqueVendors = [];
         let uniqueNames = [];
 
@@ -838,18 +825,18 @@
                 }
                 const response = await fetch(API_URL);
                 const result = await response.json();
-                if (result.status === "success") {
+                if (result.status === "success" && result.data && result.data.length > 0) {
                     equipmentData = result.data;
                     cleanAllDates();
                     updateConnectionBadge('success');
                     populateDropdowns();
                     renderDashboard();
                 } else {
-                    throw new Error(result.message);
+                    throw new Error(result.message || "ไม่พบข้อมูล");
                 }
             } catch (err) {
                 console.warn("Connection Fallback Status: Using mock database.", err);
-                updateConnectionBadge('error', 'ใช้งานฐานข้อมูลสำรอง (Local Mode)');
+                updateConnectionBadge('error', 'ใช้งานฐานข้อมูลเริ่มต้น');
                 cleanAllDates();
                 populateDropdowns();
                 renderDashboard();
@@ -1070,8 +1057,8 @@
                 data: {
                     labels: ['ตรวจรับสำเร็จ', 'รอดำเนินการ', 'ล่าช้า'],
                     datasets: [{ 
-                        data: [received, pending - delayed, delayed], 
-                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], 
+                        data: totalSum === 0 ? [0, 1, 0] : [received, pending - delayed, delayed], 
+                        backgroundColor: totalSum === 0 ? ['#e2e8f0', '#f1f5f9', '#e2e8f0'] : ['#10b981', '#f59e0b', '#ef4444'], 
                         borderWidth: 2, 
                         borderColor: isDark ? '#1e293b' : '#ffffff',
                         hoverOffset: 6
@@ -1088,6 +1075,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
+                                    if(totalSum === 0) return " ไม่มีข้อมูล";
                                     let label = context.label || '';
                                     let value = context.parsed || 0;
                                     let pct = totalSum > 0 ? ((value / totalSum) * 100).toFixed(1) : 0;
@@ -1141,12 +1129,12 @@
             vendorChartInst = new Chart(ctxVendor, {
                 type: 'bar',
                 data: {
-                    labels: vendorLabels.map(l => l.length > 15 ? l.substring(0, 15) + '...' : l),
-                    fullLabels: vendorLabels, 
+                    labels: vendorLabels.length > 0 ? vendorLabels.map(l => l.length > 15 ? l.substring(0, 15) + '...' : l) : ['ไม่มีข้อมูล'],
+                    fullLabels: vendorLabels.length > 0 ? vendorLabels : [''], 
                     datasets: [{ 
                         label: 'พัสดุในสัญญา (เครื่อง)',
-                        data: vendorData, 
-                        backgroundColor: vendorLabels.map((_, i) => premiumColors[i % premiumColors.length]),
+                        data: vendorData.length > 0 ? vendorData : [0], 
+                        backgroundColor: vendorLabels.map((_, i) => premiumColors[i % premiumColors.length]) || ['#e2e8f0'],
                         borderRadius: 8, 
                         barPercentage: 0.55
                     }]
@@ -1159,19 +1147,21 @@
                         x: { 
                             ticks: { stepSize: 1, color: textColor, font: {family: 'Sarabun'} }, 
                             grid: { color: gridColor },
-                            title: { display: true, text: 'ปริมาณ (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10, weight: 'bold'} }
+                            title: { display: true, text: 'ปริมาณ (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10, weight: 'bold'} },
+                            min: 0,
+                            suggestedMax: 5
                         },
                         y: { ticks: { color: textColor, font: {family: 'Sarabun', weight: 'bold'} }, grid: { display: false } }
                     },
                     plugins: { 
                         legend: { display: false }, 
-                        tooltip: { callbacks: { title: (ctx) => vendorLabels[ctx[0].dataIndex] }, titleFont: {family: 'Sarabun'}, bodyFont: {family: 'Sarabun'} } 
+                        tooltip: { callbacks: { title: (ctx) => vendorLabels[ctx[0].dataIndex] || 'ไม่มีข้อมูล' }, titleFont: {family: 'Sarabun'}, bodyFont: {family: 'Sarabun'} } 
                     },
                     onClick: (e, activeEls, chart) => {
-                        if(activeEls.length > 0) {
+                        if(activeEls.length > 0 && vendorLabels.length > 0) {
                             const index = activeEls[0].index;
                             const fullVendorName = chart.data.fullLabels[index];
-                            openDashboardItemsModal('all', fullVendorName);
+                            if (fullVendorName) openDashboardItemsModal('all', fullVendorName);
                         }
                     }
                 }
@@ -1215,11 +1205,11 @@
             timelineChartInst = new Chart(ctxTimeline, {
                 type: 'line',
                 data: {
-                    labels: labelsShort.length > 0 ? labelsShort : ["พ.ค. 2026", "มิ.ย. 2026", "ก.ค. 2026"],
+                    labels: labelsShort.length > 0 ? labelsShort : ["ม.ค.", "ก.พ.", "มี.ค."],
                     datasets: [
                         {
                             label: 'แผนกำหนดส่งมอบสะสม (Plan)',
-                            data: planDataset.length > 0 ? planDataset : [2, 1, 5],
+                            data: planDataset.length > 0 ? planDataset : [0, 0, 0],
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.08)',
                             borderWidth: 3.5,
@@ -1256,7 +1246,9 @@
                         y: { 
                             ticks: { color: textColor, stepSize: 1, font: {family: 'Sarabun'} }, 
                             grid: { color: gridColor },
-                            title: { display: true, text: 'ปริมาณ (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10} }
+                            title: { display: true, text: 'ปริมาณ (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10} },
+                            min: 0,
+                            suggestedMax: 5
                         }
                     },
                     plugins: {
@@ -1266,6 +1258,7 @@
                             bodyFont: {family: 'Sarabun'},
                             callbacks: {
                                 footer: function(tooltipItems) {
+                                    if(planDataset.length === 0) return "";
                                     const index = tooltipItems[0].dataIndex;
                                     const planVal = planDataset[index] || 0;
                                     const actVal = actualDataset[index] || 0;
@@ -1545,6 +1538,12 @@
             });
             
             tbody.innerHTML = '';
+            
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 font-bold">ไม่พบข้อมูล</td></tr>`;
+                return;
+            }
+
             filtered.forEach(item => {
                 let statusBadge = '';
                 if(item.status === 'received') statusBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"><i class="fa-solid fa-check-double mr-1.5 text-[10px]"></i>ตรวจรับสำเร็จ</span>`;
@@ -1604,7 +1603,6 @@
             
             document.getElementById('det-edit-status-input').value = item.status;
             document.getElementById('det-edit-sn-input').value = item.sn || '';
-            document.getElementById('det-edit-doc-input').value = item.docUrl || '';
             document.getElementById('det-edit-notes-input').value = item.notes || '';
             
             // Reset upload field status text on opening detail view
@@ -1613,15 +1611,13 @@
             
             const docStatus = document.getElementById('det-doc-status');
             if(item.status === 'received') {
-                const docLink = item.docUrl ? `<a href="${item.docUrl}" target="_blank" class="inline-flex items-center gap-1.5 p-1 px-2.5 text-xs font-bold text-brand-700 bg-teal-50 dark:bg-brand-950/30 dark:text-brand-300 rounded-lg hover:underline mt-1 border border-brand-200/40"><i class="fa-solid fa-file-invoice"></i> เปิดลิงก์เอกสารใบรับ (คอลัมน์ N) <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></a>` : '';
-                const baseDocText = item.hasDoc ? `อัปโหลดไฟล์เรียบร้อย` : `ไม่มีลิงก์หรือไฟล์เอกสารแนบ`;
+                const baseDocText = item.hasDoc ? `อัปโหลดไฟล์เรียบร้อย` : `ไม่มีไฟล์เอกสารแนบ`;
                 
                 docStatus.innerHTML = `
                     <div class="space-y-2 mt-1">
-                        <span class="inline-flex items-center gap-1.5 p-1.5 px-3 text-xs font-bold ${item.hasDoc || item.docUrl ? 'text-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200/20' : 'text-slate-400 bg-slate-100 dark:bg-slate-750 dark:text-slate-400 border border-slate-200/20'} rounded-xl">
-                            <i class="fa-solid ${item.hasDoc || item.docUrl ? 'fa-circle-check' : 'fa-file-circle-xmark'}"></i> ${item.docUrl ? 'พบข้อมูลลิงก์ในคอลัมน์ N' : baseDocText}
+                        <span class="inline-flex items-center gap-1.5 p-1.5 px-3 text-xs font-bold ${item.hasDoc ? 'text-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200/20' : 'text-slate-400 bg-slate-100 dark:bg-slate-750 dark:text-slate-400 border border-slate-200/20'} rounded-xl">
+                            <i class="fa-solid ${item.hasDoc ? 'fa-circle-check' : 'fa-file-circle-xmark'}"></i> ${baseDocText}
                         </span>
-                        ${docLink ? `<div class="block">${docLink}</div>` : ''}
                     </div>
                 `;
             } else {
@@ -1661,13 +1657,13 @@
             let rcvDateStr = "";
             if (rcvDateVal) {
                 const rcvDateObj = new Date(rcvDateVal);
-                rcvDateStr = rcvDateObj.toLocaleDateString('en-GB'); // Convert date format to DD/MM/YYYY
+                rcvDateStr = rcvDateObj.toLocaleDateString('en-GB'); 
             }
             
             const status = document.getElementById('det-edit-status-input').value;
             const sn = document.getElementById('det-edit-sn-input').value.trim();
-            const docUrl = document.getElementById('det-edit-doc-input').value.trim();
             const notes = document.getElementById('det-edit-notes-input').value.trim();
+            const fileInput = document.getElementById('det-edit-file-input');
 
             const updatePayload = {
                 id: id,
@@ -1675,7 +1671,7 @@
                 receiveDate: rcvDateStr,
                 sn: sn || "-",
                 notes: notes || "แก้ไขข้อมูลพัสดุเรียบร้อย",
-                docUrl: docUrl 
+                docUrl: "" // Removed drive link input requirement
             };
 
             try {
@@ -1698,8 +1694,7 @@
                     equipmentData[itemIndex].receiveDate = rcvDateStr;
                     equipmentData[itemIndex].sn = sn || "-";
                     equipmentData[itemIndex].notes = notes || "แก้ไขข้อมูลพัสดุเรียบร้อย";
-                    equipmentData[itemIndex].docUrl = docUrl;
-                    equipmentData[itemIndex].hasDoc = docUrl.length > 0;
+                    equipmentData[itemIndex].hasDoc = fileInput.files.length > 0;
                 }
 
                 closeModal('details-modal');
@@ -1717,7 +1712,6 @@
             }
         }
 
-        // Redesigned modern, clean pending card layouts with accent bars
         function renderPendingCards() {
             const grid = document.getElementById('pending-grid');
             const searchInput = document.getElementById('search-pending').value.toLowerCase();
@@ -1752,7 +1746,6 @@
                 filteredItems.forEach(item => {
                     const isDelayed = isItemDelayed(item);
                     
-                    // Left-accent colored bar and corresponding badges
                     const accentColorClass = isDelayed ? 'border-l-[6px] border-l-red-500' : 'border-l-[6px] border-l-amber-500';
                     const badgeColorClass = isDelayed ? 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400' : 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400';
                     const badgeText = isDelayed ? 'ล่าช้า' : 'รอดำเนินการ';
@@ -1834,7 +1827,8 @@
                 status: 'received',
                 receiveDate: rcvDateStr,
                 sn: sn || "-",
-                notes: notes || "ตรวจมอบสภาพเรียบร้อยดี"
+                notes: notes || "ตรวจมอบสภาพเรียบร้อยดี",
+                docUrl: ""
             };
             
             try {
@@ -1869,7 +1863,7 @@
                 console.error(err);
                 showToast(`บันทึกผิดพลาด: ${err.message}`, 'error');
             } finally {
-                btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i> บันทึกข้อมูล'; 
+                btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i> บันทึกตรวจรับ'; 
                 btn.disabled = false;
             }
         });
