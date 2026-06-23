@@ -147,10 +147,9 @@
                 </div>
             </div>
 
-            <!-- Smart Quick Tag Cloud (เปลี่ยนเป็น container มารองรับการใส่ปุ่มแบบ dynamic) -->
+            <!-- Smart Quick Tag Cloud -->
             <div class="flex flex-wrap gap-2 mb-6 items-center" id="quick-filter-container">
                 <span class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">ทางลัดตัวกรอง:</span>
-                <!-- ปุ่มต่างๆ จะถูกเจ็นขึ้นมาผ่าน JavaScript จากรายชื่อ 'สั่งซื้อจาก/ผู้จัดจำหน่าย' -->
             </div>
 
             <!-- Delayed Alerts Box -->
@@ -428,7 +427,7 @@
         </div>
     </div>
 
-    <!-- ================= MODAL: DASHBOARD & SUMMARY CARD DETAILS (เด้งดูพัสดุและชนิดพัสดุ) ================= -->
+    <!-- ================= MODAL: DASHBOARD & SUMMARY CARD DETAILS ================= -->
     <div id="dash-items-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('dash-items-modal')"></div>
         <div class="relative bg-white dark:bg-gray-800 w-full max-w-4xl mx-4 rounded-2xl shadow-2xl overflow-hidden transform transition-all fade-in flex flex-col max-h-[85vh]">
@@ -561,10 +560,10 @@
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // กำหนด URL ของ Google Apps Script ที่ Deploy เรียบร้อยแล้วที่นี่
-        const API_URL = "https://script.google.com/macros/s/AKfycbwW_Ed6xOL3Mz4XSlGg56HtCvQC7LkIEJZrlC3oWVgYuY2-dKu3ymy0E-4mhdbbpUY/exec";
+        // กำหนด URL ของ Google Apps Script API_URL ของคุณ
+        const API_URL = https://script.google.com/macros/s/AKfycbwW_Ed6xOL3Mz4XSlGg56HtCvQC7LkIEJZrlC3oWVgYuY2-dKu3ymy0E-4mhdbbpUY/exec";
 
-        // โครงสร้างข้อมูล Mockup เริ่มต้น (จะถูกแทนที่อัตโนมัติเมื่อดึงข้อมูลผ่าน API_URL ได้สำเร็จ)
+        // แก้ไขข้อมูล Mockup ให้แสดงผลในรูปแบบข้อความ dd/MM/yyyy ทั้งหมด ป้องกันไม่ให้ขึ้นชื่อวันภาษาอังกฤษ
         let equipmentData = [
             { no: 1, id: "AMS-01", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ้นส่วนจำกัด พลอยแพรี่", planDate: "15/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false },
             { no: 2, id: "AMS-02", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ้นส่วนจำกัด พลอยแพรี่", planDate: "15/05/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false }, 
@@ -579,26 +578,45 @@
         const today = new Date(2026, 5, 23); // Mock June 23, 2026
         today.setHours(0,0,0,0);
 
+        // ฟังก์ชันแปลงข้อความวันที่สารพัดรูปแบบให้ออกมาเป็น Date Object อย่างปลอดภัย
         function parseDate(dateStr) {
-            if(!dateStr) return null;
+            if (!dateStr) return null;
+            
+            // กรณีเป็นค่า String ของระบบ Java/JS Date ดั้งเดิม เช่น "Wed Jul 15 2026..."
+            if (dateStr.includes("GMT") || dateStr.match(/[a-zA-Z]/)) {
+                try {
+                    const parsed = new Date(dateStr);
+                    if (!isNaN(parsed.getTime())) return parsed;
+                } catch(e){}
+            }
+
+            // กรณี format เป็น dd/MM/yyyy
             const parts = dateStr.split('/');
-            if(parts.length === 3) return new Date(parts[2], parts[1] - 1, parts[0]);
+            if (parts.length === 3) {
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+            
+            // กรณีเป็น ISO หรือ รูปแบบทั่วไป
+            const defaultDate = new Date(dateStr);
+            if (!isNaN(defaultDate.getTime())) return defaultDate;
+            
             return null;
         }
         
-        function formatDateTH(dateStr){
-            if(!dateStr) return '-';
+        // ฟังก์ชันช่วยจัดรูปแบบวันที่ให้ออกเป็น dd/MM/yyyy เสมอ ไม่ว่าต้นทางจะมาเป็นรูปแบบใด
+        function formatDateTH(dateStr) {
+            if (!dateStr) return '-';
             const d = parseDate(dateStr);
-            if(!d) return dateStr;
-            return String(d.getDate()).padStart(2,'0') + '/' +
-                   String(d.getMonth()+1).padStart(2,'0') + '/' +
+            if (!d) return dateStr;
+            return String(d.getDate()).padStart(2, '0') + '/' +
+                   String(d.getMonth() + 1).padStart(2, '0') + '/' +
                    d.getFullYear();
         }
 
         function isItemDelayed(item) {
-            if(item.status !== 'pending') return false;
+            if (item.status !== 'pending') return false;
             const plan = parseDate(item.planDate);
-            if(!plan) return false;
+            if (!plan) return false;
             return plan < today;
         }
 
@@ -608,29 +626,29 @@
         let uniqueVendors = [];
         let uniqueNames = [];
 
-        // ฟังก์ชันอัปเดตสถานะการเชื่อมต่อ API บนหน้าจอ
+        // ฟังก์ชันตรวจสอบสถานะความเชื่อมโยง API
         function updateConnectionBadge(status, errorMsg = '') {
             const badge = document.getElementById('api-status-badge');
             if (!badge) return;
             if (status === 'loading') {
                 badge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 dark:bg-amber-950/20 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span><span>กำลังดึงข้อมูล...</span>`;
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span><span>กำลังดึงข้อมูลจาก Sheets...</span>`;
             } else if (status === 'success') {
                 badge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50";
                 badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span>เชื่อมต่อ Sheets สำเร็จ</span>`;
             } else {
                 badge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 dark:bg-red-950/20 dark:text-red-400 border border-red-200 dark:border-red-900/50";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span><span>การเชื่อมต่อล้มเหลว: ${errorMsg}</span>`;
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span><span>การเชื่อมต่อขัดข้อง: ${errorMsg}</span>`;
             }
         }
 
-        // ฟังก์ชันดึงข้อมูลแบบ Realtime จาก Google Sheets
+        // ดึงข้อมูล Realtime และจัดระเบียบข้อมูลวันที่ฝั่ง Client ทันทีที่รับมา
         async function fetchRealtimeData() {
             updateConnectionBadge('loading');
             try {
                 if (!API_URL || API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
-                    updateConnectionBadge('error', 'ยังไม่ได้ระบุ API_URL (ใช้ข้อมูลจำลอง)');
-                    // ดึงข้อมูล mockup มาแสดงผลถ้าไม่มีการเซ็ตสคริปต์
+                    updateConnectionBadge('error', 'ใช้ระบบจำลอง (ยังไม่ได้ระบุ URL)');
+                    cleanAllDates();
                     populateDropdowns();
                     renderDashboard();
                     return;
@@ -639,6 +657,7 @@
                 const result = await response.json();
                 if (result.status === "success") {
                     equipmentData = result.data;
+                    cleanAllDates(); // กรองความสะอาดวันที่ทันทีหลังดึงสำเร็จ
                     updateConnectionBadge('success');
                     populateDropdowns();
                     renderDashboard();
@@ -647,11 +666,19 @@
                 }
             } catch (err) {
                 console.error(err);
-                updateConnectionBadge('error', 'CORS / URL ไม่ถูกต้อง');
-                // ดึงข้อมูล mockup มาแสดงผลแก้ขัดกรณี Error
+                updateConnectionBadge('error', 'CORS / URL ยังไม่ได้รับการเผยแพร่');
+                cleanAllDates();
                 populateDropdowns();
                 renderDashboard();
             }
+        }
+
+        // ฟังก์ชันล้างค่าวันที่ให้อยู่ในฟอร์แมตมาตรฐาน dd/MM/yyyy ในระดับตัวแปร
+        function cleanAllDates() {
+            equipmentData.forEach(item => {
+                if (item.planDate) item.planDate = formatDateTH(item.planDate);
+                if (item.receiveDate) item.receiveDate = formatDateTH(item.receiveDate);
+            });
         }
 
         // THEME & NAVIGATION
@@ -721,33 +748,28 @@
                 uniqueNames.forEach(n => select.insertAdjacentHTML('beforeend', `<option value="${n}">${n}</option>`));
             });
 
-            // ดำเนินการสร้างทางลัดตัวกรอง (Smart Quick Tag Cloud) จากรายชื่อ "สั่งซื้อจาก"
             renderDynamicQuickFilters();
         }
 
-        // ฟังก์ชันในการสร้างปุ่มทางลัดตัวกรอง (Dynamic Quick Filter Tags)
+        // สร้างทางลัดตัวกรอง (Dynamic Quick Filter Tags)
         function renderDynamicQuickFilters() {
             const container = document.getElementById('quick-filter-container');
             if (!container) return;
 
-            // ล้างหน้าตาเก่า และเหลือเพียงแค่ Label
             container.innerHTML = `<span class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">ทางลัดตัวกรอง:</span>`;
 
-            // 1. ปุ่ม "ทั้งหมด" (Default)
             container.insertAdjacentHTML('beforeend', `
                 <button onclick="quickFilterTag('all')" class="px-3 py-1 text-xs rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200 dark:bg-brand-900/30 dark:text-brand-400 transition-colors">ทั้งหมด</button>
             `);
 
-            // 2. สร้างปุ่มแบบย่อตามผู้จัดจำหน่ายที่มีในข้อมูล (สั่งซื้อจาก)
             uniqueVendors.forEach(vendor => {
                 if (!vendor) return;
                 
-                // แปลงชื่อเต็มของผู้จัดจำหน่ายเป็นชื่อสั้นๆ สไตล์มินิมอลเพื่อให้แถบลื่นไหล
                 let shortName = vendor
                     .replace("บริษัท ", "")
                     .replace("จำกัด", "")
                     .replace("ห้างหุ้นส่วนจำกัด ", "")
-                    .replace("ห้างหุ่นส่วนจำกัด ", "") // ป้องกันคำพิมพ์สะกดผิด
+                    .replace("ห้างหุ่นส่วนจำกัด ", "")
                     .trim();
 
                 container.insertAdjacentHTML('beforeend', `
@@ -756,7 +778,6 @@
             });
         }
 
-        // QUICK FILTER ON DASHBOARD
         function quickFilterTag(vendorName) {
             document.getElementById('dash-filter-vendor').value = vendorName;
             renderDashboard();
@@ -812,7 +833,6 @@
             renderCharts(received, pending, delayed, currentData);
         }
 
-        // RENDER RECENT ACTIVITY
         function renderRecentActivity(data) {
             const list = document.getElementById('recent-activity-list');
             list.innerHTML = '';
@@ -832,7 +852,7 @@
                         <div class="flex-1">
                             <span class="font-bold text-red-600 dark:text-red-400">${item.id} ส่งมอบช้ากว่ากำหนด!</span>
                             <p class="text-gray-500 dark:text-gray-300 line-clamp-1">${item.name}</p>
-                            <span class="text-[10px] text-gray-400">กำหนดไว้เมื่อ: ${item.planDate}</span>
+                            <span class="text-[10px] text-gray-400">กำหนดไว้เมื่อ: ${formatDateTH(item.planDate)}</span>
                         </div>
                     </div>
                 `);
@@ -845,7 +865,7 @@
                         <div class="flex-1">
                             <span class="font-bold text-emerald-600 dark:text-emerald-400">ตรวจรับเรียบร้อยแล้ว</span>
                             <p class="text-gray-500 dark:text-gray-300 line-clamp-1">${item.name}</p>
-                            <span class="text-[10px] text-gray-400">รับของเมื่อ: ${item.receiveDate} (${item.sn !== '-' ? 'S/N: '+item.sn : 'ไม่มี Serial'})</span>
+                            <span class="text-[10px] text-gray-400">รับของเมื่อ: ${formatDateTH(item.receiveDate)} (${item.sn !== '-' ? 'S/N: '+item.sn : 'ไม่มี Serial'})</span>
                         </div>
                     </div>
                 `);
@@ -965,7 +985,7 @@
                             <span class="text-[10px] text-gray-400">${item.brand} | ${item.model}</span>
                         </td>
                         <td class="p-3 text-gray-600 dark:text-gray-300">${item.vendor}</td>
-                        <td class="p-3 text-gray-600 dark:text-gray-300 font-mono">${item.planDate}</td>
+                        <td class="p-3 text-gray-600 dark:text-gray-300 font-mono">${formatDateTH(item.planDate)}</td>
                         <td class="p-3">${statusBadge}</td>
                     </tr>
                 `);
@@ -1174,7 +1194,7 @@
                             <div class="text-[11px] text-gray-500 dark:text-gray-400">${item.brand || '-'}</div>
                         </td>
                         <td class="p-3 text-gray-600 dark:text-gray-300 text-sm truncate max-w-[150px]">${item.vendor}</td>
-                        <td class="p-3 ${planDateClass} text-sm font-mono">${item.planDate || '-'}</td>
+                        <td class="p-3 ${planDateClass} text-sm font-mono">${formatDateTH(item.planDate)}</td>
                         <td class="p-3">${statusBadge}</td>
                     </tr>
                 `);
@@ -1186,13 +1206,17 @@
             const item = equipmentData.find(d => d.id === id);
             if(!item) return;
 
+            // บังคับแปลงรูปแบบวันที่ด้วย formatDateTH อีกชั้นเพื่อความชัวร์ 100% ว่าไม่มี Format ยาวหลุดรอดมา
+            const cleanPlanDate = formatDateTH(item.planDate);
+            const cleanRcvDate = formatDateTH(item.receiveDate);
+
             document.getElementById('det-id').innerText = item.id;
             document.getElementById('det-name').innerText = item.name;
             document.getElementById('det-brand').innerText = item.brand || '-';
             document.getElementById('det-model').innerText = item.model || '-';
             document.getElementById('det-vendor').innerText = item.vendor;
-            document.getElementById('det-planDate').innerText = item.planDate || '-';
-            document.getElementById('det-rcvDate').innerText = item.receiveDate || '-';
+            document.getElementById('det-planDate').innerText = cleanPlanDate;
+            document.getElementById('det-rcvDate').innerText = cleanRcvDate;
             document.getElementById('det-sn').innerText = item.sn || '-';
             document.getElementById('det-notes').innerText = item.notes || 'ไม่มีบันทึกหมายเหตุเพิ่มเติม';
 
@@ -1245,7 +1269,7 @@
                             <h4 class="font-bold text-gray-800 dark:text-white mb-1 group-hover:text-brand-500 transition-colors line-clamp-2">${item.name}</h4>
                             <div class="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 space-y-1">
                                 <div class="flex items-start"><i class="fa-solid fa-building w-4 mr-1 mt-0.5"></i><span class="line-clamp-1">${item.vendor}</span></div>
-                                <div class="flex items-center ${isDelayed ? 'text-red-600 dark:text-red-400 font-semibold' : ''}"><i class="fa-regular fa-calendar w-4 mr-1"></i>แผนส่ง: <span class="ml-1">${item.planDate}</span></div>
+                                <div class="flex items-center ${isDelayed ? 'text-red-600 dark:text-red-400 font-semibold' : ''}"><i class="fa-regular fa-calendar w-4 mr-1"></i>แผนส่ง: <span class="ml-1">${formatDateTH(item.planDate)}</span></div>
                             </div>
                         </div>
                     `);
@@ -1300,7 +1324,6 @@
             };
 
             try {
-                // ส่งค่าผ่าน POST ไปยัง Google Sheets API ถ้ามีการตั้งค่า URL ไว้
                 if (API_URL && !API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
                     const response = await fetch(API_URL, {
                         method: 'POST',
@@ -1318,7 +1341,6 @@
                     showToast(`บันทึกข้อมูลตรวจรับเรียบร้อย (ระบบจำลอง)`, 'success');
                 }
 
-                // อัปเดตข้อมูลโครงสร้างในหน่วยความจำ
                 const itemIndex = equipmentData.findIndex(d => d.id === id);
                 if(itemIndex > -1) {
                     equipmentData[itemIndex].status = 'received';
@@ -1362,7 +1384,6 @@
         const thaiMonths = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
         window.onload = function() {
-            // เริ่มต้นการดึงข้อมูลจาก Sheets แบบเรียลไทม์ (เมื่อเสร็จจะเรียกใช้ populateDropdowns และ renderDynamicQuickFilters เอง)
             fetchRealtimeData();
             switchTab('dashboard');
         };
