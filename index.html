@@ -58,6 +58,10 @@
 
         /* Fancy pulse animation */
         .pulse-light { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .all-items-card{display:none;}
+        @media(max-width:768px){
+            #tab-all-items table{font-size:12px;}
+        }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
@@ -124,7 +128,7 @@
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex flex-wrap items-center gap-2">
                         <span>ภาพรวมโครงการ & แดชบอร์ดตรวจสอบ</span>
-                        <!-- API Connection Status Badge (Added as requested) -->
+                        <!-- API Connection Status Badge -->
                         <span id="api-status-badge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 border border-gray-200 dark:border-gray-700">
                             <span class="w-2 h-2 rounded-full bg-gray-400 animate-pulse"></span>
                             <span>กำลังตรวจสอบการเชื่อมต่อ...</span>
@@ -143,13 +147,10 @@
                 </div>
             </div>
 
-            <!-- Smart Quick Tag Cloud -->
-            <div class="flex flex-wrap gap-2 mb-6 items-center">
+            <!-- Smart Quick Tag Cloud (เปลี่ยนเป็น container มารองรับการใส่ปุ่มแบบ dynamic) -->
+            <div class="flex flex-wrap gap-2 mb-6 items-center" id="quick-filter-container">
                 <span class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">ทางลัดตัวกรอง:</span>
-                <button onclick="quickFilterTag('all')" class="px-3 py-1 text-xs rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200 dark:bg-brand-900/30 dark:text-brand-400 transition-colors">ทั้งหมด</button>
-                <button onclick="quickFilterTag('บริษัท ทีซี บิลเลี่ยน จำกัด')" class="px-3 py-1 text-xs rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors">ทีซี บิลเลี่ยน</button>
-                <button onclick="quickFilterTag('บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด')" class="px-3 py-1 text-xs rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors">เคเอ็ม เทคฯ</button>
-                <button onclick="quickFilterTag('ห้างหุ้นส่วนจำกัด พลอยแพรี่')" class="px-3 py-1 text-xs rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors">พลอยแพรี่</button>
+                <!-- ปุ่มต่างๆ จะถูกเจ็นขึ้นมาผ่าน JavaScript จากรายชื่อ 'สั่งซื้อจาก/ผู้จัดจำหน่าย' -->
             </div>
 
             <!-- Delayed Alerts Box -->
@@ -584,6 +585,15 @@
             if(parts.length === 3) return new Date(parts[2], parts[1] - 1, parts[0]);
             return null;
         }
+        
+        function formatDateTH(dateStr){
+            if(!dateStr) return '-';
+            const d = parseDate(dateStr);
+            if(!d) return dateStr;
+            return String(d.getDate()).padStart(2,'0') + '/' +
+                   String(d.getMonth()+1).padStart(2,'0') + '/' +
+                   d.getFullYear();
+        }
 
         function isItemDelayed(item) {
             if(item.status !== 'pending') return false;
@@ -594,7 +604,7 @@
 
         let statusChartInst = null;
         let vendorChartInst = null;
-        let currentCalDate = new Date(2026, 6, 1); 
+        let currentCalDate = new Date(); 
         let uniqueVendors = [];
         let uniqueNames = [];
 
@@ -620,6 +630,9 @@
             try {
                 if (!API_URL || API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
                     updateConnectionBadge('error', 'ยังไม่ได้ระบุ API_URL (ใช้ข้อมูลจำลอง)');
+                    // ดึงข้อมูล mockup มาแสดงผลถ้าไม่มีการเซ็ตสคริปต์
+                    populateDropdowns();
+                    renderDashboard();
                     return;
                 }
                 const response = await fetch(API_URL);
@@ -635,6 +648,9 @@
             } catch (err) {
                 console.error(err);
                 updateConnectionBadge('error', 'CORS / URL ไม่ถูกต้อง');
+                // ดึงข้อมูล mockup มาแสดงผลแก้ขัดกรณี Error
+                populateDropdowns();
+                renderDashboard();
             }
         }
 
@@ -688,8 +704,8 @@
                 document.getElementById('dash-modal-filter-type')
             ];
             
-            uniqueVendors = [...new Set(equipmentData.map(item => item.vendor))];
-            uniqueNames = [...new Set(equipmentData.map(item => item.name))];
+            uniqueVendors = [...new Set(equipmentData.map(item => item.vendor))].filter(v => v);
+            uniqueNames = [...new Set(equipmentData.map(item => item.name))].filter(n => n);
 
             vendorSelects.forEach(select => {
                 if(!select) return;
@@ -703,6 +719,40 @@
                 const isModal = select.id === 'dash-modal-filter-type';
                 select.innerHTML = isModal ? '<option value="all">ชนิดอุปกรณ์: ทั้งหมด</option>' : '<option value="all">อุปกรณ์ทั้งหมด</option>';
                 uniqueNames.forEach(n => select.insertAdjacentHTML('beforeend', `<option value="${n}">${n}</option>`));
+            });
+
+            // ดำเนินการสร้างทางลัดตัวกรอง (Smart Quick Tag Cloud) จากรายชื่อ "สั่งซื้อจาก"
+            renderDynamicQuickFilters();
+        }
+
+        // ฟังก์ชันในการสร้างปุ่มทางลัดตัวกรอง (Dynamic Quick Filter Tags)
+        function renderDynamicQuickFilters() {
+            const container = document.getElementById('quick-filter-container');
+            if (!container) return;
+
+            // ล้างหน้าตาเก่า และเหลือเพียงแค่ Label
+            container.innerHTML = `<span class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">ทางลัดตัวกรอง:</span>`;
+
+            // 1. ปุ่ม "ทั้งหมด" (Default)
+            container.insertAdjacentHTML('beforeend', `
+                <button onclick="quickFilterTag('all')" class="px-3 py-1 text-xs rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200 dark:bg-brand-900/30 dark:text-brand-400 transition-colors">ทั้งหมด</button>
+            `);
+
+            // 2. สร้างปุ่มแบบย่อตามผู้จัดจำหน่ายที่มีในข้อมูล (สั่งซื้อจาก)
+            uniqueVendors.forEach(vendor => {
+                if (!vendor) return;
+                
+                // แปลงชื่อเต็มของผู้จัดจำหน่ายเป็นชื่อสั้นๆ สไตล์มินิมอลเพื่อให้แถบลื่นไหล
+                let shortName = vendor
+                    .replace("บริษัท ", "")
+                    .replace("จำกัด", "")
+                    .replace("ห้างหุ้นส่วนจำกัด ", "")
+                    .replace("ห้างหุ่นส่วนจำกัด ", "") // ป้องกันคำพิมพ์สะกดผิด
+                    .trim();
+
+                container.insertAdjacentHTML('beforeend', `
+                    <button onclick="quickFilterTag('${vendor}')" class="px-3 py-1 text-xs rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors">${shortName}</button>
+                `);
             });
         }
 
@@ -1312,10 +1362,9 @@
         const thaiMonths = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
         window.onload = function() {
-            populateDropdowns();
-            switchTab('dashboard');
-            // เริ่มต้นการดึงข้อมูลจาก Sheets แบบเรียลไทม์
+            // เริ่มต้นการดึงข้อมูลจาก Sheets แบบเรียลไทม์ (เมื่อเสร็จจะเรียกใช้ populateDropdowns และ renderDynamicQuickFilters เอง)
             fetchRealtimeData();
+            switchTab('dashboard');
         };
     </script>
 </body>
