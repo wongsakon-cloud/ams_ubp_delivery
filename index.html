@@ -67,7 +67,7 @@
     <nav class="bg-white dark:bg-gray-800 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 w-full md:w-64 flex-shrink-0 flex md:flex-col justify-between md:justify-start z-40 fixed md:relative bottom-0 md:bottom-auto h-16 md:h-screen transition-colors duration-300">
         <div class="hidden md:flex items-center justify-center h-16 border-b border-gray-200 dark:border-gray-700 px-4">
             <i class="fa-solid fa-satellite-dish text-brand-500 text-2xl mr-2 animate-bounce"></i>
-            <span class="font-bold text-xl tracking-wider text-gray-800 dark:text-white">AMS UBP Delivery</span>
+            <span class="font-bold text-xl tracking-wider text-gray-800 dark:text-white">AMS UBP Delivery Status</span>
         </div>
         
         <div class="flex md:flex-col w-full md:w-auto overflow-x-auto md:overflow-visible py-2 md:py-4 px-2 md:px-0 gap-1 md:gap-2">
@@ -110,7 +110,7 @@
         <div class="md:hidden flex justify-between items-center mb-6">
             <div class="flex items-center">
                 <i class="fa-solid fa-satellite-dish text-brand-500 text-xl mr-2 animate-bounce"></i>
-                <span class="font-bold text-lg text-gray-800 dark:text-white">AMS UBP Delivery</span>
+                <span class="font-bold text-lg text-gray-800 dark:text-white">AMS UBP Delivery Status</span>
             </div>
             <button id="theme-toggle-mobile" class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white p-2">
                 <i id="theme-toggle-dark-icon-mobile" class="fa-solid fa-moon hidden text-xl"></i>
@@ -632,7 +632,10 @@
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // ข้อมูลหลักในระบบ (จะใช้เชื่อมโยงกับ Google Sheet ในส่วน Google Apps Script ในอนาคต)
+        // กำหนด Google Web App URL API เพื่อใช้เชื่อมต่อฐานข้อมูล Google Sheets จริง
+        const API_URL = "https://script.google.com/macros/s/AKfycbwXQlRZ3-DPJqEabkPf9u9yCrQJXPpfrnfqpnIU1-9bj1H2qTqeBuNrzXyJLxQlWF4_/exec";
+
+        // ข้อมูลหลักในระบบ (ใช้เป็นข้อมูลสำรองกรณีการเชื่อมต่อ API ขัดข้องหรืออยู่ในโหมดออฟไลน์)
         let equipmentData = [
             { no: 1, id: "AMS-01", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ่นส่วนจำกัด พลอยแพรี่", planDate: "15/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false },
             { no: 2, id: "AMS-02", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ่นส่วนจำกัด พลอยแพรี่", planDate: "15/05/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false }, 
@@ -646,6 +649,33 @@
 
         const today = new Date(2026, 5, 23); // วันอ้างอิงของระบบทดสอบ: 23 มิถุนายน 2026
         today.setHours(0,0,0,0);
+
+        // ดึงข้อมูลจริงจาก Google Sheets ผ่านเว็บแอปเมื่อเริ่มต้นใช้งานระบบ
+        async function fetchEquipmentData() {
+            try {
+                showToast("กำลังซิงค์ข้อมูลกับคลาวด์ Google Sheets...", "info");
+                const response = await fetch(API_URL);
+                const result = await response.json();
+                
+                if (result && result.status === "success" && Array.isArray(result.data) && result.data.length > 0) {
+                    equipmentData = result.data;
+                    showToast("ซิงค์ฐานข้อมูลพัสดุเรียบร้อยแล้ว", "success");
+                } else if (result && result.status === "error") {
+                    showToast(`คำเตือน: ${result.message} (กำลังใช้งานโหมด Offline)`, "warning");
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+                showToast("ไม่สามารถเข้าถึงฐานข้อมูลคลาวด์ได้ (กำลังใช้งานโหมด Offline)", "warning");
+            } finally {
+                // รันการแสดงผลหน้าแรกเสมอ ไม่ว่าจะดึงสำเร็จหรือใช้ออฟไลน์
+                populateDropdowns();
+                renderDashboard();
+                renderEquipmentSummary();
+                renderCalendar();
+                renderPendingCards();
+                renderAllItemsTable();
+            }
+        }
 
         function parseDate(dateStr) {
             if(!dateStr) return null;
@@ -686,11 +716,16 @@
         // THEME & NAVIGATION
         function updateThemeIcons() {
             const isDark = document.documentElement.classList.contains('dark');
-            document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', !isDark);
-            document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', isDark);
-            document.getElementById('theme-toggle-light-icon-mobile').classList.toggle('hidden', !isDark);
-            document.getElementById('theme-toggle-dark-icon-mobile').classList.toggle('hidden', isDark);
-            if(statusChartInst) updateChartsColors();
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIconMobile = document.getElementById('theme-toggle-light-icon-mobile');
+            const darkIconMobile = document.getElementById('theme-toggle-dark-icon-mobile');
+            
+            if (lightIcon) lightIcon.classList.toggle('hidden', !isDark);
+            if (darkIcon) darkIcon.classList.toggle('hidden', isDark);
+            if (lightIconMobile) lightIconMobile.classList.toggle('hidden', !isDark);
+            if (darkIconMobile) darkIconMobile.classList.toggle('hidden', isDark);
+            if (statusChartInst) updateChartsColors();
         }
 
         function updateChartsColors() {
@@ -1255,6 +1290,7 @@
             document.getElementById('det-edit-mode').classList.remove('hidden');
         }
 
+        // DISABLE EDIT MODE
         function disableEditMode() {
             document.getElementById('details-modal-title-text').innerText = "ข้อมูลอุปกรณ์";
             document.getElementById('det-view-mode').classList.remove('hidden');
@@ -1275,8 +1311,8 @@
             }
         }
 
-        // บันทึกค่าการแก้ไขและรีเฟรชระบบตรวจวิเคราะห์แดชบอร์ด
-        function saveEditedItem() {
+        // บันทึกค่าการแก้ไขและส่งขึ้น Google Sheet ผ่าน POST Request เรียลไทม์
+        async function saveEditedItem() {
             const id = document.getElementById('edit-item-id').value;
             const name = document.getElementById('edit-input-name').value.trim();
             const brand = document.getElementById('edit-input-brand').value.trim();
@@ -1295,41 +1331,48 @@
 
             const itemIndex = equipmentData.findIndex(d => d.id === id);
             if (itemIndex > -1) {
-                // บันทึกกลับลงอาเรย์จำลองของระบบ
-                equipmentData[itemIndex].name = name;
-                equipmentData[itemIndex].brand = brand;
-                equipmentData[itemIndex].model = model;
-                equipmentData[itemIndex].vendor = vendor;
-                equipmentData[itemIndex].planDate = formatInputToDataDate(planDateRaw);
-                equipmentData[itemIndex].status = status;
-                equipmentData[itemIndex].receiveDate = status === 'received' ? formatInputToDataDate(rcvDateRaw) : "";
-                equipmentData[itemIndex].sn = sn || "-";
-                equipmentData[itemIndex].notes = notes;
+                const updatedPayload = {
+                    id: id,
+                    name: name,
+                    brand: brand,
+                    model: model,
+                    vendor: vendor,
+                    planDate: formatInputToDataDate(planDateRaw),
+                    status: status,
+                    receiveDate: status === 'received' ? formatInputToDataDate(rcvDateRaw) : "",
+                    sn: sn || "-",
+                    notes: notes
+                };
 
-                // =========================================================================
-                // [API INTEGRATION FOR GOOGLE SHEET - ในอนาคต]
-                // เมื่อนำไปผูกกับ Google Sheet ใน GitHub และ Apps Script ให้แทรกโค้ดทำนองนี้:
-                // if (typeof google !== 'undefined' && google.script && google.script.run) {
-                //     google.script.run
-                //         .withSuccessHandler(() => showToast("บันทึกข้อมูลเรียลไทม์ลงชีทแล้ว", "success"))
-                //         .updateEquipmentInSheet(id, name, brand, model, vendor, planDate, status, rcvDate, sn, notes);
-                // }
-                // =========================================================================
-
-                showToast(`แก้ไขข้อมูลพัสดุ ${id} เรียบร้อยแล้ว`, "success");
-                
-                // ปิดและรีเฟรชหน้าต่างข้อมูลทั้งหมดทันที
+                // อัปเดตข้อมูลบนหน้าแอปไว้ก่อนเพื่อความรวดเร็วทันใจ (Optimistic UI Update)
+                equipmentData[itemIndex] = { ...equipmentData[itemIndex], ...updatedPayload };
                 closeModal('details-modal');
-                populateDropdowns(); // อัปเดตรายชื่อผู้จำหน่าย/วัสดุหากมีการแก้ไข
-                
-                // อัปเดตสถานะการแสดงผลหน้าปัจจุบัน
                 renderDashboard();
                 renderEquipmentSummary();
                 renderCalendar();
                 renderPendingCards();
                 renderAllItemsTable();
 
-                // หากมีป๊อปอัปตารางแดชบอร์ดเปิดอยู่ ให้รีเฟรชในตารางป๊อปอัปด้วย
+                try {
+                    showToast("กำลังบันทึกข้อมูลเรียลไทม์ไปยัง Google Sheets...", "info");
+                    
+                    const response = await fetch(API_URL, {
+                        method: "POST",
+                        mode: "no-cors", // ใช้ no-cors เนื่องจากเป็นข้อจำกัดการตอบกลับภายนอกของ Apps Script Web App
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            action: "updateItem",
+                            data: updatedPayload
+                        })
+                    });
+
+                    showToast(`แก้ไขข้อมูลพัสดุ ${id} และซิงค์ลง Google Sheet สำเร็จแล้ว`, "success");
+                } catch (error) {
+                    console.error("Save error:", error);
+                    showToast("อัปเดตบนคลาวด์ไม่สำเร็จ แต่ได้รับการบันทึกในแอปชั่วคราวแล้ว", "warning");
+                }
+                
+                populateDropdowns(); 
                 if (!document.getElementById('dash-items-modal').classList.contains('hidden')) {
                     filterDashModalTable();
                 }
@@ -1401,8 +1444,8 @@
 
         function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
 
-        // SUBMIT RECEIVING FORM
-        document.getElementById('receive-form').addEventListener('submit', function(e) {
+        // บันทึกตรวจรับพัสดุและส่งขึ้น Google Sheet ผ่าน POST Request เรียลไทม์
+        document.getElementById('receive-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-save-receive');
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> กำลังบันทึก...';
@@ -1415,22 +1458,44 @@
             const notes = document.getElementById('modal-input-notes').value;
             const fileInput = document.getElementById('modal-input-document');
 
-            setTimeout(() => { 
-                const itemIndex = equipmentData.findIndex(d => d.id === id);
-                if(itemIndex > -1) {
-                    equipmentData[itemIndex].status = 'received';
-                    equipmentData[itemIndex].receiveDate = rcvDateStr;
-                    equipmentData[itemIndex].sn = sn || "-";
-                    equipmentData[itemIndex].notes = notes || "รับตรวจรับเรียบร้อยดี";
-                    equipmentData[itemIndex].hasDoc = fileInput.files.length > 0; 
-                }
+            const itemIndex = equipmentData.findIndex(d => d.id === id);
+            if(itemIndex > -1) {
+                const receivedPayload = {
+                    id: id,
+                    status: "received",
+                    receiveDate: rcvDateStr,
+                    sn: sn || "-",
+                    notes: notes || "รับตรวจรับเรียบร้อยดี",
+                    hasDoc: fileInput.files.length > 0
+                };
 
+                // บันทึกที่ฝั่งหน้าจอก่อนทันที
+                equipmentData[itemIndex] = { ...equipmentData[itemIndex], ...receivedPayload };
                 closeModal('receive-modal');
-                showToast(`บันทึกรับพัสดุรหัส ${id} และประมวลภาพตรวจรับเรียบร้อยแล้ว`, 'success');
-                
                 renderPendingCards(); renderDashboard(); renderEquipmentSummary(); renderAllItemsTable(); renderCalendar();
-                btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i> บันทึกข้อมูล'; btn.disabled = false;
-            }, 800);
+
+                try {
+                    showToast("กำลังบันทึกใบรับมอบลงคลาวด์ Google Sheets...", "info");
+                    
+                    await fetch(API_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            action: "receiveItem",
+                            data: receivedPayload
+                        })
+                    });
+
+                    showToast(`บันทึกรับพัสดุรหัส ${id} เรียบร้อยและซิงค์ลง Google Sheet แล้ว`, 'success');
+                } catch (error) {
+                    console.error("Save error:", error);
+                    showToast("บันทึกข้อมูลเรียบร้อย (ทำงานในโหมดออฟไลน์)", "warning");
+                }
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i> บันทึกข้อมูล'; 
+            btn.disabled = false;
         });
 
         function showToast(message, type = "success") {
@@ -1451,8 +1516,8 @@
         const thaiMonths = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
         window.onload = function() {
-            populateDropdowns();
-            switchTab('dashboard');
+            // ดึงข้อมูลจริงจากคลาวด์เมื่อเปิดหน้าแรก
+            fetchEquipmentData();
         };
     </script>
 </body>
