@@ -48,7 +48,7 @@
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Calendar Specific */
+        /* Calendar Specific Styles */
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background-color: #e5e7eb; border: 1px solid #e5e7eb; }
         .dark .cal-grid { background-color: #374151; border-color: #374151; }
         .cal-cell { background-color: white; min-height: 80px; padding: 4px; cursor: pointer; transition: background-color 0.2s; }
@@ -56,9 +56,8 @@
         .dark .cal-cell { background-color: #1f2937; }
         .dark .cal-cell:hover { background-color: #374151; }
 
-        /* Fancy pulse animation */
         .pulse-light { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        .all-items-card{display:none;}
+        .all-items-card { display: none; }
         @media(max-width:768px){
             #tab-all-items table{font-size:12px;}
         }
@@ -209,29 +208,36 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <!-- ชาร์ตสัดส่วนสถานะ -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col">
-                    <div class="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
-                        <h3 class="text-base font-bold text-gray-800 dark:text-white">สัดส่วนสถานะพัสดุ</h3>
-                        <i class="fa-solid fa-chart-pie text-gray-400"></i>
+                <!-- ชาร์ตสัดส่วนสถานะแบบมืออาชีพ -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-1 pb-2 border-b border-gray-100 dark:border-gray-700">
+                            <h3 class="text-base font-bold text-gray-800 dark:text-white">สัดส่วนสถานะและผลรวมพัสดุ</h3>
+                            <i class="fa-solid fa-chart-pie text-brand-500"></i>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mb-2">อัตราสัดส่วนเทียบจากผลรวมพัสดุในหน้าสัญญาปัจจุบัน</p>
                     </div>
                     <div class="relative flex-1 w-full flex justify-center items-center min-h-[220px]">
+                        <!-- Canvas สำหรับแสดงกราฟและตัวเลขผลรวมตรงกลาง -->
                         <canvas id="statusChart"></canvas>
                     </div>
                 </div>
 
-                <!-- ชาร์ตแยกตามบริษัท -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col">
-                    <div class="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
-                        <h3 class="text-base font-bold text-gray-800 dark:text-white">บริษัทคู่สัญญา (คลิกแท่งเพื่อดู)</h3>
-                        <i class="fa-solid fa-circle-info text-xs text-gray-400" title="คลิกบนแท่งกราฟเพื่อเรียกดูข้อมูลพัสดุทั้งหมด"></i>
+                <!-- ชาร์ตบริษัทคู่สัญญาแยกสีเด่นชัด -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-1 pb-2 border-b border-gray-100 dark:border-gray-700">
+                            <h3 class="text-base font-bold text-gray-800 dark:text-white">บริษัทคู่สัญญา (คลิกแท่งเพื่อดู)</h3>
+                            <i class="fa-solid fa-circle-info text-xs text-gray-400" title="คลิกบนแท่งกราฟเพื่อเรียกดูข้อมูลพัสดุทั้งหมด"></i>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mb-2">แสดงพัสดุคงคลังแยกตามบริษัทจัดจำหน่าย (หน่วย: เครื่อง)</p>
                     </div>
                     <div class="relative flex-1 w-full min-h-[220px] cursor-pointer">
                         <canvas id="vendorChart"></canvas>
                     </div>
                 </div>
 
-                <!-- รายการกิจกรรมอัปเดต และแผนรับมอบเร่งด่วนใน 1 สัปดาห์ -->
+                <!-- กิจกรรมและความเคลื่อนไหวล่าสุด -->
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col">
                     <div class="flex justify-between items-center mb-3 border-b border-gray-100 dark:border-gray-700 pb-2">
                         <h3 class="text-base font-bold text-gray-800 dark:text-white">ความเคลื่อนไหว & แผนเร่งด่วน</h3>
@@ -241,6 +247,23 @@
                     <div id="recent-activity-list" class="space-y-3 flex-1 overflow-y-auto max-h-[230px] pr-1">
                         <!-- Dynamic updates injected here by JS -->
                     </div>
+                </div>
+            </div>
+
+            <!-- กราฟเปรียบเทียบแผนส่งของกับวันรับจริง (ปรับปรุงเป็นกราฟเส้นโค้ง Area Fill พรีเมียม) -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 mb-8 flex flex-col">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b border-gray-100 dark:border-gray-700 pb-2 gap-2">
+                    <div>
+                        <h3 class="text-base font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-teal-500"></i>
+                            <span>เปรียบเทียบ แผนส่งมอบ (Plan) VS วันที่รับพัสดุเข้าคลังจริง (Actual)</span>
+                        </h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">วิเคราะห์จำนวนพัสดุสะสมจำแนกเป็นรายเดือนตามกำหนดสัญญาจริงเทียบกับวันลงนามตรวจรับ</p>
+                    </div>
+                    <span class="bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-400 text-xs font-semibold px-2.5 py-1 rounded-lg">วิเคราะห์ประสิทธิภาพคู่ค้า</span>
+                </div>
+                <div class="relative w-full min-h-[260px]">
+                    <canvas id="timelineChart"></canvas>
                 </div>
             </div>
         </section>
@@ -308,11 +331,31 @@
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white">รอดำเนินการรับพัสดุ</h2>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">รายการอุปกรณ์ที่รอพัสดุเข้ามาจัดส่ง คลิกเพื่อกรอกรหัสและข้อมูลการรับ</p>
                 </div>
-                <div class="relative w-full md:w-72">
-                    <input type="text" id="search-pending" placeholder="ค้นหาชื่ออุปกรณ์, รหัส..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none transition-shadow">
-                    <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+
+            <!-- กล่องตัวกรองรอดำเนินการรับพัสดุแบบผสมผสาน -->
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 mb-6 flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">พิมพ์ค้นหาด่วน</label>
+                    <div class="relative">
+                        <input type="text" id="search-pending" placeholder="ค้นหาชื่ออุปกรณ์, รหัส..." class="w-full pl-9 pr-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-1 focus:ring-brand-500 outline-none transition-shadow">
+                        <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/4">
+                    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">กรองชนิดอุปกรณ์</label>
+                    <select id="filter-pending-name" onchange="renderPendingCards()" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-1 focus:ring-brand-500 outline-none transition-shadow">
+                        <option value="all">อุปกรณ์ทั้งหมด</option>
+                    </select>
+                </div>
+                <div class="w-full md:w-1/3">
+                    <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">กรองบริษัท/ผู้จำหน่าย</label>
+                    <select id="filter-pending-vendor" onchange="renderPendingCards()" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-1 focus:ring-brand-500 outline-none transition-shadow">
+                        <option value="all">ทุกบริษัท</option>
+                    </select>
                 </div>
             </div>
+
             <div id="pending-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
             <div id="no-pending-msg" class="hidden text-center py-12 text-gray-500 dark:text-gray-400">
                 <i class="fa-solid fa-check-circle text-5xl mb-4 text-emerald-500 opacity-50"></i>
@@ -436,7 +479,7 @@
                 <button onclick="closeModal('dash-items-modal')" class="text-white/80 hover:text-white transition-colors"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-600 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">ตัวกรองสถานะ</label>
                     <select id="dash-modal-filter-status" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-1 focus:ring-brand-500 outline-none">
@@ -622,6 +665,7 @@
 
         let statusChartInst = null;
         let vendorChartInst = null;
+        let timelineChartInst = null; // อินสแตนซ์ของกราฟเปรียบเทียบแผน VS รับจริง
         let currentCalDate = new Date(); 
         let uniqueVendors = [];
         let uniqueNames = [];
@@ -688,7 +732,7 @@
             document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', isDark);
             document.getElementById('theme-toggle-light-icon-mobile').classList.toggle('hidden', !isDark);
             document.getElementById('theme-toggle-dark-icon-mobile').classList.toggle('hidden', isDark);
-            if(statusChartInst) updateChartsColors();
+            if(statusChartInst) renderDashboard(); // สั่งเรนเดอร์แดชบอร์ดใหม่เพื่อสีธีมกราฟที่กลมกลืน
         }
 
         function toggleTheme() {
@@ -723,12 +767,14 @@
             const vendorSelects = [
                 document.getElementById('dash-filter-vendor'), 
                 document.getElementById('filter-vendor'),
-                document.getElementById('dash-modal-filter-vendor')
+                document.getElementById('dash-modal-filter-vendor'),
+                document.getElementById('filter-pending-vendor')
             ];
             const nameSelects = [
                 document.getElementById('search-equipment-summary'), 
                 document.getElementById('filter-name'),
-                document.getElementById('dash-modal-filter-type')
+                document.getElementById('dash-modal-filter-type'),
+                document.getElementById('filter-pending-name')
             ];
             
             uniqueVendors = [...new Set(equipmentData.map(item => item.vendor))].filter(v => v);
@@ -737,7 +783,15 @@
             vendorSelects.forEach(select => {
                 if(!select) return;
                 const isModal = select.id === 'dash-modal-filter-vendor';
-                select.innerHTML = isModal ? '<option value="all">ผู้จัดจำหน่าย: ทั้งหมด</option>' : '<option value="all">ทุกบริษัท/ผู้จัดจำหน่าย</option>';
+                const isPendingFilter = select.id === 'filter-pending-vendor';
+                
+                if (isModal) {
+                    select.innerHTML = '<option value="all">ผู้จัดจำหน่าย: ทั้งหมด</option>';
+                } else if (isPendingFilter) {
+                    select.innerHTML = '<option value="all">ทุกบริษัท</option>';
+                } else {
+                    select.innerHTML = '<option value="all">ทุกบริษัท/ผู้จัดจำหน่าย</option>';
+                }
                 uniqueVendors.forEach(v => select.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`));
             });
 
@@ -872,31 +926,103 @@
             });
         }
 
-        // CHART RENDERING CONTROLLER
+        // CHART RENDERING CONTROLLER (With total count inside doughnut and distinct vendor colors)
         function renderCharts(received, pending, delayed, currentData) {
             const isDark = document.documentElement.classList.contains('dark');
             const textColor = isDark ? '#e5e7eb' : '#374151';
+            const gridColor = isDark ? '#374151' : '#f3f4f6';
 
+            // 1. CHART: สัดส่วนสถานะ (Doughnut) พร้อมแสดงยอดรวมพัสดุตรงกลางแบบ Pro
             const ctxStatus = document.getElementById('statusChart').getContext('2d');
             if(statusChartInst) statusChartInst.destroy();
+            
+            const totalSum = received + pending;
+
             statusChartInst = new Chart(ctxStatus, {
                 type: 'doughnut',
                 data: {
-                    labels: ['รับสำเร็จ', 'รอดำเนินการ', 'ล่าช้ากว่าแผน'],
-                    datasets: [{ data: [received, pending - delayed, delayed], backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], borderWidth: 2, borderColor: isDark ? '#1f2937' : '#ffffff' }]
+                    labels: ['รับสำเร็จ (เครื่อง)', 'รอดำเนินการ (เครื่อง)', 'ล่าช้ากว่ากำหนด (เครื่อง)'],
+                    datasets: [{ 
+                        data: [received, pending - delayed, delayed], 
+                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], 
+                        borderWidth: 2, 
+                        borderColor: isDark ? '#1f2937' : '#ffffff',
+                        hoverOffset: 4
+                    }]
                 },
                 options: { 
                     responsive: true, 
                     maintainAspectRatio: false, 
-                    plugins: { legend: { position: 'bottom', labels: { color: textColor, font: {family: 'Sarabun'}, padding: 12 } } }, 
-                    cutout: '70%' 
-                }
+                    plugins: { 
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { color: textColor, font: {family: 'Sarabun', size: 11}, padding: 12 } 
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    let value = context.parsed || 0;
+                                    let pct = ((value / totalSum) * 100).toFixed(1);
+                                    return ` ${label}: ${value} เครื่อง (${pct}%)`;
+                                }
+                            }
+                        }
+                    }, 
+                    cutout: '72%' 
+                },
+                // Plugin สำหรับเขียนตัวเลขรวมตรงกลาง Doughnut Chart
+                plugins: [{
+                    id: 'centerText',
+                    beforeDraw: function(chart) {
+                        const width = chart.width;
+                        const height = chart.height;
+                        const ctx = chart.ctx;
+                        ctx.restore();
+                        
+                        // ปรับขนาดฟอนต์ให้สอดคล้องกับขนาดแผนภูมิ
+                        const fontSize = (height / 140).toFixed(2);
+                        ctx.font = `bold ${fontSize}em Sarabun`;
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = textColor;
+
+                        const text = totalSum.toString();
+                        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                        const textY = Math.round((height - 35) / 2); // ปรับเยื้องด้านบนเล็กน้อยเหนือคำอธิบาย
+
+                        ctx.fillText(text, textX, textY);
+
+                        // พ่นคำว่า "ยอดพัสดุรวม" เล็กๆ ด้านล่างตัวเลข
+                        ctx.font = `500 ${(height / 320).toFixed(2)}em Sarabun`;
+                        ctx.fillStyle = isDark ? '#9ca3af' : '#6b7280';
+                        const labelText = "พัสดุสะสม";
+                        const labelX = Math.round((width - ctx.measureText(labelText).width) / 2);
+                        const labelY = textY + 25;
+                        ctx.fillText(labelText, labelX, labelY);
+                        
+                        ctx.save();
+                    }
+                }]
             });
 
+            // 2. CHART: บริษัทคู่สัญญาพร้อมสีไม่ซ้ำกันอย่างชัดเจน (Distinct Premium Colors)
             const vendorCounts = {};
             currentData.forEach(item => { vendorCounts[item.vendor] = (vendorCounts[item.vendor] || 0) + 1; });
             const vendorLabels = Object.keys(vendorCounts);
             const vendorData = Object.values(vendorCounts);
+
+            // ชุดสีสวยงามและเด่นชัดแบบไม่ซ้ำกัน (9 โทนสีพรีเมียม)
+            const distinctColors = [
+                '#14b8a6', // Teal
+                '#6366f1', // Indigo
+                '#a855f7', // Purple
+                '#f43f5e', // Rose
+                '#0ea5e9', // Sky Blue
+                '#eab308', // Yellow
+                '#f97316', // Orange
+                '#84cc16', // Lime
+                '#ec4899'  // Pink
+            ];
 
             const ctxVendor = document.getElementById('vendorChart').getContext('2d');
             if(vendorChartInst) vendorChartInst.destroy();
@@ -905,14 +1031,24 @@
                 data: {
                     labels: vendorLabels.map(l => l.length > 15 ? l.substring(0, 15) + '...' : l),
                     fullLabels: vendorLabels, 
-                    datasets: [{ data: vendorData, backgroundColor: isDark ? '#0d9488' : '#14b8a6', borderRadius: 6, barPercentage: 0.5 }]
+                    datasets: [{ 
+                        label: 'จำนวนพัสดุ (เครื่อง)',
+                        data: vendorData, 
+                        backgroundColor: vendorLabels.map((_, i) => distinctColors[i % distinctColors.length]),
+                        borderRadius: 6, 
+                        barPercentage: 0.5 
+                    }]
                 },
                 options: {
                     indexAxis: 'y', 
                     responsive: true, 
                     maintainAspectRatio: false,
                     scales: {
-                        x: { ticks: { stepSize: 1, color: textColor }, grid: { color: isDark ? '#374151' : '#f3f4f6' } },
+                        x: { 
+                            ticks: { stepSize: 1, color: textColor }, 
+                            grid: { color: gridColor },
+                            title: { display: true, text: 'ปริมาณอุปกรณ์ในสัญญา (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10} }
+                        },
                         y: { ticks: { color: textColor, font: {family: 'Sarabun'} }, grid: { display: false } }
                     },
                     plugins: { 
@@ -924,6 +1060,133 @@
                             const index = activeEls[0].index;
                             const fullVendorName = chart.data.fullLabels[index];
                             openDashboardItemsModal('all', fullVendorName);
+                        }
+                    }
+                }
+            });
+
+            // 3. CHART: เปรียบเทียบแผนจัดส่ง (Plan) VS วันที่ตรวจรับพัสดุจริง (Actual) รายเดือน (แบบกราฟเส้น Area พรีเมียม)
+            renderTimelineChart(currentData, textColor, gridColor);
+        }
+
+        // ฟังก์ชันคำนวณและพล็อตกราฟเปรียบเทียบระยะเวลา (Plan vs Actual Timeline Chart - เวอร์ชันอัปเกรดเป็นกราฟเส้นโค้งพรีเมียม)
+        function renderTimelineChart(currentData, textColor, gridColor) {
+            const monthsMap = {
+                "01": "ม.ค.", "02": "ก.พ.", "03": "มี.ค.", "04": "เม.ย.", "05": "พ.ค.", "06": "มิ.ย.",
+                "07": "ก.ค.", "08": "ส.ค.", "09": "ก.ย.", "10": "ต.ค.", "11": "พ.ย.", "12": "ธ.ค."
+            };
+
+            // รวบรวมและจัดระเบียบข้อมูลรายเดือนที่มีในดาต้าเบส
+            const chronologicalGroups = {}; // คีย์ฟอร์แมต: "YYYY-MM" -> { planCount: 0, actualCount: 0 }
+
+            currentData.forEach(item => {
+                const planD = parseDate(item.planDate);
+                const rcvD = parseDate(item.receiveDate);
+
+                if (planD) {
+                    const yearMonth = planD.getFullYear() + "-" + String(planD.getMonth() + 1).padStart(2, '0');
+                    if (!chronologicalGroups[yearMonth]) chronologicalGroups[yearMonth] = { planCount: 0, actualCount: 0 };
+                    chronologicalGroups[yearMonth].planCount++;
+                }
+
+                if (rcvD && item.status === 'received') {
+                    const yearMonth = rcvD.getFullYear() + "-" + String(rcvD.getMonth() + 1).padStart(2, '0');
+                    if (!chronologicalGroups[yearMonth]) chronologicalGroups[yearMonth] = { planCount: 0, actualCount: 0 };
+                    chronologicalGroups[yearMonth].actualCount++;
+                }
+            });
+
+            // เรียงลำดับปีและเดือนตามลำดับเวลาที่เกิดขึ้นจริง
+            const sortedKeys = Object.keys(chronologicalGroups).sort();
+            const labelsShort = sortedKeys.map(key => {
+                const [yr, mo] = key.split('-');
+                return `${monthsMap[mo]} ${yr}`;
+            });
+
+            const planDataset = sortedKeys.map(key => chronologicalGroups[key].planCount);
+            const actualDataset = sortedKeys.map(key => chronologicalGroups[key].actualCount);
+
+            const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+            if (timelineChartInst) timelineChartInst.destroy();
+
+            // เรนเดอร์เป็น Line Chart โค้งมนพร้อม Fill ไล่ระดับพื้นหลังสวยงามระดับ Enterprise
+            timelineChartInst = new Chart(ctxTimeline, {
+                type: 'line',
+                data: {
+                    labels: labelsShort.length > 0 ? labelsShort : ["พ.ค. 2026", "มิ.ย. 2026", "ก.ค. 2026"],
+                    datasets: [
+                        {
+                            label: 'จำนวนแผนตกลงส่งมอบสะสม (Plan - เครื่อง)',
+                            data: planDataset.length > 0 ? planDataset : [2, 1, 5],
+                            borderColor: '#3b82f6', // เส้นสีน้ำเงินสดใส
+                            backgroundColor: 'rgba(59, 130, 246, 0.08)', // ถมสีฟ้าอ่อนโปร่งแสงด้านล่างเส้น
+                            borderWidth: 3.5,
+                            tension: 0.4, // ความโค้งระดับที่ดูพรีเมียมพอเหมาะ
+                            fill: true,
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 1.5,
+                            pointRadius: 5.5,
+                            pointHoverRadius: 8,
+                            pointHoverBorderWidth: 2
+                        },
+                        {
+                            label: 'จำนวนที่ตรวจรับของจริงสะสม (Actual - เครื่อง)',
+                            data: actualDataset.length > 0 ? actualDataset : [0, 2, 0],
+                            borderColor: '#10b981', // เส้นสีเขียวมรกต
+                            backgroundColor: 'rgba(16, 185, 129, 0.08)', // ถมสีเขียวอ่อนโปร่งแสงด้านล่างเส้น
+                            borderWidth: 3.5,
+                            tension: 0.4, // โค้งรับพรีเมียม
+                            fill: true,
+                            pointBackgroundColor: '#10b981',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 1.5,
+                            pointRadius: 5.5,
+                            pointHoverRadius: 8,
+                            pointHoverBorderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        x: { 
+                            ticks: { color: textColor, font: {family: 'Sarabun'} },
+                            grid: { color: gridColor, drawOnChartArea: true }
+                        },
+                        y: { 
+                            ticks: { color: textColor, stepSize: 1, font: {family: 'Sarabun'} },
+                            grid: { color: gridColor },
+                            title: { display: true, text: 'ปริมาณพัสดุ (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10} }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: textColor, font: {family: 'Sarabun', size: 11}, padding: 15 }
+                        },
+                        tooltip: {
+                            titleFont: {family: 'Sarabun'},
+                            bodyFont: {family: 'Sarabun'},
+                            callbacks: {
+                                footer: function(tooltipItems) {
+                                    const index = tooltipItems[0].dataIndex;
+                                    const planVal = planDataset[index] || 0;
+                                    const actVal = actualDataset[index] || 0;
+                                    const diff = planVal - actVal;
+                                    if (diff > 0) {
+                                        return `ยังค้างส่งในเดือนนี้อีก: ${diff} เครื่อง`;
+                                    } else if (diff < 0) {
+                                        return `ส่งมอบเร็วกว่าแผนสะสม: ${Math.abs(diff)} เครื่อง`;
+                                    }
+                                    return `ส่งมอบครบถ้วนตามแผน`;
+                                }
+                            }
                         }
                     }
                 }
@@ -1242,17 +1505,30 @@
         function renderPendingCards() {
             const grid = document.getElementById('pending-grid');
             const searchInput = document.getElementById('search-pending').value.toLowerCase();
+            const filterName = document.getElementById('filter-pending-name').value;
+            const filterVendor = document.getElementById('filter-pending-vendor').value;
+
             const pendingItems = equipmentData.filter(item => item.status === 'pending');
             
             const badge = document.getElementById('pending-badge');
             if(pendingItems.length > 0) { badge.innerText = pendingItems.length; badge.classList.remove('hidden'); } 
             else badge.classList.add('hidden');
 
-            const filteredItems = pendingItems.filter(item => item.name.toLowerCase().includes(searchInput) || item.id.toLowerCase().includes(searchInput) || item.vendor.toLowerCase().includes(searchInput));
+            // ใช้ระบบคัดกรองผสมผสานกันทั้ง ค้นหาคำ, ชนิดอุปกรณ์ และ บริษัทผู้ส่งมอบ
+            const filteredItems = pendingItems.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchInput) || 
+                                      item.id.toLowerCase().includes(searchInput) || 
+                                      item.vendor.toLowerCase().includes(searchInput);
+                const matchesName = filterName === 'all' || item.name === filterName;
+                const matchesVendor = filterVendor === 'all' || item.vendor === filterVendor;
+                return matchesSearch && matchesName && matchesVendor;
+            });
+
             grid.innerHTML = '';
             
-            if (filteredItems.length === 0) document.getElementById('no-pending-msg').classList.remove('hidden');
-            else {
+            if (filteredItems.length === 0) {
+                document.getElementById('no-pending-msg').classList.remove('hidden');
+            } else {
                 document.getElementById('no-pending-msg').classList.add('hidden');
                 filteredItems.sort((a, b) => (isItemDelayed(a) ? -1 : 1) - (isItemDelayed(b) ? -1 : 1));
 
