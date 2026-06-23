@@ -63,11 +63,15 @@
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 h-full flex flex-col md:flex-row transition-colors duration-300">
 
-    <!-- ================= SIDE NAVIGATION ================= -->
     <nav class="bg-white dark:bg-gray-800 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 w-full md:w-64 flex-shrink-0 flex md:flex-col justify-between md:justify-start z-40 fixed md:relative bottom-0 md:bottom-auto h-16 md:h-screen transition-colors duration-300">
         <div class="hidden md:flex items-center justify-center h-16 border-b border-gray-200 dark:border-gray-700 px-4">
             <i class="fa-solid fa-satellite-dish text-brand-500 text-2xl mr-2 animate-bounce"></i>
-            <span class="font-bold text-xl tracking-wider text-gray-800 dark:text-white">AMS UBP Delivery Status</span>
+            <span class="font-bold text-xl tracking-wider text-gray-800 dark:text-white">AMS UBP</span>
+        </div>
+        
+        <div class="hidden md:flex items-center px-4 py-2.5 mx-4 mt-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 text-xs font-medium" id="conn-status-container">
+            <span id="conn-dot" class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse mr-2"></span>
+            <span id="conn-text" class="text-slate-500 dark:text-slate-400">ตรวจสอบชีท...</span>
         </div>
         
         <div class="flex md:flex-col w-full md:w-auto overflow-x-auto md:overflow-visible py-2 md:py-4 px-2 md:px-0 gap-1 md:gap-2">
@@ -96,21 +100,22 @@
             </button>
         </div>
 
-        <div class="hidden md:flex mt-auto p-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="hidden md:flex mt-auto p-4 border-t border-gray-200 dark:border-gray-700 justify-between items-center w-full">
             <button id="theme-toggle" class="flex items-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
                 <i id="theme-toggle-dark-icon" class="fa-solid fa-moon mr-3 hidden"></i>
                 <i id="theme-toggle-light-icon" class="fa-solid fa-sun mr-3 hidden"></i>
                 <span id="theme-toggle-text">สลับโหมด</span>
             </button>
+            <button onclick="fetchData()" title="รีเฟรชข้อมูล" class="text-gray-400 hover:text-brand-500 dark:hover:text-brand-400 transition-colors p-1"><i class="fa-solid fa-rotate"></i></button>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
         <div class="md:hidden flex justify-between items-center mb-6">
             <div class="flex items-center">
                 <i class="fa-solid fa-satellite-dish text-brand-500 text-xl mr-2 animate-bounce"></i>
-                <span class="font-bold text-lg text-gray-800 dark:text-white">AMS UBP Delivery Status</span>
+                <span class="font-bold text-lg text-gray-800 dark:text-white">AMS UBP</span>
+                <span id="conn-dot-mobile" class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse ml-3" title="ตรวจสอบสถานะ"></span>
             </div>
             <button id="theme-toggle-mobile" class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white p-2">
                 <i id="theme-toggle-dark-icon-mobile" class="fa-solid fa-moon hidden text-xl"></i>
@@ -118,7 +123,6 @@
             </button>
         </div>
 
-        <!-- ================= TAB: DASHBOARD ================= -->
         <section id="tab-dashboard" class="tab-content fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4 dark:border-gray-700 gap-4">
                 <div>
@@ -136,7 +140,6 @@
                 </div>
             </div>
 
-            <!-- Smart Quick Tag Cloud -->
             <div class="flex flex-wrap gap-2 mb-6 items-center">
                 <span class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">ทางลัดตัวกรอง:</span>
                 <button onclick="quickFilterTag('all')" class="px-3 py-1 text-xs rounded-full bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200 dark:bg-brand-900/30 dark:text-brand-400 transition-colors">ทั้งหมด</button>
@@ -145,7 +148,6 @@
                 <button onclick="quickFilterTag('ห้างหุ่นส่วนจำกัด พลอยแพรี่')" class="px-3 py-1 text-xs rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors">พลอยแพรี่</button>
             </div>
 
-            <!-- Delayed Alerts Box -->
             <div id="dash-alert-delayed" class="hidden mb-6 bg-gradient-to-r from-red-50 to-amber-50 dark:from-red-950/20 dark:to-amber-950/20 border-l-4 border-red-500 p-4 rounded-r-xl flex items-start md:items-center shadow-sm">
                 <i class="fa-solid fa-triangle-exclamation text-red-500 text-2xl mr-3 mt-0.5 md:mt-0 animate-pulse"></i>
                 <div class="flex-1">
@@ -179,7 +181,6 @@
                     <span id="stat-delayed" class="text-3xl font-bold text-red-500 mt-1 z-10">0</span>
                     <span class="text-[10px] text-red-500 font-bold mt-1 z-10"><i class="fa-solid fa-triangle-exclamation"></i> เกินดิวส่งมอบ</span>
                 </div>
-                <!-- เกจเปอร์เซ็นต์ความสำเร็จของโครงการ -->
                 <div class="col-span-2 lg:col-span-1 bg-gradient-to-br from-brand-600 to-brand-700 text-white p-4 rounded-xl shadow-md flex flex-col justify-between relative overflow-hidden">
                     <div class="absolute right-[-10px] bottom-[-10px] opacity-10"><i class="fa-solid fa-percent text-7xl"></i></div>
                     <div class="z-10">
@@ -202,7 +203,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <!-- ชาร์ตสัดส่วนสถานะ -->
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col">
                     <div class="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
                         <h3 class="text-base font-bold text-gray-800 dark:text-white">สัดส่วนสถานะพัสดุ</h3>
@@ -213,7 +213,6 @@
                     </div>
                 </div>
 
-                <!-- ชาร์ตแยกตามบริษัท -->
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col">
                     <div class="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
                         <h3 class="text-base font-bold text-gray-800 dark:text-white">บริษัทคู่สัญญา (คลิกแท่งเพื่อดู)</h3>
@@ -224,26 +223,21 @@
                     </div>
                 </div>
 
-                <!-- รายการกิจกรรมอัปเดต และแผนรับมอบเร่งด่วนใน 1 สัปดาห์ -->
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col">
                     <div class="flex justify-between items-center mb-3 border-b border-gray-100 dark:border-gray-700 pb-2">
                         <h3 class="text-base font-bold text-gray-800 dark:text-white">ความเคลื่อนไหว & แผนเร่งด่วน</h3>
                         <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 pulse-light">Live Update</span>
                     </div>
-                    
-                    <div id="recent-activity-list" class="space-y-3 flex-1 overflow-y-auto max-h-[230px] pr-1">
-                        <!-- Dynamic updates injected here by JS -->
-                    </div>
+                    <div id="recent-activity-list" class="space-y-3 flex-1 overflow-y-auto max-h-[230px] pr-1"></div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= TAB: EQUIPMENT SUMMARY ================= -->
         <section id="tab-equipment-summary" class="tab-content hidden fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4 dark:border-gray-700 gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white">ภาพรวมตามชนิดอุปกรณ์</h2>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">สรุปอัตราส่วนการรับมอบแยกรายชนิดวัสดุพัสดุ (คลิกการ์ดเพื่อดูรายชื่ออุปกรณ์ย่อย)</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">สรุปอัตราส่วนการรับมอบแยกรายชนิดวัสดุพัสดุ</p>
                 </div>
                 <div class="relative w-full md:w-72">
                     <select id="search-equipment-summary" onchange="renderEquipmentSummary()" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none transition-shadow">
@@ -251,16 +245,13 @@
                     </select>
                 </div>
             </div>
-            
             <div id="equipment-summary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            
             <div id="no-equipment-msg" class="hidden text-center py-12 text-gray-500 dark:text-gray-400">
                 <i class="fa-solid fa-box-open text-5xl mb-4 text-gray-400 opacity-50"></i>
                 <p class="text-lg">ไม่พบข้อมูลอุปกรณ์</p>
             </div>
         </section>
 
-        <!-- ================= TAB: CALENDAR ================= -->
         <section id="tab-calendar" class="tab-content hidden fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4 dark:border-gray-700 gap-4">
                 <div>
@@ -269,17 +260,15 @@
                 </div>
                 <div class="flex items-center gap-4 bg-white dark:bg-gray-800 p-2 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                     <button onclick="changeMonth(-1)" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"><i class="fa-solid fa-chevron-left"></i></button>
-                    <span id="cal-month-year" class="font-bold text-lg min-w-[150px] text-center text-gray-800 dark:text-white">กรกฎาคม 2026</span>
+                    <span id="cal-month-year" class="font-bold text-lg min-w-[150px] text-center text-gray-800 dark:text-white"></span>
                     <button onclick="changeMonth(1)" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
-            
             <div class="flex gap-4 mb-4 text-xs">
                 <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-400 mr-1.5"></span> แผนส่งมอบ (รอดำเนินการ)</div>
                 <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-red-500 mr-1.5"></span> ล่าช้ากว่าแผน</div>
                 <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-500 mr-1.5"></span> วันที่รับของจริง</div>
             </div>
-
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
                 <div class="grid grid-cols-7 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
                     <div class="py-2 text-center text-sm font-semibold text-red-500">อา.</div>
@@ -294,15 +283,14 @@
             </div>
         </section>
 
-        <!-- ================= TAB: RECEIVING (Pending) ================= -->
         <section id="tab-receiving" class="tab-content hidden fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white">รอดำเนินการรับพัสดุ</h2>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">รายการอุปกรณ์ที่รอพัสดุเข้ามาจัดส่ง คลิกเพื่อกรอกรหัสและข้อมูลการรับ</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">รายการอุปกรณ์ที่รอพัสดุเข้ามาจัดส่ง คลิกเพื่อกรอกข้อมูลการรับ</p>
                 </div>
                 <div class="relative w-full md:w-72">
-                    <input type="text" id="search-pending" placeholder="ค้นหาชื่ออุปกรณ์, รหัส..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none transition-shadow">
+                    <input type="text" id="search-pending" onkeyup="renderPendingCards()" placeholder="ค้นหาชื่ออุปกรณ์, รหัส..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none transition-shadow">
                     <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400"></i>
                 </div>
             </div>
@@ -313,7 +301,6 @@
             </div>
         </section>
 
-        <!-- ================= TAB: ALL ITEMS ================= -->
         <section id="tab-all-items" class="tab-content hidden fade-in">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 border-b pb-2 dark:border-gray-700">รายการอุปกรณ์ทั้งหมด</h2>
             
@@ -345,413 +332,231 @@
             </div>
 
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-50 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 text-sm">
-                                <th class="p-3 font-semibold w-16 text-center">No.</th>
-                                <th class="p-3 font-semibold">รหัส (ID)</th>
-                                <th class="p-3 font-semibold">ชื่ออุปกรณ์/ยี่ห้อ</th>
-                                <th class="p-3 font-semibold">บริษัท/ผู้จัดจำหน่าย</th>
-                                <th class="p-3 font-semibold">แผนส่ง</th>
-                                <th class="p-3 font-semibold">สถานะ</th>
+                <div class="overflow-x-auto w-full">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+                        <thead class="bg-gray-50 dark:bg-gray-700/40 text-gray-500 dark:text-gray-400 font-medium">
+                            <tr>
+                                <th class="px-4 py-3 text-left">รหัสพัสดุ</th>
+                                <th class="px-4 py-3 text-left">ชื่ออุปกรณ์</th>
+                                <th class="px-4 py-3 text-left">บริษัทผู้จัดจำหน่าย</th>
+                                <th class="px-4 py-3 text-left">กำหนดส่งมอบ</th>
+                                <th class="px-4 py-3 text-left">วันที่รับจริง</th>
+                                <th class="px-4 py-3 text-left">สถานะ</th>
+                                <th class="px-4 py-3 text-center">จัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="all-items-tbody" class="divide-y divide-gray-200 dark:divide-gray-700 text-sm"></tbody>
+                        <tbody id="all-items-tbody" class="divide-y divide-gray-100 dark:divide-gray-700 text-gray-700 dark:text-gray-300"></tbody>
                     </table>
-                </div>
-                <div class="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-xs text-center text-gray-500">
-                    <i class="fa-solid fa-mouse-pointer mr-1"></i> คลิกที่แถวเพื่อดูรายละเอียดเพิ่มเติม
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- ================= MODAL: RECEIVING FORM ================= -->
-    <div id="receive-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('receive-modal')"></div>
-        <div class="relative bg-white dark:bg-gray-800 w-full max-w-lg mx-4 rounded-2xl shadow-2xl overflow-hidden transform transition-all fade-in">
-            <div class="bg-brand-500 dark:bg-brand-600 px-6 py-4 flex justify-between items-center">
-                <h3 class="text-white font-bold text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i> บันทึกการรับพัสดุ & ตรวจสอบ</h3>
-                <button onclick="closeModal('receive-modal')" class="text-white/80 hover:text-white transition-colors"><i class="fa-solid fa-times text-xl"></i></button>
-            </div>
-            
-            <div class="p-6">
-                <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg mb-6 border border-gray-100 dark:border-gray-600">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span id="modal-item-id" class="text-xs font-bold bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-400 px-2 py-1 rounded">AMS-XX</span>
-                            <span id="modal-item-delay-badge" class="ml-2 text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded-full hidden">ล่าช้า</span>
-                            <h4 id="modal-item-name" class="font-bold text-gray-800 dark:text-white mt-2 text-lg">ชื่ออุปกรณ์</h4>
-                            <p id="modal-item-desc" class="text-sm text-gray-500 dark:text-gray-400 mt-1">ยี่ห้อ, รุ่น</p>
-                        </div>
-                    </div>
-                    <div class="mt-3 text-sm text-gray-600 dark:text-gray-300">
-                        <i class="fa-solid fa-building mr-1"></i> <span id="modal-item-vendor">บริษัท</span>
-                    </div>
-                </div>
-
-                <form id="receive-form" class="space-y-4">
-                    <input type="hidden" id="modal-input-id">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">วันที่รับของ *</label>
-                            <input type="date" id="modal-input-date" required class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">อัปโหลดรูปเอกสารใบรับ (ถ้ามี)</label>
-                            <input type="file" id="modal-input-document" accept="image/*,application/pdf" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 dark:file:bg-gray-700 dark:file:text-gray-300 outline-none">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Serial Number (ถ้ามี)</label>
-                        <input type="text" id="modal-input-sn" placeholder="กรอก S/N หรือปล่อยว่าง" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">หมายเหตุเพิ่มเติม</label>
-                        <textarea id="modal-input-notes" rows="2" placeholder="เช่น ผู้รับของ, สถานที่จัดเก็บชั่วคราว..." class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none resize-none"></textarea>
-                    </div>
-                    <div class="pt-4 flex justify-end gap-3 border-t border-gray-100 dark:border-gray-700 mt-6">
-                        <button type="button" onclick="closeModal('receive-modal')" class="px-4 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium transition-colors">ยกเลิก</button>
-                        <button type="submit" id="btn-save-receive" class="px-6 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-medium transition-colors flex items-center"><i class="fa-solid fa-save mr-2"></i> บันทึกข้อมูล</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= MODAL: DASHBOARD & SUMMARY CARD DETAILS ================= -->
-    <div id="dash-items-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('dash-items-modal')"></div>
-        <div class="relative bg-white dark:bg-gray-800 w-full max-w-4xl mx-4 rounded-2xl shadow-2xl overflow-hidden transform transition-all fade-in flex flex-col max-h-[85vh]">
-            <div class="bg-brand-600 px-6 py-4 flex justify-between items-center text-white">
-                <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-list mr-2"></i> <span id="dash-modal-title">รายการอุปกรณ์</span></h3>
-                <button onclick="closeModal('dash-items-modal')" class="text-white/80 hover:text-white transition-colors"><i class="fa-solid fa-times text-xl"></i></button>
-            </div>
-            
-            <div class="p-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-600 grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div id="dash-items-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-4xl w-full max-h-[85vh] flex flex-col overflow-hidden">
+            <div class="p-5 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-700/30">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">ตัวกรองสถานะ</label>
-                    <select id="dash-modal-filter-status" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-1 focus:ring-brand-500 outline-none">
-                        <option value="all">สถานะ: ทั้งหมด</option>
-                        <option value="received">สถานะ: รับแล้ว</option>
-                        <option value="pending">สถานะ: รอดำเนินการ</option>
-                        <option value="delayed">สถานะ: ล่าช้า</option>
-                    </select>
+                    <h3 id="dash-modal-title" class="text-lg font-bold text-gray-800 dark:text-white">รายการวัสดุพัสดุในหมวดหมู่</h3>
+                    <p id="dash-modal-subtitle" class="text-xs text-gray-400 mt-0.5">แสดงข้อมูลคัดกรองตามเงื่อนไขของแดชบอร์ด</p>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">ตัวกรองบริษัท</label>
-                    <select id="dash-modal-filter-vendor" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-1 focus:ring-brand-500 outline-none">
-                        <option value="all">ผู้จัดจำหน่าย: ทั้งหมด</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">ชนิดอุปกรณ์</label>
-                    <select id="dash-modal-filter-type" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-1 focus:ring-brand-500 outline-none">
-                        <option value="all">ชนิดอุปกรณ์: ทั้งหมด</option>
-                    </select>
-                </div>
+                <button onclick="closeDashboardItemsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
-            <div class="overflow-y-auto p-6 flex-1">
+            <div class="p-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-700 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <select id="dash-modal-filter-vendor" onchange="filterDashboardModalData()" class="px-3 py-1.5 rounded border text-xs bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none"></select>
+                <select id="dash-modal-filter-type" onchange="filterDashboardModalData()" class="px-3 py-1.5 rounded border text-xs bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none"></select>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-50 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 text-sm">
-                                <th class="p-3 font-semibold w-16 text-center">No.</th>
-                                <th class="p-3 font-semibold">รหัส (ID)</th>
-                                <th class="p-3 font-semibold">ชื่ออุปกรณ์</th>
-                                <th class="p-3 font-semibold">บริษัท/ผู้จำหน่าย</th>
-                                <th class="p-3 font-semibold">แผนส่ง</th>
-                                <th class="p-3 font-semibold">สถานะ</th>
+                    <table class="min-w-full text-xs text-left text-gray-600 dark:text-gray-400">
+                        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white font-semibold">
+                            <tr>
+                                <th class="p-2.5">รหัส</th>
+                                <th class="p-2.5">รายการวัสดุอุปกรณ์</th>
+                                <th class="p-2.5">ยี่ห้อ/รุ่น</th>
+                                <th class="p-2.5">ผู้จัดจำหน่าย</th>
+                                <th class="p-2.5">กำหนดส่ง</th>
+                                <th class="p-2.5">สถานะ</th>
                             </tr>
                         </thead>
-                        <tbody id="dash-modal-tbody" class="divide-y divide-gray-200 dark:divide-gray-700 text-sm"></tbody>
+                        <tbody id="dash-modal-tbody" class="divide-y divide-gray-100 dark:divide-gray-700"></tbody>
                     </table>
                 </div>
             </div>
-            <div class="p-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                <p class="text-xs text-gray-400"><i class="fa-solid fa-lightbulb"></i> เคล็ดลับ: สามารถเปลี่ยนสัดส่วนตัวกรองและกดดูแต่ละเครื่องได้ทันที</p>
-                <button type="button" onclick="closeModal('dash-items-modal')" class="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium transition-colors text-sm">ปิดหน้าต่าง</button>
-            </div>
         </div>
     </div>
 
-    <!-- ================= MODAL: ITEM FULL DETAILS (เพิ่มส่วนการกดแก้ไขข้อมูล) ================= -->
-    <div id="details-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('details-modal')"></div>
-        <div class="relative bg-white dark:bg-gray-800 w-full max-w-lg mx-4 rounded-2xl shadow-2xl overflow-hidden transform transition-all fade-in">
-            <!-- ส่วนหัวการ์ด -->
-            <div class="bg-gray-100 dark:bg-gray-700 px-6 py-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-600">
-                <h3 class="text-gray-800 dark:text-white font-bold text-lg">
-                    <i class="fa-solid fa-circle-info mr-2 text-brand-500"></i>
-                    <span id="details-modal-title-text">ข้อมูลอุปกรณ์</span>
-                </h3>
-                <button onclick="closeModal('details-modal')" class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white transition-colors">
-                    <i class="fa-solid fa-times text-xl"></i>
-                </button>
+    <div id="details-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-xl w-full overflow-hidden">
+            <div class="p-5 border-b dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-700/30">
+                <h3 class="text-base font-bold text-gray-800 dark:text-white"><i class="fa-solid fa-circle-info text-brand-500 mr-2"></i>รายละเอียดข้อมูลอุปกรณ์</h3>
+                <button onclick="document.getElementById('details-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 dark:hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            
-            <div class="p-6">
-                <!-- ================= VIEW MODE ================= -->
-                <div id="det-view-mode" class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span id="det-id" class="text-sm font-bold bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200 px-3 py-1 rounded"></span>
-                        <div id="det-status-badge"></div>
-                    </div>
-                    
-                    <h4 id="det-name" class="font-bold text-gray-900 dark:text-white text-xl mb-1"></h4>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-3">
-                        <span class="font-medium">ยี่ห้อ:</span> <span id="det-brand"></span> | 
-                        <span class="font-medium">รุ่น:</span> <span id="det-model"></span>
-                    </p>
+            <div class="p-6 space-y-4 text-sm" id="details-modal-content"></div>
+        </div>
+    </div>
 
-                    <div class="space-y-3 text-sm">
-                        <div class="flex">
-                            <div class="w-1/3 text-gray-500 dark:text-gray-400"><i class="fa-solid fa-building w-5"></i> ผู้จัดจำหน่าย:</div>
-                            <div class="w-2/3 text-gray-900 dark:text-white font-medium" id="det-vendor"></div>
-                        </div>
-                        <div class="flex">
-                            <div class="w-1/3 text-gray-500 dark:text-gray-400"><i class="fa-regular fa-calendar w-5"></i> แผนส่งมอบ:</div>
-                            <div class="w-2/3 text-gray-900 dark:text-white" id="det-planDate"></div>
-                        </div>
-                        <div class="flex">
-                            <div class="w-1/3 text-gray-500 dark:text-gray-400"><i class="fa-solid fa-truck-ramp-box w-5"></i> วันที่รับจริง:</div>
-                            <div class="w-2/3 text-gray-900 dark:text-white" id="det-rcvDate"></div>
-                        </div>
-                        <div class="flex">
-                            <div class="w-1/3 text-gray-500 dark:text-gray-400"><i class="fa-solid fa-barcode w-5"></i> Serial Number:</div>
-                            <div class="w-2/3 text-gray-900 dark:text-white font-mono bg-gray-50 dark:bg-gray-900 px-2 py-0.5 rounded" id="det-sn"></div>
-                        </div>
-                        <div class="flex flex-col pt-1" id="det-doc-container">
-                            <span class="text-gray-500 dark:text-gray-400 mb-1"><i class="fa-solid fa-file-invoice w-5"></i> เอกสารใบรับพัสดุ:</span>
-                            <div id="det-doc-status" class="text-sm italic text-gray-600 dark:text-gray-400 px-2"></div>
-                        </div>
+    <div id="receive-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-lg w-full overflow-hidden">
+            <div class="p-5 border-b dark:border-gray-700 flex justify-between items-center bg-brand-600 text-white">
+                <h3 class="text-base font-bold"><i class="fa-solid fa-box-open mr-2"></i>ดำเนินการบันทึกรับวัสดุพัสดุ</h3>
+                <button onclick="document.getElementById('receive-modal').classList.add('hidden')" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="receive-form" onsubmit="submitReceiveForm(event)" class="p-6 space-y-4">
+                <input type="hidden" id="receive-item-id">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 uppercase">รหัสพัสดุระบบ</label>
+                    <input type="text" id="receive-display-id" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-500 border border-transparent text-sm" disabled>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 uppercase">ชื่ออุปกรณ์พัสดุ</label>
+                    <textarea id="receive-display-name" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-500 border border-transparent text-sm h-16" disabled></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium mb-1">หมายเลข Serial Number (S/N) <span class="text-red-500">*</span></label>
+                        <input type="text" id="receive-sn" required placeholder="ระบุ S/N จากตัวเครื่อง" class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-1 focus:ring-brand-500 outline-none">
                     </div>
-
-                    <div class="pt-3 border-t border-gray-100 dark:border-gray-700">
-                        <div class="text-sm text-gray-500 dark:text-gray-400 mb-1"><i class="fa-regular fa-comment-dots"></i> หมายเหตุ:</div>
-                        <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg text-sm text-gray-800 dark:text-gray-200 italic min-h-[60px]" id="det-notes"></div>
-                    </div>
-
-                    <div class="pt-6 flex justify-between border-t border-gray-100 dark:border-gray-700 mt-4">
-                        <button type="button" onclick="enableEditMode()" class="px-5 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 text-white font-medium transition-colors text-sm flex items-center gap-1.5">
-                            <i class="fa-solid fa-pen-to-square"></i> แก้ไขข้อมูลอุปกรณ์
-                        </button>
-                        <button type="button" onclick="closeModal('details-modal')" class="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium transition-colors text-sm">
-                            ปิดหน้าต่าง
-                        </button>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">วันที่รับของจริง <span class="text-red-500">*</span></label>
+                        <input type="date" id="receive-date" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-1 focus:ring-brand-500 outline-none">
                     </div>
                 </div>
-
-                <!-- ================= EDIT MODE (โหมดฟอร์มแก้ไข) ================= -->
-                <div id="det-edit-mode" class="hidden space-y-4">
-                    <input type="hidden" id="edit-item-id">
-                    
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">ชื่ออุปกรณ์ (Name) *</label>
-                        <input type="text" id="edit-input-name" required class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">ยี่ห้อ (Brand)</label>
-                            <input type="text" id="edit-input-brand" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">รุ่น (Model)</label>
-                            <input type="text" id="edit-input-model" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">บริษัทผู้จัดจำหน่าย (Vendor) *</label>
-                        <input type="text" id="edit-input-vendor" required class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">แผนส่งมอบ (Plan Date) *</label>
-                            <input type="date" id="edit-input-planDate" required class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">สถานะอุปกรณ์ *</label>
-                            <select id="edit-input-status" onchange="toggleEditReceiveDate()" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                                <option value="pending">pending (รอดำเนินการ)</option>
-                                <option value="received">received (รับมอบแล้ว)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div id="edit-rcvDate-container">
-                            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">วันที่รับจริง (Receive Date)</label>
-                            <input type="date" id="edit-input-rcvDate" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Serial Number (S/N)</label>
-                            <input type="text" id="edit-input-sn" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">หมายเหตุเพิ่มเติม</label>
-                        <textarea id="edit-input-notes" rows="2" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none resize-none"></textarea>
-                    </div>
-
-                    <div class="pt-6 flex justify-end gap-3 border-t border-gray-100 dark:border-gray-700 mt-4">
-                        <button type="button" onclick="disableEditMode()" class="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium transition-colors text-sm">
-                            ยกเลิก
-                        </button>
-                        <button type="button" onclick="saveEditedItem()" class="px-6 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-medium transition-colors text-sm flex items-center gap-1.5">
-                            <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลใหม่
-                        </button>
-                    </div>
+                <div class="flex items-center mt-2">
+                    <input type="checkbox" id="receive-doc" class="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500">
+                    <label for="receive-doc" class="ml-2 text-xs font-medium text-gray-700 dark:text-gray-300">เอกสารคู่มือ/ใบรับประกันครบถ้วน (hasDoc)</label>
                 </div>
-            </div>
+                <div>
+                    <label class="block text-xs font-medium mb-1">หมายเหตุเพิ่มเติม</label>
+                    <input type="text" id="receive-notes" placeholder="เช่น สภาพกล่องสมบูรณ์, อุปกรณ์เสริมครบ" class="w-full p-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-1 focus:ring-brand-500 outline-none">
+                </div>
+                <div class="flex justify-end space-x-3 pt-4 border-t dark:border-gray-700">
+                    <button type="button" onclick="document.getElementById('receive-modal').classList.add('hidden')" class="px-4 py-2 text-sm text-gray-500 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 rounded-lg transition-colors">ยกเลิก</button>
+                    <button type="submit" class="px-4 py-2 text-sm text-white bg-brand-600 hover:bg-brand-700 rounded-lg transition-colors shadow-sm font-medium"><i class="fa-solid fa-floppy-disk mr-1.5"></i>บันทึกรับของเข้าชีท</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- ================= MODAL: CALENDAR DAY DETAILS ================= -->
-    <div id="cal-day-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('cal-day-modal')"></div>
-        <div class="relative bg-white dark:bg-gray-800 w-full max-w-md mx-4 rounded-2xl shadow-xl overflow-hidden transform transition-all fade-in">
-            <div class="bg-gray-100 dark:bg-gray-700 px-6 py-3 flex justify-between items-center border-b border-gray-200 dark:border-gray-600">
-                <h3 class="text-gray-800 dark:text-white font-bold" id="cal-day-title">รายการวันที่ --/--/----</h3>
-                <button onclick="closeModal('cal-day-modal')" class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"><i class="fa-solid fa-times"></i></button>
-            </div>
-            <div class="p-0 max-h-[60vh] overflow-y-auto" id="cal-day-list"></div>
+    <div id="loading-spinner" class="fixed inset-0 bg-black/30 backdrop-blur-xs flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-xl flex flex-col items-center">
+            <div class="w-10 h-10 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-xs text-gray-500 dark:text-gray-400 mt-3 font-medium">กำลังติดต่อฐานข้อมูล Google Sheets...</span>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast-message" class="fixed top-4 right-4 z-50 flex items-center w-full max-w-xs p-4 space-x-3 text-gray-500 bg-white rounded-lg shadow-lg dark:text-gray-400 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 opacity-0 translate-y-[-1rem] pointer-events-none">
-        <div id="toast-icon-bg" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full"><i id="toast-icon" class="fa-solid"></i></div>
-        <div id="toast-text" class="ml-3 text-sm font-normal text-gray-800 dark:text-gray-200">Message</div>
+    <div id="toast-alert" class="fixed top-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-xl shadow-lg dark:text-gray-400 dark:bg-gray-800 border dark:border-gray-700 transition-all duration-300 opacity-0 translate-y-[-1rem] pointer-events-none">
+        <div id="toast-icon-bg" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full">
+            <i id="toast-icon" class="fa-solid"></i>
+        </div>
+        <div id="toast-text" class="ml-3 text-sm font-medium"></div>
     </div>
 
-    <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // กำหนด Google Web App URL API เพื่อใช้เชื่อมต่อฐานข้อมูล Google Sheets จริง
-        const API_URL = "https://script.google.com/macros/s/AKfycbwXQlRZ3-DPJqEabkPf9u9yCrQJXPpfrnfqpnIU1-9bj1H2qTqeBuNrzXyJLxQlWF4_/exec";
+        // *** สำคัญมาก: นำลิงก์ Web App URL ที่ได้จากการ Deploy Google Apps Script มาใส่ที่นี่ ***
+        const API_URL = "https://script.google.com/macros/s/AKfycbyPYj_DACu4Ginbf76gjr-u7GfrAcBZNaBNsJ_o4bHLKmXl3UU6emcraj97pflKSijG/exec"; 
 
-        // ข้อมูลหลักในระบบ (ใช้เป็นข้อมูลสำรองกรณีการเชื่อมต่อ API ขัดข้องหรืออยู่ในโหมดออฟไลน์)
-        let equipmentData = [
-            { no: 1, id: "AMS-01", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ่นส่วนจำกัด พลอยแพรี่", planDate: "15/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false },
-            { no: 2, id: "AMS-02", name: "Outdoor IP Camera Pan/Tilt/Zoom", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ่นส่วนจำกัด พลอยแพรี่", planDate: "15/05/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false }, 
-            { no: 3, id: "AMS-86", name: "C-Band Transceiver 40W", brand: "Amplus", model: "AM-9443", vendor: "บริษัท ทีซี บิลเลี่ยน จำกัด", planDate: "31/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false },
-            { no: 4, id: "AMS-87", name: "High Performance Converter", brand: "Amplus", model: "AM-9220", vendor: "บริษัท ทีซี บิลเลี่ยน จำกัด", planDate: "31/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false },
-            { no: 5, id: "AMS-88", name: "NTP GPS Network Lantime", brand: "Meinberg", model: "Lantime M320", vendor: "บริษัท ทีซี บิลเลี่ยน จำกัด", planDate: "01/06/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false }, 
-            { no: 6, id: "AMS-91", name: "ID Card Printer", brand: "Zebra", model: "ZC300", vendor: "บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด", planDate: "06/07/2026", status: "received", receiveDate: "05/07/2026", sn: "ZB-12345", notes: "ส่งเรียบร้อย มีใบรับมอบครบถ้วน", hasDoc: true },
-            { no: 7, id: "AMS-92", name: "Ribbon แบบสี", brand: "Zebra", model: "Color-YMCKO", vendor: "บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด", planDate: "06/07/2026", status: "received", receiveDate: "05/07/2026", sn: "-", notes: "รับครบถ้วน", hasDoc: false },
-            { no: 8, id: "AMS-93", name: "ID Card for Car and Employee", brand: "Bosch", model: "AC", vendor: "บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด", planDate: "10/07/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false }
-        ];
+        let equipmentData = []; 
+        let currentMonth = 6; // กรกฎาคม (0-indexed คือ 6)
+        let currentYear = 2026; // ปีโครงการ 2026
+        
+        let statusChartObj = null;
+        let vendorChartObj = null;
+        let activeModalFilter = { status: 'all', vendor: 'all' };
 
-        const today = new Date(2026, 5, 23); // วันอ้างอิงของระบบทดสอบ: 23 มิถุนายน 2026
-        today.setHours(0,0,0,0);
+        // INITIALIZE SYSTEM ON LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            initThemeToggle();
+            fetchData();
+        });
 
-        // ดึงข้อมูลจริงจาก Google Sheets ผ่านเว็บแอปเมื่อเริ่มต้นใช้งานระบบ
-        async function fetchEquipmentData() {
+        // 1. FETCH DATA FROM GOOGLE SHEETS API
+        async function fetchData() {
+            showLoading(true);
+            updateConnectionStatus('loading', 'กำลังตรวจสอบ...');
+            
             try {
-                showToast("กำลังซิงค์ข้อมูลกับคลาวด์ Google Sheets...", "info");
-                const response = await fetch(API_URL);
-                const result = await response.json();
+                if (!API_URL || API_URL.includes("YOUR_WEB_APP_URL")) {
+                    throw new Error("ยังไม่ได้นำลิงก์ Web App URL มาใส่ในไฟล์อินเด็กซ์");
+                }
                 
-                if (result && result.status === "success" && Array.isArray(result.data) && result.data.length > 0) {
-                    equipmentData = result.data;
-                    showToast("ซิงค์ฐานข้อมูลพัสดุเรียบร้อยแล้ว", "success");
-                } else if (result && result.status === "error") {
-                    showToast(`คำเตือน: ${result.message} (กำลังใช้งานโหมด Offline)`, "warning");
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("การติดต่อเครือข่ายล้มเหลว (Network Response Error)");
+                
+                const res = await response.json();
+                if (res.status === "success") {
+                    equipmentData = res.data;
+                    
+                    // ปรับปรุง UI ทั้งระบบด้วยข้อมูลจริง
+                    populateDropdowns();
+                    renderDashboard();
+                    
+                    // อัปเดตสถานะผ่านฉลุย
+                    updateConnectionStatus('online', 'เชื่อมต่อชีทสำเร็จ');
+                } else {
+                    throw new Error(res.message || "เกิดข้อผิดพลาดในการดึงข้อมูลจากชีท");
                 }
             } catch (error) {
-                console.error("Fetch error:", error);
-                showToast("ไม่สามารถเข้าถึงฐานข้อมูลคลาวด์ได้ (กำลังใช้งานโหมด Offline)", "warning");
-            } finally {
-                // รันการแสดงผลหน้าแรกเสมอ ไม่ว่าจะดึงสำเร็จหรือใช้ออฟไลน์
+                console.error("Connection error:", error);
+                showToast(error.message, "error");
+                updateConnectionStatus('offline', 'การเชื่อมต่อล้มเหลว');
+                
+                // Fallback Mock Data กรณีฉุกเฉินเพื่อให้ทดสอบ UI ได้ก่อน
+                equipmentData = [
+                    { no: 1, id: "AMS-01", name: "Core Switch 24-Port 10G", brand: "Cisco", model: "Catalyst 9300", vendor: "บริษัท เคเอ็ม เทค แอนด์ อินโนเวทีฟ จำกัด", planDate: "20/06/2026", status: "received", receiveDate: "18/06/2026", sn: "SN-CS9300-XYZ", notes: "ตรวจรับเรียบร้อย เอกสารครบ", hasDoc: true },
+                    { no: 2, id: "AMS-02", name: "Outdoor IP Camera PTZ", brand: "TKH Security", model: "PD980", vendor: "ห้างหุ่นส่วนจำกัด พลอยแพรี่", planDate: "15/05/2026", status: "pending", receiveDate: "", sn: "", notes: "", hasDoc: false }
+                ];
                 populateDropdowns();
                 renderDashboard();
-                renderEquipmentSummary();
-                renderCalendar();
-                renderPendingCards();
-                renderAllItemsTable();
+            } finally {
+                showLoading(false);
             }
         }
 
-        function parseDate(dateStr) {
-            if(!dateStr) return null;
-            const parts = dateStr.split('/');
-            if(parts.length === 3) return new Date(parts[2], parts[1] - 1, parts[0]);
-            return null;
-        }
-
-        // แปลงฟอร์แมตวันที่จาก YYYY-MM-DD เป็น DD/MM/YYYY
-        function formatInputToDataDate(inputDateStr) {
-            if (!inputDateStr) return "";
-            const parts = inputDateStr.split('-');
-            if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
-            return "";
-        }
-
-        // แปลงฟอร์แมตวันที่จาก DD/MM/YYYY เป็น YYYY-MM-DD สำหรับใชักับ <input type="date">
-        function formatDataToInputDate(dataDateStr) {
-            if (!dataDateStr) return "";
-            const parts = dataDateStr.split('/');
-            if (parts.length === 3) return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
-            return "";
-        }
-
-        function isItemDelayed(item) {
-            if(item.status !== 'pending') return false;
-            const plan = parseDate(item.planDate);
-            if(!plan) return false;
-            return plan < today;
-        }
-
-        let statusChartInst = null;
-        let vendorChartInst = null;
-        let currentCalDate = new Date(2026, 6, 1); 
-        let uniqueVendors = [];
-        let uniqueNames = [];
-
-        // THEME & NAVIGATION
-        function updateThemeIcons() {
-            const isDark = document.documentElement.classList.contains('dark');
-            const lightIcon = document.getElementById('theme-toggle-light-icon');
-            const darkIcon = document.getElementById('theme-toggle-dark-icon');
-            const lightIconMobile = document.getElementById('theme-toggle-light-icon-mobile');
-            const darkIconMobile = document.getElementById('theme-toggle-dark-icon-mobile');
+        // 2. HELPER FUNCTION TO UPDATE CONNECTION STATUS INDICATOR
+        function updateConnectionStatus(state, message) {
+            const dot = document.getElementById('conn-dot');
+            const txt = document.getElementById('conn-text');
+            const container = document.getElementById('conn-status-container');
+            const dotMobile = document.getElementById('conn-dot-mobile');
             
-            if (lightIcon) lightIcon.classList.toggle('hidden', !isDark);
-            if (darkIcon) darkIcon.classList.toggle('hidden', isDark);
-            if (lightIconMobile) lightIconMobile.classList.toggle('hidden', !isDark);
-            if (darkIconMobile) darkIconMobile.classList.toggle('hidden', isDark);
-            if (statusChartInst) updateChartsColors();
+            if (state === 'online') {
+                if (dot) dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 transition-all";
+                if (txt) txt.innerText = message;
+                if (container) {
+                    container.className = "hidden md:flex items-center px-4 py-2.5 mx-4 mt-4 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 text-xs font-medium text-emerald-700 dark:text-emerald-400";
+                }
+                if (dotMobile) dotMobile.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 ml-3";
+            } else if (state === 'offline') {
+                if (dot) dot.className = "w-2.5 h-2.5 rounded-full bg-red-500 transition-all";
+                if (txt) txt.innerText = message;
+                if (container) {
+                    container.className = "hidden md:flex items-center px-4 py-2.5 mx-4 mt-4 rounded-xl bg-red-50/60 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 text-xs font-medium text-red-700 dark:text-red-400";
+                }
+                if (dotMobile) dotMobile.className = "w-2.5 h-2.5 rounded-full bg-red-500 ml-3 animate-bounce";
+            } else {
+                if (dot) dot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse mr-2";
+                if (txt) txt.innerText = message;
+                if (dotMobile) dotMobile.className = "w-2.5 h-2.5 rounded-full bg-amber-500 ml-3 animate-pulse";
+            }
         }
 
-        function updateChartsColors() {
-            if(!document.getElementById('tab-dashboard').classList.contains('hidden')) renderDashboard();
-        }
-
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-            updateThemeIcons();
-        }
-        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-        document.getElementById('theme-toggle-mobile').addEventListener('click', toggleTheme);
-        updateThemeIcons();
-
+        // 3. TAB CONTROLLER
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(el => {
-                el.classList.remove('active-nav', 'md:border-brand-500', 'text-brand-600', 'dark:text-brand-400');
-                el.classList.add('border-transparent');
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active-nav', 'md:border-brand-500', 'text-brand-600', 'dark:text-brand-400');
+                btn.classList.add('border-transparent', 'text-gray-500');
             });
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) targetTab.classList.remove('hidden');
+            
             const activeBtn = document.getElementById(`nav-${tabId}`);
-            activeBtn.classList.add('active-nav', 'md:border-brand-500', 'text-brand-600', 'dark:text-brand-400');
-            activeBtn.classList.remove('border-transparent');
-
+            if (activeBtn) {
+                activeBtn.classList.add('active-nav', 'md:border-brand-500', 'text-brand-600', 'dark:text-brand-400');
+                activeBtn.classList.remove('border-transparent', 'text-gray-500');
+            }
+            
             if (tabId === 'dashboard') renderDashboard();
             if (tabId === 'equipment-summary') renderEquipmentSummary();
             if (tabId === 'calendar') renderCalendar();
@@ -759,766 +564,692 @@
             if (tabId === 'all-items') renderAllItemsTable();
         }
 
-        // POPULATE ALL DROPDOWNS & FILTER TAGS
+        // 4. POPULATE DROPDOWNS BASED ON GOOGLE SHEET DATA
+        let uniqueVendors = [];
+        let uniqueNames = [];
         function populateDropdowns() {
             const vendorSelects = [
                 document.getElementById('dash-filter-vendor'), 
-                document.getElementById('filter-vendor'),
+                document.getElementById('filter-vendor'), 
                 document.getElementById('dash-modal-filter-vendor')
             ];
             const nameSelects = [
                 document.getElementById('search-equipment-summary'), 
-                document.getElementById('filter-name'),
+                document.getElementById('filter-name'), 
                 document.getElementById('dash-modal-filter-type')
             ];
             
-            uniqueVendors = [...new Set(equipmentData.map(item => item.vendor))];
-            uniqueNames = [...new Set(equipmentData.map(item => item.name))];
-
+            uniqueVendors = [...new Set(equipmentData.map(item => item.vendor).filter(Boolean))];
+            uniqueNames = [...new Set(equipmentData.map(item => item.name).filter(Boolean))];
+            
             vendorSelects.forEach(select => {
                 if(!select) return;
                 const isModal = select.id === 'dash-modal-filter-vendor';
                 select.innerHTML = isModal ? '<option value="all">ผู้จัดจำหน่าย: ทั้งหมด</option>' : '<option value="all">ทุกบริษัท/ผู้จัดจำหน่าย</option>';
                 uniqueVendors.forEach(v => select.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`));
             });
-
+            
             nameSelects.forEach(select => {
                 if(!select) return;
-                const isModal = select.id === 'dash-modal-filter-type';
-                select.innerHTML = isModal ? '<option value="all">ชนิดอุปกรณ์: ทั้งหมด</option>' : '<option value="all">อุปกรณ์ทั้งหมด</option>';
+                const isSummary = select.id === 'search-equipment-summary';
+                select.innerHTML = isSummary ? '<option value="all">ดูอุปกรณ์ทั้งหมด</option>' : '<option value="all">อุปกรณ์ทั้งหมด</option>';
                 uniqueNames.forEach(n => select.insertAdjacentHTML('beforeend', `<option value="${n}">${n}</option>`));
             });
         }
 
-        // QUICK FILTER ON DASHBOARD
-        function quickFilterTag(vendorName) {
-            document.getElementById('dash-filter-vendor').value = vendorName;
-            renderDashboard();
-            showToast(`แสดงข้อมูลเฉพาะ: ${vendorName === 'all' ? 'ทุกบริษัท' : vendorName}`, 'info');
+        // 5. HELPER: DATE STRING PARSER & DELAY DETECTOR
+        function parseDateString(dateStr) {
+            if(!dateStr) return null;
+            const parts = dateStr.split('/');
+            if(parts.length === 3) {
+                return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+            }
+            return new Date(dateStr);
         }
 
-        // ANIMATED COUNTUP
-        function animateValue(obj, start, end, duration) {
-            if(!obj) return;
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                obj.innerText = Math.floor(progress * (end - start) + start);
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                } else {
-                    obj.innerText = end;
-                }
-            };
-            window.requestAnimationFrame(step);
+        function isItemDelayed(item) {
+            if (item.status === 'received') return false;
+            const planDate = parseDateString(item.planDate);
+            if (!planDate) return false;
+            // เทียบเกณฑ์วันที่ในโครงการ (อ้างอิง วันที่ปัจจุบันจำลอง 23/06/2026)
+            const systemCurrentDate = new Date(2026, 5, 23); 
+            return planDate < systemCurrentDate;
         }
 
-        // ================= RENDERING DASHBOARD =================
+        // 6. RENDER DASHBOARD & CHARTS
         function renderDashboard() {
             const vendorFilter = document.getElementById('dash-filter-vendor').value;
-            let currentData = vendorFilter !== 'all' ? equipmentData.filter(item => item.vendor === vendorFilter) : equipmentData;
-
-            const total = currentData.length;
-            const received = currentData.filter(item => item.status === 'received').length;
-            const pending = currentData.filter(item => item.status === 'pending').length;
-            const delayed = currentData.filter(item => isItemDelayed(item)).length;
-
-            // Trigger Countup animations
-            animateValue(document.getElementById('stat-total'), 0, total, 400);
-            animateValue(document.getElementById('stat-received'), 0, received, 400);
-            animateValue(document.getElementById('stat-pending'), 0, pending, 400);
-            animateValue(document.getElementById('stat-delayed'), 0, delayed, 400);
-
-            // Compute Progress Gauge
-            const percentage = total > 0 ? Math.round((received / total) * 100) : 0;
-            document.getElementById('stat-percentage').innerText = percentage + "%";
-            document.getElementById('gauge-bar').style.width = percentage + "%";
-
-            // Setup Delayed Alerts
+            let filtered = equipmentData;
+            
+            if (vendorFilter !== 'all') {
+                filtered = equipmentData.filter(item => item.vendor === vendorFilter);
+            }
+            
+            let received = 0, pending = 0, delayed = 0;
+            filtered.forEach(item => {
+                if (item.status === 'received') received++;
+                else if (isItemDelayed(item)) delayed++;
+                else pending++;
+            });
+            
+            const total = filtered.length;
+            const pct = total > 0 ? Math.round((received / total) * 100) : 0;
+            
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-received').innerText = received;
+            document.getElementById('stat-pending').innerText = pending;
+            document.getElementById('stat-delayed').innerText = delayed;
+            document.getElementById('stat-percentage').innerText = `${pct}%`;
+            document.getElementById('gauge-bar').style.width = `${pct}%`;
+            
+            // สั่งทำกล่องเตือนงานล่าช้า
             const alertBox = document.getElementById('dash-alert-delayed');
             const alertText = document.getElementById('dash-alert-text');
             if (delayed > 0) {
                 alertBox.classList.remove('hidden');
-                alertText.innerText = vendorFilter !== 'all' 
-                    ? `บริษัท ${vendorFilter} มีพัสดุที่ยังไม่ส่งมอบและเกินกำหนดจำนวน ${delayed} รายการ`
-                    : `พบอุปกรณ์ที่ยังไม่ได้รับและเกินกำหนดเวลาส่งมอบทั้งหมดจำนวน ${delayed} รายการ โปรดตรวจสอบรายละเอียด`;
-            } else { alertBox.classList.add('hidden'); }
-
-            // Render Activity list
-            renderRecentActivity(currentData);
-
-            // Chart rendering logic
-            renderCharts(received, pending, delayed, currentData);
+                alertText.innerText = `พัสดุจำนวน ${delayed} รายการ เลยกำหนดกำหนดพิกัดส่งมอบ กรุณาเรียกดูรายละเอียดแยกรายผู้จัดจำหน่าย`;
+            } else {
+                alertBox.classList.add('hidden');
+            }
+            
+            renderCharts(received, pending, delayed, filtered);
+            renderRecentActivity(filtered);
         }
 
-        // RENDER RECENT ACTIVITY
+        function quickFilterTag(vendorName) {
+            const select = document.getElementById('dash-filter-vendor');
+            if(select) {
+                select.value = vendorName;
+                renderDashboard();
+            }
+        }
+
         function renderRecentActivity(data) {
             const list = document.getElementById('recent-activity-list');
+            if(!list) return;
             list.innerHTML = '';
-
+            
             const receivedItems = data.filter(i => i.status === 'received').slice(0, 3);
             const delayedItems = data.filter(i => isItemDelayed(i)).slice(0, 3);
-
+            
             if(receivedItems.length === 0 && delayedItems.length === 0) {
-                list.innerHTML = `<div class="p-4 text-center text-xs text-gray-500">ไม่มีกิจกรรมในช่วงเวลานี้</div>`;
+                list.innerHTML = `<div class="p-4 text-center text-xs text-gray-500">ไม่มีกิจกรรมหรือแผนงานเร่งด่วน</div>`;
                 return;
             }
-
-            // Render warnings first
+            
             delayedItems.forEach(item => {
                 list.insertAdjacentHTML('beforeend', `
                     <div onclick="showItemDetails('${item.id}')" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 cursor-pointer border border-transparent hover:border-red-200 transition-all text-xs">
-                        <div class="p-1 rounded bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"><i class="fa-solid fa-bell-slash"></i></div>
+                        <div class="p-1 rounded bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i></div>
                         <div class="flex-1">
-                            <span class="font-bold text-red-600 dark:text-red-400">${item.id} ส่งมอบช้ากว่ากำหนด!</span>
-                            <p class="text-gray-500 dark:text-gray-300 line-clamp-1">${item.name}</p>
-                            <span class="text-[10px] text-gray-400">กำหนดไว้เมื่อ: ${item.planDate}</span>
+                            <span class="font-bold text-red-600 dark:text-red-400">${item.id} เกินกำหนดแผนส่งมอบ!</span>
+                            <p class="text-gray-500 dark:text-gray-400 text-[11px] truncate">${item.name} (${item.vendor})</p>
                         </div>
                     </div>
                 `);
             });
-
-            // Render successes next
+            
             receivedItems.forEach(item => {
                 list.insertAdjacentHTML('beforeend', `
                     <div onclick="showItemDetails('${item.id}')" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-950/20 cursor-pointer border border-transparent hover:border-emerald-200 transition-all text-xs">
                         <div class="p-1 rounded bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400"><i class="fa-solid fa-circle-check"></i></div>
                         <div class="flex-1">
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400">ตรวจรับเรียบร้อยแล้ว</span>
-                            <p class="text-gray-500 dark:text-gray-300 line-clamp-1">${item.name}</p>
-                            <span class="text-[10px] text-gray-400">รับของเมื่อ: ${item.receiveDate} (${item.sn !== '-' ? 'S/N: '+item.sn : 'ไม่มี Serial'})</span>
+                            <span class="font-bold text-emerald-700 dark:text-emerald-400">ตรวจรับเข้าคลังสำเร็จ</span>
+                            <p class="text-gray-500 dark:text-gray-400 text-[11px] truncate">${item.id} - ${item.name}</p>
                         </div>
                     </div>
                 `);
             });
         }
 
-        // CHART RENDERING CONTROLLER
-        function renderCharts(received, pending, delayed, currentData) {
+        function renderCharts(received, pending, delayed, filteredData) {
             const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#e5e7eb' : '#374151';
-
-            const ctxStatus = document.getElementById('statusChart').getContext('2d');
-            if(statusChartInst) statusChartInst.destroy();
-            statusChartInst = new Chart(ctxStatus, {
-                type: 'doughnut',
-                data: {
-                    labels: ['รับสำเร็จ', 'รอดำเนินการ', 'ล่าช้ากว่าแผน'],
-                    datasets: [{ data: [received, pending - delayed, delayed], backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], borderWidth: 2, borderColor: isDark ? '#1f2937' : '#ffffff' }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { legend: { position: 'bottom', labels: { color: textColor, font: {family: 'Sarabun'}, padding: 12 } } }, 
-                    cutout: '70%' 
-                }
-            });
-
-            const vendorCounts = {};
-            currentData.forEach(item => { vendorCounts[item.vendor] = (vendorCounts[item.vendor] || 0) + 1; });
-            const vendorLabels = Object.keys(vendorCounts);
-            const vendorData = Object.values(vendorCounts);
-
-            const ctxVendor = document.getElementById('vendorChart').getContext('2d');
-            if(vendorChartInst) vendorChartInst.destroy();
-            vendorChartInst = new Chart(ctxVendor, {
-                type: 'bar',
-                data: {
-                    labels: vendorLabels.map(l => l.length > 15 ? l.substring(0, 15) + '...' : l),
-                    fullLabels: vendorLabels, 
-                    datasets: [{ data: vendorData, backgroundColor: isDark ? '#0d9488' : '#14b8a6', borderRadius: 6, barPercentage: 0.5 }]
-                },
-                options: {
-                    indexAxis: 'y', 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { ticks: { stepSize: 1, color: textColor }, grid: { color: isDark ? '#374151' : '#f3f4f6' } },
-                        y: { ticks: { color: textColor, font: {family: 'Sarabun'} }, grid: { display: false } }
+            const textColor = isDark ? '#f3f4f6' : '#1f2937';
+            
+            // Chart 1: Status Donut Chart
+            if (statusChartObj) statusChartObj.destroy();
+            const ctx1 = document.getElementById('statusChart');
+            if(ctx1) {
+                statusChartObj = new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['รับแล้ว', 'รอดำเนินการ', 'ส่งมอบล่าช้า'],
+                        datasets: [{
+                            data: [received, pending, delayed],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: isDark ? 2 : 1,
+                            borderColor: isDark ? '#1f2937' : '#ffffff'
+                        }]
                     },
-                    plugins: { 
-                        legend: { display: false }, 
-                        tooltip: { callbacks: { title: (ctx) => vendorLabels[ctx[0].dataIndex] }, titleFont: {family: 'Sarabun'}, bodyFont: {family: 'Sarabun'} } 
-                    },
-                    onClick: (e, activeEls, chart) => {
-                        if(activeEls.length > 0) {
-                            const index = activeEls[0].index;
-                            const fullVendorName = chart.data.fullLabels[index];
-                            openDashboardItemsModal('all', fullVendorName);
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { color: textColor, font: { family: 'Sarabun', size: 11 } } }
                         }
                     }
-                }
-            });
-        }
-
-        // ================= OPEN SYSTEM MODALS =================
-        function openDashboardItemsModal(status, vendor = 'all', typeName = 'all') {
-            document.getElementById('dash-modal-filter-status').value = status;
-            document.getElementById('dash-modal-filter-vendor').value = vendor;
-            document.getElementById('dash-modal-filter-type').value = typeName;
-            
-            let titleText = "รายการจัดซื้อพัสดุและกำหนดตรวจสอบ";
-            if(status === 'received') titleText = "รายการพัสดุที่ตรวจรับแล้ว";
-            if(status === 'pending') titleText = "รายการพัสดุรอดำเนินการจัดส่ง";
-            if(status === 'delayed') titleText = "รายการพัสดุที่ล่าช้ากว่ากำหนดดิว";
-            if(typeName !== 'all') titleText = `อุปกรณ์กลุ่ม: ${typeName}`;
-
-            document.getElementById('dash-modal-title').innerText = titleText;
-            
-            filterDashModalTable();
-            document.getElementById('dash-items-modal').classList.remove('hidden');
-        }
-
-        function filterDashModalTable() {
-            const statusFilter = document.getElementById('dash-modal-filter-status').value;
-            const vendorFilter = document.getElementById('dash-modal-filter-vendor').value;
-            const typeFilter = document.getElementById('dash-modal-filter-type').value;
-            const tbody = document.getElementById('dash-modal-tbody');
-            
-            const filtered = equipmentData.filter(item => {
-                const matchVendor = vendorFilter === 'all' || item.vendor === vendorFilter;
-                const matchType = typeFilter === 'all' || item.name === typeFilter;
-                let matchStatus = true;
-                if(statusFilter === 'received') matchStatus = item.status === 'received';
-                if(statusFilter === 'pending') matchStatus = item.status === 'pending';
-                if(statusFilter === 'delayed') matchStatus = isItemDelayed(item);
-                return matchVendor && matchStatus && matchType;
-            });
-
-            tbody.innerHTML = '';
-            if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-gray-500">ไม่พบรายการพัสดุตามเงื่อนไขที่กรองย่อย</td></tr>`;
-                return;
+                });
             }
 
-            filtered.forEach((item, index) => {
-                let statusBadge = '';
-                if(item.status === 'received') statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i>รับแล้ว</span>`;
-                else if(isItemDelayed(item)) statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation mr-1"></i>ล่าช้า</span>`;
-                else statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"><i class="fa-solid fa-hourglass-start mr-1"></i>รอส่ง</span>`;
-
-                tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700 cursor-pointer transition-all" onclick="showItemDetails('${item.id}')">
-                        <td class="p-3 text-center text-gray-500">${index + 1}</td>
-                        <td class="p-3 font-semibold text-brand-600 dark:text-brand-400">${item.id}</td>
-                        <td class="p-3 font-medium text-gray-900 dark:text-white">
-                            <div>${item.name}</div>
-                            <span class="text-[10px] text-gray-400">${item.brand} | ${item.model}</span>
-                        </td>
-                        <td class="p-3 text-gray-600 dark:text-gray-300">${item.vendor}</td>
-                        <td class="p-3 text-gray-600 dark:text-gray-300 font-mono">${item.planDate}</td>
-                        <td class="p-3">${statusBadge}</td>
-                    </tr>
-                `);
-            });
-        }
-
-        // ================= RENDERING EQUIPMENT SUMMARY =================
-        function renderEquipmentSummary() {
-            const grid = document.getElementById('equipment-summary-grid');
-            const searchVal = document.getElementById('search-equipment-summary').value;
-            
-            const grouped = {};
+            // Chart 2: Vendor Bar Chart
+            const vendorMap = {};
+            uniqueVendors.forEach(v => vendorMap[v] = { total: 0, received: 0 });
             equipmentData.forEach(item => {
-                if(!grouped[item.name]) grouped[item.name] = { total: 0, received: 0, pending: 0, delayed: 0, brands: new Set() };
-                grouped[item.name].total++;
-                if(item.brand) grouped[item.name].brands.add(item.brand);
-                
-                if(item.status === 'received') grouped[item.name].received++;
-                else {
-                    grouped[item.name].pending++;
-                    if(isItemDelayed(item)) grouped[item.name].delayed++;
+                if(vendorMap[item.vendor]) {
+                    vendorMap[item.vendor].total++;
+                    if(item.status === 'received') vendorMap[item.vendor].received++;
                 }
             });
-
-            const filteredNames = Object.keys(grouped).filter(name => searchVal === 'all' || name === searchVal);
-            grid.innerHTML = '';
             
-            if (filteredNames.length === 0) {
-                document.getElementById('no-equipment-msg').classList.remove('hidden');
-            } else {
-                document.getElementById('no-equipment-msg').classList.add('hidden');
-                filteredNames.forEach(name => {
-                    const data = grouped[name];
-                    const progress = data.total > 0 ? Math.round((data.received / data.total) * 100) : 0;
-                    
-                    grid.insertAdjacentHTML('beforeend', `
-                        <div onclick="openDashboardItemsModal('all', 'all', '${name}')" class="cursor-pointer hover:scale-[1.02] active:scale-[0.98] bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:border-brand-300 dark:hover:border-brand-500 hover:shadow-md transition-all flex flex-col group">
-                            <div class="mb-4">
-                                <span class="text-[10px] uppercase font-bold text-brand-500 dark:text-brand-400 tracking-wider">กลุ่มวัสดุอุปกรณ์</span>
-                                <h4 class="font-bold text-gray-800 dark:text-white text-lg group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors line-clamp-2" title="${name}">${name}</h4>
-                                <p class="text-xs text-gray-500 mt-1"><i class="fa-solid fa-tag mr-1"></i> ยี่ห้อ: ${Array.from(data.brands).join(', ') || '-'}</p>
-                            </div>
-                            <div class="mb-4">
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="font-medium text-gray-600 dark:text-gray-300">อัตราการตรวจรับ</span>
-                                    <span class="font-bold text-brand-600 dark:text-brand-400">${progress}%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                    <div class="bg-brand-500 h-2.5 rounded-full" style="width: ${progress}%"></div>
-                                </div>
-                            </div>
-                            <div class="mt-auto grid grid-cols-3 gap-2 border-t border-gray-100 dark:border-gray-700 pt-3 text-center">
-                                <div><div class="text-lg font-bold text-gray-800 dark:text-white">${data.total}</div><div class="text-[10px] text-gray-500">ทั้งหมด</div></div>
-                                <div class="border-l border-r border-gray-100 dark:border-gray-700"><div class="text-lg font-bold text-emerald-500">${data.received}</div><div class="text-[10px] text-gray-500">รับแล้ว</div></div>
-                                <div><div class="text-lg font-bold ${data.delayed > 0 ? 'text-red-500' : 'text-amber-500'}">${data.pending}</div><div class="text-[10px] text-gray-500 flex flex-col items-center"><span>รอรับ</span>${data.delayed > 0 ? `<span class="text-red-500 font-bold">(ช้า ${data.delayed})</span>` : ''}</div></div>
-                            </div>
-                            <div class="mt-3 text-right text-[11px] font-bold text-brand-500 group-hover:translate-x-1 transition-transform">
-                                คลิกเรียกดูแยกเครื่อง <i class="fa-solid fa-arrow-right"></i>
-                            </div>
-                        </div>
-                    `);
+            const labels = Object.keys(vendorMap);
+            const shortLabels = labels.map(l => l.length > 12 ? l.substring(0, 12) + '...' : l);
+            const totalData = labels.map(l => vendorMap[l].total);
+            const recData = labels.map(l => vendorMap[l].received);
+            
+            if (vendorChartObj) vendorChartObj.destroy();
+            const ctx2 = document.getElementById('vendorChart');
+            if(ctx2) {
+                vendorChartObj = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: shortLabels,
+                        fullLabels: labels,
+                        datasets: [
+                            { label: 'พัสดุรับแล้ว', data: recData, backgroundColor: '#14b8a6' },
+                            { label: 'วัสดุทั้งหมด', data: totalData, backgroundColor: '#cbd5e1' }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { ticks: { color: textColor, font: {family: 'Sarabun', size: 10} } },
+                            y: { ticks: { color: textColor, font: {family: 'Sarabun'} } }
+                        },
+                        plugins: {
+                            legend: { position: 'top', labels: { color: textColor, font: {family: 'Sarabun', size: 10} } }
+                        },
+                        onClick: (e, activeEls) => {
+                            if(activeEls.length > 0) {
+                                const index = activeEls[0].index;
+                                const fullVendor = vendorChartObj.data.fullLabels[index];
+                                openDashboardItemsModal('all', fullVendor);
+                            }
+                        }
+                    }
                 });
             }
         }
 
-        // ================= CALENDAR UTILITIES =================
-        function changeMonth(step) {
-            currentCalDate.setMonth(currentCalDate.getMonth() + step);
-            renderCalendar();
+        // 7. SYSTEM MODAL FOR VISUALIZING DASHBOARD CATEGORIES
+        function openDashboardItemsModal(mode, vendorFilter = 'all') {
+            activeModalFilter.status = mode;
+            activeModalFilter.vendor = vendorFilter;
+            
+            document.getElementById('dash-modal-filter-vendor').value = vendorFilter;
+            document.getElementById('dash-modal-filter-type').value = 'all';
+            
+            document.getElementById('dash-items-modal').classList.remove('hidden');
+            filterDashboardModalData();
         }
 
-        function renderCalendar() {
-            const year = currentCalDate.getFullYear();
-            const month = currentCalDate.getMonth();
-            document.getElementById('cal-month-year').innerText = `${thaiMonths[month]} ${year}`;
-            
-            const firstDay = new Date(year, month, 1).getDay(); 
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
-            
-            const monthData = {};
-            equipmentData.forEach(item => {
-                const planD = parseDate(item.planDate);
-                const rcvD = parseDate(item.receiveDate);
-                
-                if(planD && planD.getMonth() === month && planD.getFullYear() === year) {
-                    const d = planD.getDate();
-                    if(!monthData[d]) monthData[d] = { plan: [], rcv: [] };
-                    monthData[d].plan.push(item);
-                }
-                if(rcvD && rcvD.getMonth() === month && rcvD.getFullYear() === year) {
-                    const d = rcvD.getDate();
-                    if(!monthData[d]) monthData[d] = { plan: [], rcv: [] };
-                    monthData[d].rcv.push(item);
-                }
-            });
-
-            for(let i = 0; i < firstDay; i++) {
-                grid.insertAdjacentHTML('beforeend', '<div class="bg-gray-100/50 dark:bg-gray-800/50 min-h-[80px]"></div>');
-            }
-            
-            const todayStr = new Date().toDateString();
-            for(let d = 1; d <= daysInMonth; d++) {
-                const isToday = new Date(year, month, d).toDateString() === todayStr;
-                const dData = monthData[d];
-                
-                let html = `<div class="cal-cell relative flex flex-col" onclick="showCalendarDay(${year}, ${month}, ${d})">
-                    <span class="text-sm font-medium p-1 ${isToday ? 'bg-brand-500 text-white w-7 h-7 rounded-full flex items-center justify-center mx-auto mt-1' : 'text-gray-700 dark:text-gray-300 ml-1'}">${d}</span>
-                    <div class="mt-1 flex flex-col gap-1 px-1">`;
-                
-                if(dData) {
-                    const pendingCount = dData.plan.filter(i => i.status === 'pending').length;
-                    const delayedCount = dData.plan.filter(i => isItemDelayed(i)).length;
-                    const receivedCount = dData.rcv.length;
-
-                    if(pendingCount > 0 && pendingCount > delayedCount) {
-                        html += `<div class="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 text-[10px] px-1 rounded truncate"><i class="fa-solid fa-clock mr-1 text-[8px]"></i>แผน ${pendingCount}</div>`;
-                    }
-                    if(delayedCount > 0) {
-                        html += `<div class="bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 text-[10px] px-1 rounded truncate"><i class="fa-solid fa-exclamation mr-1 text-[8px]"></i>ช้า ${delayedCount}</div>`;
-                    }
-                    if(receivedCount > 0) {
-                        html += `<div class="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 text-[10px] px-1 rounded truncate"><i class="fa-solid fa-check mr-1 text-[8px]"></i>รับ ${receivedCount}</div>`;
-                    }
-                }
-                html += `</div></div>`;
-                grid.insertAdjacentHTML('beforeend', html);
-            }
+        function closeDashboardItemsModal() {
+            document.getElementById('dash-items-modal').classList.add('hidden');
         }
 
-        function showCalendarDay(year, month, day) {
-            document.getElementById('cal-day-title').innerText = `รายการวันที่ ${day} ${thaiMonths[month]} ${year}`;
-            const listContainer = document.getElementById('cal-day-list');
-            listContainer.innerHTML = '';
+        function filterDashboardModalData() {
+            const vFilter = document.getElementById('dash-modal-filter-vendor').value;
+            const tFilter = document.getElementById('dash-modal-filter-type').value;
+            const tbody = document.getElementById('dash-modal-tbody');
             
-            const targetDateStr = new Date(year, month, day).toDateString();
+            let filtered = equipmentData;
             
-            let foundAny = false;
-            equipmentData.forEach(item => {
-                const planD = parseDate(item.planDate);
-                const rcvD = parseDate(item.receiveDate);
-                
-                let isPlanDate = planD && planD.toDateString() === targetDateStr;
-                let isRcvDate = rcvD && rcvD.toDateString() === targetDateStr;
-                
-                if(isPlanDate || isRcvDate) {
-                    foundAny = true;
-                    
-                    let tagHtml = '';
-                    if(isRcvDate) tagHtml += `<span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded mr-1">รับเข้าวันนี้</span>`;
-                    else if (isItemDelayed(item)) tagHtml += `<span class="bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded mr-1">ล่าช้ากว่าแผน</span>`;
-                    else tagHtml += `<span class="bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded mr-1">กำหนดส่งวันนี้</span>`;
-
-                    listContainer.insertAdjacentHTML('beforeend', `
-                        <div class="border-b border-gray-100 dark:border-gray-600 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors" onclick="showItemDetails('${item.id}')">
-                            <div class="flex justify-between items-start mb-1">
-                                <span class="font-bold text-gray-900 dark:text-white">${item.id}</span>
-                                <div>${tagHtml}</div>
-                            </div>
-                            <div class="text-sm text-gray-800 dark:text-gray-200">${item.name}</div>
-                            <div class="text-xs text-gray-500 mt-1"><i class="fa-solid fa-building mr-1"></i>${item.vendor}</div>
-                        </div>
-                    `);
-                }
-            });
-
-            if(!foundAny) listContainer.innerHTML = `<div class="p-6 text-center text-gray-500">ไม่มีรายการในวันนี้</div>`;
-            document.getElementById('cal-day-modal').classList.remove('hidden');
-        }
-
-        // ================= RENDERING TAB: ALL ITEMS TABLE =================
-        function renderAllItemsTable() {
-            const tbody = document.getElementById('all-items-tbody');
-            const searchName = document.getElementById('filter-name').value;
-            const statusFilter = document.getElementById('filter-status').value;
-            const vendorFilter = document.getElementById('filter-vendor').value;
-
-            const filtered = equipmentData.filter(item => {
-                const matchName = searchName === 'all' || item.name === searchName;
-                const matchVendor = vendorFilter === 'all' || item.vendor === vendorFilter;
-                let matchStatus = true;
-                if(statusFilter === 'received') matchStatus = item.status === 'received';
-                if(statusFilter === 'pending') matchStatus = item.status === 'pending';
-                if(statusFilter === 'delayed') matchStatus = isItemDelayed(item);
-                
-                return matchName && matchStatus && matchVendor;
-            });
-
+            // คัดกรองตามหมวดหลักที่กดเข้ามา
+            if (activeModalFilter.status === 'received') filtered = filtered.filter(i => i.status === 'received');
+            else if (activeModalFilter.status === 'pending') filtered = filtered.filter(i => i.status === 'pending' && !isItemDelayed(i));
+            else if (activeModalFilter.status === 'delayed') filtered = filtered.filter(i => isItemDelayed(i));
+            
+            // คัดกรองผ่านดรอปดาวน์เสริมในป๊อปอัป
+            if(vFilter !== 'all') filtered = filtered.filter(i => i.vendor === vFilter);
+            if(tFilter !== 'all') filtered = filtered.filter(i => i.name === tFilter);
+            
             tbody.innerHTML = '';
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400">ไม่พบรายการพัสดุตามเงื่อนไข</td></tr>`;
+                return;
+            }
+            
             filtered.forEach(item => {
-                let statusBadge = '';
-                if(item.status === 'received') statusBadge = `<span class="inline-flex items-center px-2 py-1 rounded text-[11px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"><i class="fa-solid fa-check mr-1"></i> รับแล้ว</span>`;
-                else if(isItemDelayed(item)) statusBadge = `<span class="inline-flex items-center px-2 py-1 rounded text-[11px] font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"><i class="fa-solid fa-calendar-xmark mr-1"></i> ล่าช้า</span>`;
-                else statusBadge = `<span class="inline-flex items-center px-2 py-1 rounded text-[11px] font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"><i class="fa-solid fa-clock mr-1"></i> รอรับ</span>`;
+                let badge = `<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px]">รอรับ</span>`;
+                if(item.status === 'received') badge = `<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px]">สำเร็จ</span>`;
+                else if(isItemDelayed(item)) badge = `<span class="px-2 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px]">ล่าช้า</span>`;
                 
-                const planDateClass = isItemDelayed(item) ? 'text-red-600 dark:text-red-400 font-semibold' : 'text-gray-600 dark:text-gray-300';
-
                 tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="hover:bg-brand-50 dark:hover:bg-gray-700/80 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 cursor-pointer" onclick="showItemDetails('${item.id}')">
-                        <td class="p-3 text-center text-gray-500 dark:text-gray-400">${item.no}</td>
-                        <td class="p-3 font-semibold text-brand-600 dark:text-brand-400">${item.id}</td>
-                        <td class="p-3">
-                            <div class="text-gray-900 dark:text-white font-medium line-clamp-1">${item.name}</div>
-                            <div class="text-[11px] text-gray-500 dark:text-gray-400">${item.brand || '-'}</div>
-                        </td>
-                        <td class="p-3 text-gray-600 dark:text-gray-300 text-sm truncate max-w-[150px]">${item.vendor}</td>
-                        <td class="p-3 ${planDateClass} text-sm font-mono">${item.planDate || '-'}</td>
-                        <td class="p-3">${statusBadge}</td>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 border-b dark:border-gray-700 cursor-pointer" onclick="showItemDetails('${item.id}')">
+                        <td class="p-2 font-bold text-brand-600">${item.id}</td>
+                        <td class="p-2 font-medium max-w-[180px] truncate">${item.name}</td>
+                        <td class="p-2 text-gray-500">${item.brand} / ${item.model}</td>
+                        <td class="p-2 max-w-[150px] truncate">${item.vendor}</td>
+                        <td class="p-2">${item.planDate}</td>
+                        <td class="p-2">${badge}</td>
                     </tr>
                 `);
             });
         }
 
-        // ================= SHOW ITEM SINGLE DETAILS =================
+        // 8. POPUP DISPLAYING EXPANDED EQUIPMENT META DETAILS
         function showItemDetails(id) {
-            const item = equipmentData.find(d => d.id === id);
-            if(!item) return;
+            const item = equipmentData.find(i => i.id === id);
+            if (!item) return;
+            
+            let badge = `<span class="px-2 py-1 rounded bg-amber-100 text-amber-800 text-xs font-bold">รอดำเนินการ (Pending)</span>`;
+            if (item.status === 'received') badge = `<span class="px-2 py-1 rounded bg-emerald-100 text-emerald-800 text-xs font-bold">ตรวจรับสำเร็จ (Received)</span>`;
+            else if (isItemDelayed(item)) badge = `<span class="px-2 py-1 rounded bg-red-100 text-red-800 text-xs font-bold">ล่าช้ากว่ากำหนด (Delayed)</span>`;
 
-            // บันทึกค่าเก็บไว้สำหรับการสลับโหมดแก้ไข
-            document.getElementById('edit-item-id').value = item.id;
-
-            // การแสดงผลโหมด "ดูข้อมูล" (View Mode)
-            document.getElementById('det-id').innerText = item.id;
-            document.getElementById('det-name').innerText = item.name;
-            document.getElementById('det-brand').innerText = item.brand || '-';
-            document.getElementById('det-model').innerText = item.model || '-';
-            document.getElementById('det-vendor').innerText = item.vendor;
-            document.getElementById('det-planDate').innerText = item.planDate || '-';
-            document.getElementById('det-rcvDate').innerText = item.receiveDate || '-';
-            document.getElementById('det-sn').innerText = item.sn || '-';
-            document.getElementById('det-notes').innerText = item.notes || 'ไม่มีบันทึกหมายเหตุเพิ่มเติม';
-
-            const docStatus = document.getElementById('det-doc-status');
-            if(item.status === 'received') {
-                docStatus.innerHTML = item.hasDoc 
-                    ? `<span class="inline-flex items-center gap-1.5 p-1 px-2 text-xs font-semibold text-emerald-800 bg-emerald-50 rounded-lg dark:bg-emerald-950/20 dark:text-emerald-400"><i class="fa-solid fa-file-invoice-dollar"></i> เอกสารใบรับอัปโหลดแล้ว</span>` 
-                    : `<span class="inline-flex items-center gap-1.5 p-1 px-2 text-xs font-semibold text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-850 dark:text-gray-400"><i class="fa-solid fa-file-circle-xmark"></i> ไม่มีเอกสารใบรับพัสดุแนบ</span>`;
-            } else {
-                docStatus.innerHTML = `<span class="text-xs text-amber-500 italic">⏳ รอการจัดส่งมอบพัสดุเข้าระบบ</span>`;
-            }
-
-            let badgeHtml = '';
-            if(item.status === 'received') badgeHtml = `<span class="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full"><i class="fa-solid fa-check mr-1"></i> รับมอบเสร็จสิ้น</span>`;
-            else if(isItemDelayed(item)) badgeHtml = `<span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full"><i class="fa-solid fa-exclamation mr-1"></i> ล่าช้ากว่าดิวส่ง</span>`;
-            else badgeHtml = `<span class="bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full"><i class="fa-solid fa-clock mr-1"></i> รอการส่งมอบ</span>`;
-            document.getElementById('det-status-badge').innerHTML = badgeHtml;
-
-            // บังคับเปลี่ยนเป็นโหมด View ก่อนแสดงทุกครั้ง
-            disableEditMode();
-
+            const html = `
+                <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700/20 p-3 rounded-lg border">
+                    <div><span class="text-xs text-gray-400">เลขพัสดุในระบบ</span><h4 class="text-base font-bold text-brand-600">${item.id}</h4></div>
+                    <div>${badge}</div>
+                </div>
+                <div class="space-y-2 pt-2">
+                    <p><strong>ชื่อพัสดุ:</strong> ${item.name}</p>
+                    <p><strong>ยี่ห้อ / รุ่น:</strong> ${item.brand || '-'} / ${item.model || '-'}</p>
+                    <p><strong>ผู้จัดจำหน่าย:</strong> ${item.vendor}</p>
+                    <div class="grid grid-cols-2 gap-2 bg-slate-50 dark:bg-slate-900/40 p-2.5 rounded border border-dashed">
+                        <p class="text-xs"><strong>แผนส่งมอบ:</strong> ${item.planDate || '-'}</p>
+                        <p class="text-xs"><strong>วันที่รับของจริง:</strong> ${item.receiveDate || '-'}</p>
+                    </div>
+                    <p><strong>หมายเลขเครื่อง S/N:</strong> <code class="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded font-mono text-xs">${item.sn || 'ยังไม่กำหนด'}</code></p>
+                    <p><strong>เอกสารแนบ (hasDoc):</strong> ${item.hasDoc ? '✅ ครบถ้วนตามสเปก' : '❌ ไม่มีเอกสารแนบ/ยังไม่ส่งมอบ'}</p>
+                    <p class="text-gray-500 text-xs italic"><strong>บันทึกเพิ่มเติม:</strong> ${item.notes || 'ไม่มีหมายเหตุ'}</p>
+                </div>
+            `;
+            
+            document.getElementById('details-modal-content').innerHTML = html;
             document.getElementById('details-modal').classList.remove('hidden');
         }
 
-        // ================= EDIT MODE LOGICS (ส่วนเพิ่มเติมสำหรับการแก้ไขข้อมูล) =================
-        function enableEditMode() {
-            const id = document.getElementById('edit-item-id').value;
-            const item = equipmentData.find(d => d.id === id);
-            if (!item) return;
-
-            // กำหนดหัวข้อ Modal
-            document.getElementById('details-modal-title-text').innerText = `แก้ไขข้อมูลอุปกรณ์: ${item.id}`;
-
-            // นำข้อมูลปัจจุบันมาใส่ในช่อง Input ของฟอร์มแก้ไข
-            document.getElementById('edit-input-name').value = item.name;
-            document.getElementById('edit-input-brand').value = item.brand || '';
-            document.getElementById('edit-input-model').value = item.model || '';
-            document.getElementById('edit-input-vendor').value = item.vendor;
-            document.getElementById('edit-input-planDate').value = formatDataToInputDate(item.planDate);
-            document.getElementById('edit-input-status').value = item.status;
-            document.getElementById('edit-input-rcvDate').value = formatDataToInputDate(item.receiveDate);
-            document.getElementById('edit-input-sn').value = item.sn && item.sn !== '-' ? item.sn : '';
-            document.getElementById('edit-input-notes').value = item.notes || '';
-
-            toggleEditReceiveDate();
-
-            // สลับการแสดงผลหน้าอินเทอร์เฟซใน Modal
-            document.getElementById('det-view-mode').classList.add('hidden');
-            document.getElementById('det-edit-mode').classList.remove('hidden');
-        }
-
-        // DISABLE EDIT MODE
-        function disableEditMode() {
-            document.getElementById('details-modal-title-text').innerText = "ข้อมูลอุปกรณ์";
-            document.getElementById('det-view-mode').classList.remove('hidden');
-            document.getElementById('det-edit-mode').classList.add('hidden');
-        }
-
-        function toggleEditReceiveDate() {
-            const status = document.getElementById('edit-input-status').value;
-            const rcvContainer = document.getElementById('edit-rcvDate-container');
-            if (status === 'received') {
-                rcvContainer.classList.remove('opacity-40', 'pointer-events-none');
-                if(!document.getElementById('edit-input-rcvDate').value) {
-                    document.getElementById('edit-input-rcvDate').valueAsDate = new Date(); // default วันนี้หากเพิ่งเปลี่ยนสถานะสำเร็จ
+        // 9. TAB: EQUIPMENT TYPE RATIO SUMMARY
+        function renderEquipmentSummary() {
+            const selectValue = document.getElementById('search-equipment-summary').value;
+            const grid = document.getElementById('equipment-summary-grid');
+            
+            grid.innerHTML = '';
+            
+            const summaryMap = {};
+            equipmentData.forEach(item => {
+                if (!summaryMap[item.name]) {
+                    summaryMap[item.name] = { total: 0, received: 0, delayed: 0 };
                 }
-            } else {
-                rcvContainer.classList.add('opacity-40', 'pointer-events-none');
-                document.getElementById('edit-input-rcvDate').value = '';
-            }
-        }
-
-        // บันทึกค่าการแก้ไขและส่งขึ้น Google Sheet ผ่าน POST Request เรียลไทม์
-        async function saveEditedItem() {
-            const id = document.getElementById('edit-item-id').value;
-            const name = document.getElementById('edit-input-name').value.trim();
-            const brand = document.getElementById('edit-input-brand').value.trim();
-            const model = document.getElementById('edit-input-model').value.trim();
-            const vendor = document.getElementById('edit-input-vendor').value.trim();
-            const planDateRaw = document.getElementById('edit-input-planDate').value;
-            const status = document.getElementById('edit-input-status').value;
-            const rcvDateRaw = document.getElementById('edit-input-rcvDate').value;
-            const sn = document.getElementById('edit-input-sn').value.trim();
-            const notes = document.getElementById('edit-input-notes').value.trim();
-
-            if (!name || !vendor || !planDateRaw) {
-                showToast("กรุณากรอกข้อมูลในช่องที่มีเครื่องหมาย (*) ให้ครบถ้วน", "warning");
+                summaryMap[item.name].total++;
+                if (item.status === 'received') summaryMap[item.name].received++;
+                else if (isItemDelayed(item)) summaryMap[item.name].delayed++;
+            });
+            
+            let keys = Object.keys(summaryMap);
+            if(selectValue !== 'all') keys = keys.filter(k => k === selectValue);
+            
+            if(keys.length === 0) {
+                document.getElementById('no-equipment-msg').classList.remove('hidden');
                 return;
             }
-
-            const itemIndex = equipmentData.findIndex(d => d.id === id);
-            if (itemIndex > -1) {
-                const updatedPayload = {
-                    id: id,
-                    name: name,
-                    brand: brand,
-                    model: model,
-                    vendor: vendor,
-                    planDate: formatInputToDataDate(planDateRaw),
-                    status: status,
-                    receiveDate: status === 'received' ? formatInputToDataDate(rcvDateRaw) : "",
-                    sn: sn || "-",
-                    notes: notes
-                };
-
-                // อัปเดตข้อมูลบนหน้าแอปไว้ก่อนเพื่อความรวดเร็วทันใจ (Optimistic UI Update)
-                equipmentData[itemIndex] = { ...equipmentData[itemIndex], ...updatedPayload };
-                closeModal('details-modal');
-                renderDashboard();
-                renderEquipmentSummary();
-                renderCalendar();
-                renderPendingCards();
-                renderAllItemsTable();
-
-                try {
-                    showToast("กำลังบันทึกข้อมูลเรียลไทม์ไปยัง Google Sheets...", "info");
-                    
-                    const response = await fetch(API_URL, {
-                        method: "POST",
-                        mode: "no-cors", // ใช้ no-cors เนื่องจากเป็นข้อจำกัดการตอบกลับภายนอกของ Apps Script Web App
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            action: "updateItem",
-                            data: updatedPayload
-                        })
-                    });
-
-                    showToast(`แก้ไขข้อมูลพัสดุ ${id} และซิงค์ลง Google Sheet สำเร็จแล้ว`, "success");
-                } catch (error) {
-                    console.error("Save error:", error);
-                    showToast("อัปเดตบนคลาวด์ไม่สำเร็จ แต่ได้รับการบันทึกในแอปชั่วคราวแล้ว", "warning");
-                }
+            document.getElementById('no-equipment-msg').classList.add('hidden');
+            
+            keys.forEach(name => {
+                const stat = summaryMap[name];
+                const pct = Math.round((stat.received / stat.total) * 100);
                 
-                populateDropdowns(); 
-                if (!document.getElementById('dash-items-modal').classList.contains('hidden')) {
-                    filterDashModalTable();
+                grid.insertAdjacentHTML('beforeend', `
+                    <div onclick="openDashboardItemsModal('all', 'all')" class="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-100 dark:border-gray-700 shadow-xs cursor-pointer hover:shadow-md transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-gray-800 dark:text-white max-w-[75%] truncate" title="${name}">${name}</h4>
+                            <span class="text-xs bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded font-mono">${stat.received}/${stat.total}</span>
+                        </div>
+                        <div class="w-full bg-gray-100 dark:bg-gray-700 h-2 rounded-full mt-3">
+                            <div class="bg-brand-500 h-2 rounded-full" style="width: ${pct}%"></div>
+                        </div>
+                        <div class="flex justify-between text-[11px] text-gray-400 mt-2">
+                            <span>อัตราการรับมอบ: <strong>${pct}%</strong></span>
+                            ${stat.delayed > 0 ? `<span class="text-red-500 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> ช้ากว่าแผน ${stat.delayed} ชิ้น</span>` : '<span class="text-emerald-500">ปกติ</span>'}
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
+        // 10. TAB: INTERACTIVE MONTHLY PROJECT CALENDAR
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const monthYearText = document.getElementById('cal-month-year');
+            grid.innerHTML = '';
+            
+            const monthsTH = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+            monthYearText.innerText = `${monthsTH[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // สร้างบล็อกว่างช่วงต้นเดือน
+            for (let i = 0; i < firstDay; i++) {
+                grid.insertAdjacentHTML('beforeend', `<div class="bg-gray-50/50 dark:bg-gray-800/20 min-h-[85px]"></div>`);
+            }
+            
+            // เรนเดอร์ช่องตามจำนวนวันจริงในเดือน
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateString = `${day.toString().padStart(2, '0')}/${(currentMonth + 1).toString().padStart(2, '0')}/${currentYear}`;
+                
+                // สแกนจับแฮนเดิลคู่พัสดุในวันนั้นๆ
+                const dayItems = equipmentData.filter(item => {
+                    if (item.status === 'received' && item.receiveDate === dateString) return true;
+                    if (item.status === 'pending' && item.planDate === dateString) return true;
+                    return false;
+                });
+                
+                let eventsHtml = '';
+                dayItems.slice(0, 2).forEach(item => {
+                    let dotColor = 'bg-amber-400';
+                    if (item.status === 'received') dotColor = 'bg-emerald-500';
+                    else if (isItemDelayed(item)) dotColor = 'bg-red-500';
+                    
+                    eventsHtml += `
+                        <div onclick="event.stopPropagation(); showItemDetails('${item.id}')" class="text-[10px] p-0.5 mt-1 rounded bg-slate-50 dark:bg-slate-700/60 flex items-center gap-1 border border-transparent hover:border-brand-300 truncate">
+                            <span class="w-1.5 h-1.5 rounded-full ${dotColor} flex-shrink-0"></span>
+                            <span class="truncate font-medium text-gray-600 dark:text-gray-300">${item.id}</span>
+                        </div>
+                    `;
+                });
+                
+                if (dayItems.length > 2) {
+                    eventsHtml += `<div class="text-[9px] text-gray-400 font-bold mt-0.5 text-right">+อีก ${dayItems.length - 2} รายการ</div>`;
                 }
-            } else {
-                showToast("ไม่พบรหัสพัสดุดังกล่าวในฐานข้อมูล", "error");
+
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="cal-cell p-1.5 border border-gray-100 dark:border-gray-700/50 flex flex-col justify-between" onclick="quickDayAlert('${dateString}')">
+                        <span class="text-xs font-bold text-gray-400 dark:text-gray-500 text-left block">${day}</span>
+                        <div class="w-full flex-1 flex flex-col justify-end">${eventsHtml}</div>
+                    </div>
+                `);
             }
         }
 
-        // ================= TAB: RECEIVING (Pending) =================
+        function changeMonth(dir) {
+            currentMonth += dir;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        }
+
+        function quickDayAlert(dateStr) {
+            const matches = equipmentData.filter(i => i.planDate === dateStr || i.receiveDate === dateStr);
+            if(matches.length > 0) {
+                openDashboardItemsModal('all', 'all');
+            } else {
+                showToast(`วันที่ ${dateStr} ไม่มีตารางแผนจัดส่งของโครงการ`, "info");
+            }
+        }
+
+        // 11. TAB: WAITING LIST CARDS FOR STOCK-IN RECEIVING
         function renderPendingCards() {
             const grid = document.getElementById('pending-grid');
             const searchInput = document.getElementById('search-pending').value.toLowerCase();
             const pendingItems = equipmentData.filter(item => item.status === 'pending');
             
             const badge = document.getElementById('pending-badge');
-            if(pendingItems.length > 0) { badge.innerText = pendingItems.length; badge.classList.remove('hidden'); } 
-            else badge.classList.add('hidden');
-
-            const filteredItems = pendingItems.filter(item => item.name.toLowerCase().includes(searchInput) || item.id.toLowerCase().includes(searchInput) || item.vendor.toLowerCase().includes(searchInput));
-            grid.innerHTML = '';
-            
-            if (filteredItems.length === 0) document.getElementById('no-pending-msg').classList.remove('hidden');
-            else {
-                document.getElementById('no-pending-msg').classList.add('hidden');
-                filteredItems.sort((a, b) => (isItemDelayed(a) ? -1 : 1) - (isItemDelayed(b) ? -1 : 1));
-
-                filteredItems.forEach(item => {
-                    const isDelayed = isItemDelayed(item);
-                    const delayRibbon = isDelayed ? `<div class="absolute -right-8 top-3 bg-red-500 text-white text-[10px] font-bold py-1 px-8 transform rotate-45 shadow-sm">ล่าช้า</div>` : '';
-                    
-                    grid.insertAdjacentHTML('beforeend', `
-                        <div onclick="openReceiveModal('${item.id}')" class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border hover:shadow-md transition-shadow cursor-pointer group flex flex-col h-full ${isDelayed ? 'border-red-300 dark:border-red-800/50 relative overflow-hidden' : 'border-gray-200 dark:border-gray-700'}">
-                            ${delayRibbon}
-                            <div class="flex justify-between items-start mb-3 z-10">
-                                <span class="text-xs font-bold bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 rounded border border-gray-200 dark:border-gray-600">${item.id}</span>
-                            </div>
-                            <h4 class="font-bold text-gray-800 dark:text-white mb-1 group-hover:text-brand-500 transition-colors line-clamp-2">${item.name}</h4>
-                            <div class="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                                <div class="flex items-start"><i class="fa-solid fa-building w-4 mr-1 mt-0.5"></i><span class="line-clamp-1">${item.vendor}</span></div>
-                                <div class="flex items-center ${isDelayed ? 'text-red-600 dark:text-red-400 font-semibold' : ''}"><i class="fa-regular fa-calendar w-4 mr-1"></i>แผนส่ง: <span class="ml-1">${item.planDate}</span></div>
-                            </div>
-                        </div>
-                    `);
-                });
+            if (pendingItems.length > 0) {
+                badge.innerText = pendingItems.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
             }
-        }
-        document.getElementById('search-pending').addEventListener('input', renderPendingCards);
-
-        function openReceiveModal(id) {
-            const item = equipmentData.find(d => d.id === id);
-            if(!item) return;
-            document.getElementById('modal-item-id').innerText = item.id;
-            document.getElementById('modal-item-name').innerText = item.name;
-            document.getElementById('modal-item-desc').innerText = `${item.brand} ${item.model ? '- '+item.model : ''}`;
-            document.getElementById('modal-item-vendor').innerText = item.vendor;
             
-            const delayBadge = document.getElementById('modal-item-delay-badge');
-            if(isItemDelayed(item)) { delayBadge.classList.remove('hidden'); delayBadge.classList.add('inline-block'); } 
-            else { delayBadge.classList.add('hidden'); delayBadge.classList.remove('inline-block'); }
+            const filteredItems = pendingItems.filter(item => 
+                item.name.toLowerCase().includes(searchInput) || 
+                item.id.toLowerCase().includes(searchInput) || 
+                item.vendor.toLowerCase().includes(searchInput)
+            );
+            
+            grid.innerHTML = '';
+            if (filteredItems.length === 0) {
+                document.getElementById('no-pending-msg').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('no-pending-msg').classList.add('hidden');
+            
+            // เรียงลำดับรายการ ล่าช้ากว่ากำหนดให้ลอยขึ้นข้างบนเพื่อดึงสายตาคนตรวจคลัง
+            filteredItems.sort((a, b) => (isItemDelayed(b) ? 1 : 0) - (isItemDelayed(a) ? 1 : 0));
+            
+            filteredItems.forEach(item => {
+                const delayed = isItemDelayed(item);
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xs border ${delayed ? 'border-red-300 dark:border-red-900/50 bg-red-50/20' : 'border-gray-100 dark:border-gray-700'} flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold font-mono text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded">${item.id}</span>
+                                ${delayed ? '<span class="text-[10px] font-bold text-red-500 animate-pulse bg-red-100 px-1.5 py-0.5 rounded"><i class="fa-solid fa-clock"></i> เกินดิว!</span>' : '<span class="text-[10px] text-amber-600 bg-amber-50 dark:bg-amber-950/20 px-1.5 py-0.5 rounded">รอรับ</span>'}
+                            </div>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-white line-clamp-2 h-8" title="${item.name}">${item.name}</h4>
+                            <p class="text-[11px] text-gray-400 mt-1 truncate"><i class="fa-solid fa-truck-ramp-box mr-1"></i>${item.vendor}</p>
+                            <p class="text-[11px] text-gray-500 mt-0.5 ${delayed ? 'text-red-500 font-semibold' : ''}">กำหนดเดิม: ${item.planDate}</p>
+                        </div>
+                        <button onclick="openReceiveModal('${item.id}')" class="w-full mt-4 bg-brand-500 hover:bg-brand-600 text-white font-medium py-1.5 rounded-lg text-xs transition-colors shadow-xs"><i class="fa-solid fa-pen-to-square mr-1"></i>กรอกข้อมูลรับพัสดุ</button>
+                    </div>
+                `);
+            });
+        }
 
-            document.getElementById('modal-input-id').value = item.id;
-            document.getElementById('modal-input-date').valueAsDate = new Date();
-            document.getElementById('modal-input-sn').value = '';
-            document.getElementById('modal-input-notes').value = '';
-            document.getElementById('modal-input-document').value = ''; 
+        // 10. MODAL INTERACTION: ASSIGN DATA ON SUBMIT RECEIVE FORM
+        function openReceiveModal(id) {
+            const item = equipmentData.find(i => i.id === id);
+            if (!item) return;
+            
+            document.getElementById('receive-item-id').value = item.id;
+            document.getElementById('receive-display-id').value = item.id;
+            document.getElementById('receive-display-name').value = item.name;
+            document.getElementById('receive-sn').value = '';
+            document.getElementById('receive-notes').value = '';
+            document.getElementById('receive-doc').checked = true;
+            
+            // ตั้งค่า Default Date เป็นวันนี้ (พิกัด timezone ท้องถิ่น)
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('receive-date').value = `${yyyy}-${mm}-${dd}`;
             
             document.getElementById('receive-modal').classList.remove('hidden');
         }
 
-        function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
-
-        // บันทึกตรวจรับพัสดุและส่งขึ้น Google Sheet ผ่าน POST Request เรียลไทม์
-        document.getElementById('receive-form').addEventListener('submit', async function(e) {
+        async function submitReceiveForm(e) {
             e.preventDefault();
-            const btn = document.getElementById('btn-save-receive');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> กำลังบันทึก...';
-            btn.disabled = true;
-
-            const id = document.getElementById('modal-input-id').value;
-            const rcvDateObj = new Date(document.getElementById('modal-input-date').value);
-            const rcvDateStr = rcvDateObj.toLocaleDateString('en-GB'); 
-            const sn = document.getElementById('modal-input-sn').value;
-            const notes = document.getElementById('modal-input-notes').value;
-            const fileInput = document.getElementById('modal-input-document');
-
-            const itemIndex = equipmentData.findIndex(d => d.id === id);
-            if(itemIndex > -1) {
-                const receivedPayload = {
-                    id: id,
-                    status: "received",
-                    receiveDate: rcvDateStr,
-                    sn: sn || "-",
-                    notes: notes || "รับตรวจรับเรียบร้อยดี",
-                    hasDoc: fileInput.files.length > 0
-                };
-
-                // บันทึกที่ฝั่งหน้าจอก่อนทันที
-                equipmentData[itemIndex] = { ...equipmentData[itemIndex], ...receivedPayload };
-                closeModal('receive-modal');
-                renderPendingCards(); renderDashboard(); renderEquipmentSummary(); renderAllItemsTable(); renderCalendar();
-
-                try {
-                    showToast("กำลังบันทึกใบรับมอบลงคลาวด์ Google Sheets...", "info");
-                    
-                    await fetch(API_URL, {
-                        method: "POST",
-                        mode: "no-cors",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            action: "receiveItem",
-                            data: receivedPayload
-                        })
-                    });
-
-                    showToast(`บันทึกรับพัสดุรหัส ${id} เรียบร้อยและซิงค์ลง Google Sheet แล้ว`, 'success');
-                } catch (error) {
-                    console.error("Save error:", error);
-                    showToast("บันทึกข้อมูลเรียบร้อย (ทำงานในโหมดออฟไลน์)", "warning");
-                }
-            }
-
-            btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i> บันทึกข้อมูล'; 
-            btn.disabled = false;
-        });
-
-        function showToast(message, type = "success") {
-            const toast = document.getElementById('toast-message');
-            const iconBg = document.getElementById('toast-icon-bg');
-            const icon = document.getElementById('toast-icon');
-            document.getElementById('toast-text').innerText = message;
             
-            if(type === "warning") { iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 text-amber-500"; icon.className = "fa-solid fa-exclamation text-sm"; } 
-            else if (type === "error") { iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-red-500/20 text-red-500"; icon.className = "fa-solid fa-xmark text-sm"; } 
-            else if (type === "info") { iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-500"; icon.className = "fa-solid fa-info text-sm"; }
-            else { iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-500"; icon.className = "fa-solid fa-check text-sm"; }
-
-            toast.classList.remove('opacity-0', 'translate-y-[-1rem]', 'pointer-events-none');
-            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-[-1rem]', 'pointer-events-none'), 3500);
+            const id = document.getElementById('receive-item-id').value;
+            const sn = document.getElementById('receive-sn').value.trim();
+            const rDateRaw = document.getElementById('receive-date').value; 
+            const notes = document.getElementById('receive-notes').value.trim();
+            const hasDoc = document.getElementById('receive-doc').checked;
+            
+            if(!sn) { showToast("กรุณาระบุ Serial Number อุปกรณ์", "warning"); return; }
+            
+            // จัดแพลตฟอร์มฟอร์แมตวันที่ให้เป็น DD/MM/YYYY ลงฐานข้อมูล
+            const dParts = rDateRaw.split('-');
+            const formattedDate = dParts.length === 3 ? `${dParts[2]}/${dParts[1]}/${dParts[0]}` : rDateRaw;
+            
+            const payload = {
+                action: "receiveItem",
+                data: {
+                    id: id,
+                    sn: sn,
+                    receiveDate: formattedDate,
+                    notes: notes,
+                    hasDoc: hasDoc,
+                    status: "received" // ส่งเป็นตัวพิมพ์เล็กเข้าสเปกหลังบ้าน
+                }
+            };
+            
+            document.getElementById('receive-modal').classList.add('hidden');
+            showLoading(true);
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const res = await response.json();
+                if(res.status === "success") {
+                    showToast(`บันทึกรับของรหัส ${id} สำเร็จ!`, "success");
+                    // รีโหลดดึงข้อมูลใหม่จากชีทโดยอัตโนมัติ
+                    await fetchData();
+                    switchTab('receiving');
+                } else {
+                    throw new Error(res.message || "เกิดข้อผิดพลาดในการบันทึกข้อมูลลงฐานข้อมูล");
+                }
+            } catch (error) {
+                console.error("Submit error:", error);
+                showToast(error.message, "error");
+                
+                // Local Fallback เผื่อใช้เทส Offline
+                const localItem = equipmentData.find(i => i.id === id);
+                if(localItem) {
+                    localItem.status = "received";
+                    localItem.sn = sn;
+                    localItem.receiveDate = formattedDate;
+                    localItem.notes = notes;
+                    localItem.hasDoc = hasDoc;
+                    showToast("อัปเดตข้อมูลแบบ Local สำเร็จ (ยังไม่ได้บันทึกลง Google Sheets)", "warning");
+                    renderPendingCards();
+                }
+            } finally {
+                showLoading(false);
+            }
         }
 
-        const thaiMonths = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+        // 12. TAB: RENDER DATA TABLE (ALL EQUIPMENT ITEMS)
+        function renderAllItemsTable() {
+            const nameFilter = document.getElementById('filter-name').value;
+            const statusFilter = document.getElementById('filter-status').value;
+            const vendorFilter = document.getElementById('filter-vendor').value;
+            const tbody = document.getElementById('all-items-tbody');
+            
+            if(!tbody) return;
+            
+            const filtered = equipmentData.filter(item => {
+                const matchName = nameFilter === 'all' || item.name === nameFilter;
+                const matchVendor = vendorFilter === 'all' || item.vendor === vendorFilter;
+                
+                let matchStatus = true;
+                if(statusFilter === 'received') matchStatus = item.status === 'received';
+                if(statusFilter === 'pending') matchStatus = item.status === 'pending' && !isItemDelayed(item);
+                if(statusFilter === 'delayed') matchStatus = isItemDelayed(item);
+                
+                return matchName && matchVendor && matchStatus;
+            });
+            
+            tbody.innerHTML = '';
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-8 text-center text-gray-400">ไม่พบข้อมูลอุปกรณ์ตามเงื่อนไขตัวกรอง</td></tr>`;
+                return;
+            }
+            
+            filtered.forEach(item => {
+                let badge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"><i class="fa-solid fa-clock mr-1"></i> รอรับ</span>`;
+                if(item.status === 'received') badge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"><i class="fa-solid fa-check mr-1"></i> สำเร็จ</span>`;
+                else if(isItemDelayed(item)) badge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"><i class="fa-solid fa-exclamation-circle mr-1"></i> ล่าช้า</span>`;
+                
+                tbody.insertAdjacentHTML('beforeend', `
+                    <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-700/30 border-b dark:border-gray-700">
+                        <td class="px-4 py-3 font-bold text-gray-900 dark:text-white">${item.id}</td>
+                        <td class="px-4 py-3 font-medium max-w-[200px] truncate" title="${item.name}">${item.name}</td>
+                        <td class="px-4 py-3 text-gray-500 max-w-[150px] truncate">${item.vendor}</td>
+                        <td class="px-4 py-3 text-xs">${item.planDate || '-'}</td>
+                        <td class="px-4 py-3 text-xs">${item.receiveDate || '-'}</td>
+                        <td class="px-4 py-3">${badge}</td>
+                        <td class="px-4 py-3 text-center">
+                            <button onclick="showItemDetails('${item.id}')" class="text-brand-500 hover:text-brand-600 dark:hover:text-brand-400 px-2 py-1 text-xs font-semibold"><i class="fa-solid fa-eye"></i> เรียกดู</button>
+                        </td>
+                    </tr>
+                `);
+            });
+        }
 
-        window.onload = function() {
-            // ดึงข้อมูลจริงจากคลาวด์เมื่อเปิดหน้าแรก
-            fetchEquipmentData();
-        };
+        // 13. TOAST CENTRAL ALERTS & LOADING ENGINE
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toast-alert');
+            const iconBg = document.getElementById('toast-icon-bg');
+            const icon = document.getElementById('toast-icon');
+            
+            document.getElementById('toast-text').innerText = message;
+            
+            if(type === "warning") { 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 text-amber-500 dark:bg-amber-900/30"; 
+                icon.className = "fa-solid fa-exclamation text-sm"; 
+            } else if (type === "error") { 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-red-100 text-red-500 dark:bg-red-900/30"; 
+                icon.className = "fa-solid fa-xmark text-sm"; 
+            } else if (type === "info") { 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-500 dark:bg-blue-900/30"; 
+                icon.className = "fa-solid fa-info text-sm"; 
+            } else { 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-500 dark:bg-emerald-900/30"; 
+                icon.className = "fa-solid fa-check text-sm"; 
+            }
+
+            toast.classList.remove('opacity-0', 'translate-y-[-1rem]', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-1rem]', 'pointer-events-none');
+            }, 4500);
+        }
+
+        function showLoading(show) {
+            const spinner = document.getElementById('loading-spinner');
+            if (show) spinner.classList.remove('hidden');
+            else spinner.classList.add('hidden');
+        }
+
+        // 14. DARK / LIGHT SYSTEM THEME CONTROLLER
+        function initThemeToggle() {
+            const toggleBtn = document.getElementById('theme-toggle');
+            const toggleBtnMobile = document.getElementById('theme-toggle-mobile');
+            
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+            const darkIconMobile = document.getElementById('theme-toggle-dark-icon-mobile');
+            const lightIconMobile = document.getElementById('theme-toggle-light-icon-mobile');
+            
+            function updateIcons() {
+                const isDark = document.documentElement.classList.contains('dark');
+                if(isDark) {
+                    if(darkIcon) darkIcon.classList.add('hidden');
+                    if(lightIcon) lightIcon.classList.remove('hidden');
+                    if(darkIconMobile) darkIconMobile.classList.add('hidden');
+                    if(lightIconMobile) lightIconMobile.classList.remove('hidden');
+                } else {
+                    if(darkIcon) darkIcon.classList.remove('hidden');
+                    if(lightIcon) lightIcon.classList.add('hidden');
+                    if(darkIconMobile) darkIconMobile.classList.remove('hidden');
+                    if(lightIconMobile) lightIconMobile.classList.add('hidden');
+                }
+            }
+            
+            updateIcons();
+            
+            const handleToggle = () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    localStorage.setItem('color-theme', 'light');
+                }
+                updateIcons();
+                // รีเรนเดอร์ชาร์ตสีให้แมตช์ตามธีมใหม่
+                renderDashboard();
+            };
+            
+            if(toggleBtn) toggleBtn.addEventListener('click', handleToggle);
+            if(toggleBtnMobile) toggleBtnMobile.addEventListener('click', handleToggle);
+        }
     </script>
 </body>
 </html>
