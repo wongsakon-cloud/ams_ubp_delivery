@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="th" class="h-full antialiased">
 <head>
     <meta charset="UTF-8">
@@ -479,7 +479,7 @@
             <!-- Header modal -->
             <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-5 flex justify-between items-center text-white flex-shrink-0">
                 <h3 class="font-extrabold text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i> บันทึกข้อมูลตรวจรับพัสดุ</h3>
-                <button onclick="closeModal('receive-modal')" class="text-white/80 hover:text-white hover:scale-110 transition-all"><i class="fa-solid fa-times text-xl"></i></button>
+                <button type="button" onclick="closeModal('receive-modal')" class="text-white/80 hover:text-white hover:scale-110 transition-all"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
             <!-- Body -->
@@ -544,7 +544,7 @@
         <div class="relative bg-white dark:bg-slate-800 w-full max-w-4xl sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[90vh] fade-in">
             <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-4 flex justify-between items-center text-white flex-shrink-0">
                 <h3 class="font-extrabold text-base md:text-lg flex items-center"><i class="fa-solid fa-list mr-2"></i> <span id="dash-modal-title">รายการอุปกรณ์ที่ค้นหา</span></h3>
-                <button onclick="closeModal('dash-items-modal')" class="text-white/80 hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
+                <button type="button" onclick="closeModal('dash-items-modal')" class="text-white/80 hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
             <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-750 grid grid-cols-1 sm:grid-cols-3 gap-3 flex-shrink-0">
@@ -605,7 +605,7 @@
                     <i class="fa-solid fa-circle-info mr-2 text-brand-500"></i> 
                     <span id="det-title-text">รายละเอียดพัสดุครุภัณฑ์</span>
                 </h3>
-                <button onclick="closeModal('details-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
+                <button type="button" onclick="closeModal('details-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
             <div class="p-5 sm:p-6 overflow-y-auto flex-1">
@@ -723,7 +723,7 @@
         <div class="relative bg-white dark:bg-slate-800 w-full max-w-md sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in flex flex-col max-h-[90vh]">
             <div class="bg-slate-100 dark:bg-slate-900/60 px-6 py-4 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700 flex-shrink-0">
                 <h3 class="text-slate-800 dark:text-white font-extrabold" id="cal-day-title">รายการวันที่ --/--/----</h3>
-                <button onclick="closeModal('cal-day-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-times text-lg"></i></button>
+                <button type="button" onclick="closeModal('cal-day-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-times text-lg"></i></button>
             </div>
             <div class="p-0 overflow-y-auto flex-1 custom-scrollbar" id="cal-day-list"></div>
         </div>
@@ -745,6 +745,16 @@
 
         const today = new Date();
         today.setHours(0,0,0,0);
+
+        // ================= File Utility for Apps Script =================
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]); // Only keep Base64 encoding part
+                reader.onerror = error => reject(error);
+            });
+        }
 
         function updateUploadStatus(input, textId) {
             const label = document.getElementById(textId);
@@ -1611,7 +1621,7 @@
             
             const docStatus = document.getElementById('det-doc-status');
             if(item.status === 'received') {
-                const baseDocText = item.hasDoc ? `อัปโหลดไฟล์เรียบร้อย` : `ไม่มีไฟล์เอกสารแนบ`;
+                const baseDocText = item.hasDoc ? `อัปโหลดไฟล์รูปภาพแนบสำเร็จ` : `ไม่มีไฟล์เอกสารแนบ`;
                 
                 docStatus.innerHTML = `
                     <div class="space-y-2 mt-1">
@@ -1665,13 +1675,24 @@
             const notes = document.getElementById('det-edit-notes-input').value.trim();
             const fileInput = document.getElementById('det-edit-file-input');
 
+            // Encode Image file into Base64 to transmit to Apps Script
+            let fileBase64 = "";
+            let fileName = "";
+            if (fileInput.files && fileInput.files.length > 0) {
+                fileBase64 = await getBase64(fileInput.files[0]);
+                fileName = fileInput.files[0].name;
+            }
+
+            // Force strict casting to strings to prevent Apps Script .toString() errors
             const updatePayload = {
-                id: id,
-                status: status,
-                receiveDate: rcvDateStr,
-                sn: sn || "-",
-                notes: notes || "แก้ไขข้อมูลพัสดุเรียบร้อย",
-                docUrl: "" // Removed drive link input requirement
+                id: String(id || ""),
+                status: String(status || ""),
+                receiveDate: String(rcvDateStr || ""),
+                sn: String(sn || "-"),
+                notes: String(notes || "แก้ไขข้อมูลพัสดุเรียบร้อย"),
+                docUrl: String(fileName || ""), // fallback parameter backward compatibility
+                fileBase64: String(fileBase64 || ""), // Pass Image File encoding directly
+                fileName: String(fileName || "")
             };
 
             try {
@@ -1822,13 +1843,24 @@
             const notes = document.getElementById('modal-input-notes').value.trim();
             const fileInput = document.getElementById('modal-input-document');
             
+            // Encode Image file into Base64 to transmit to Apps Script
+            let fileBase64 = "";
+            let fileName = "";
+            if (fileInput.files && fileInput.files.length > 0) {
+                fileBase64 = await getBase64(fileInput.files[0]);
+                fileName = fileInput.files[0].name;
+            }
+
+            // Force strict casting to strings to prevent Apps Script .toString() errors
             const updatePayload = {
-                id: id,
-                status: 'received',
-                receiveDate: rcvDateStr,
-                sn: sn || "-",
-                notes: notes || "ตรวจมอบสภาพเรียบร้อยดี",
-                docUrl: ""
+                id: String(id || ""),
+                status: "received",
+                receiveDate: String(rcvDateStr || ""),
+                sn: String(sn || "-"),
+                notes: String(notes || "ตรวจมอบสภาพเรียบร้อยดี"),
+                docUrl: String(fileName || ""), // fallback parameter backward compatibility
+                fileBase64: String(fileBase64 || ""), // Pass Image File encoding directly
+                fileName: String(fileName || "")
             };
             
             try {
