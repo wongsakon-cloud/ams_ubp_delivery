@@ -1871,7 +1871,7 @@
                     });
                     const resJson = await response.json();
                     if (resJson.status !== 'success') throw new Error(resJson.message);
-                    showToast(`ตรวจรับครุภัณฑ์ ${id} ลงใน Sheets สำเร็จ!`, 'success');
+                    showToast(`ตรวจรับครุภัณฑ์ ${id} ลงในระบบสำเร็จ!`, 'success');
                 } else {
                     showToast(`บันทึกตรวจรับ ${id} สำเร็จ! (โหมด Local)`, 'success');
                 }
