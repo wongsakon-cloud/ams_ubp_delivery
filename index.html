@@ -38,9 +38,9 @@
                         }
                     },
                     boxShadow: {
-                        'premium': '0 10px 30px -5px rgba(0, 0, 0, 0.03), 0 1px 3px -1px rgba(0, 0, 0, 0.02)',
-                        'premium-dark': '0 10px 30px -5px rgba(0, 0, 0, 0.2), 0 1px 3px -1px rgba(0, 0, 0, 0.1)',
-                        'glow': '0 0 15px rgba(20, 184, 166, 0.3)'
+                        'premium': '0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.05)',
+                        'premium-dark': '0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 1px 3px -1px rgba(0, 0, 0, 0.2)',
+                        'glow': '0 0 15px rgba(20, 184, 166, 0.4)'
                     }
                 }
             }
@@ -55,27 +55,27 @@
     </script>
     
     <style>
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
         
-        .fade-in { animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(8px); filter: blur(2px); } 
+            from { opacity: 0; transform: translateY(12px); filter: blur(4px); } 
             to { opacity: 1; transform: translateY(0); filter: blur(0); } 
         }
         
-        .cal-grid-modern { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; padding: 12px; }
-        @media (max-width: 640px) { .cal-grid-modern { gap: 5px; padding: 6px; } }
-        .cal-cell-modern { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; padding: 2px; }
-        .cal-cell-modern:hover { background-color: #f1f5f9; transform: scale(1.05); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .cal-grid-modern { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; padding: 14px; }
+        @media (max-width: 640px) { .cal-grid-modern { gap: 6px; padding: 8px; } }
+        .cal-cell-modern { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 9999px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; padding: 4px; }
+        .cal-cell-modern:hover { background-color: #f1f5f9; transform: scale(1.08); z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .dark .cal-cell-modern:hover { background-color: #334155; }
         
-        .pulse-glow { animation: pulseGlow 2.5s infinite; }
+        .pulse-glow { animation: pulseGlow 2s infinite; }
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 5px rgba(20, 184, 166, 0.15); }
-            50% { box-shadow: 0 0 15px rgba(20, 184, 166, 0.45); }
+            0%, 100% { box-shadow: 0 0 5px rgba(20, 184, 166, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(20, 184, 166, 0.6); }
         }
     </style>
 </head>
@@ -83,13 +83,13 @@
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 h-screen flex flex-col md:flex-row overflow-hidden transition-colors duration-300">
 
     <!-- ================= SIDE NAVIGATION ================= -->
-    <nav class="bg-white/90 dark:bg-slate-800/95 backdrop-blur-md border-b md:border-b-0 md:border-r border-slate-200/80 dark:border-slate-700/80 w-full md:w-64 flex-shrink-0 flex md:flex-col justify-between md:justify-start z-40 fixed md:relative bottom-0 md:bottom-auto h-16 md:h-screen transition-all duration-300 shadow-sm">
+    <nav class="bg-white/80 dark:bg-slate-800/95 backdrop-blur-md border-b md:border-b-0 md:border-r border-slate-200/80 dark:border-slate-700/80 w-full md:w-64 flex-shrink-0 flex md:flex-col justify-between md:justify-start z-40 fixed md:relative bottom-0 md:bottom-auto h-16 md:h-screen transition-all duration-300 shadow-md">
         
         <!-- App Brand Header (Desktop Only) -->
         <div class="hidden md:flex items-center justify-center h-20 border-b border-slate-200/50 dark:border-slate-700/50 px-6">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center shadow-lg shadow-brand-500/10 pulse-glow">
-                    <i class="fa-solid fa-satellite-dish text-white text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center shadow-lg shadow-brand-500/20 pulse-glow">
+                    <i class="fa-solid fa-satellite-dish text-white text-xl"></i>
                 </div>
                 <div class="flex flex-col">
                     <span class="font-bold text-lg tracking-tight text-slate-800 dark:text-white">AMS UBP</span>
@@ -99,208 +99,218 @@
         </div>
         
         <!-- Nav Menu Items -->
-        <div class="flex md:flex-col w-full md:w-auto overflow-x-auto md:overflow-visible py-1 px-2 md:py-6 md:px-3 gap-1 md:gap-1.5">
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-2 md:px-5 py-2 md:py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
-                <i class="fa-solid fa-chart-pie md:mr-3 text-lg md:text-base mb-1 md:mb-0"></i>
+        <div class="flex md:flex-col w-full md:w-auto overflow-x-auto md:overflow-visible py-1.5 md:py-6 px-2 md:px-3 gap-1 md:gap-1.5">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-3 md:px-5 py-2 md:py-3.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
+                <i class="fa-solid fa-chart-pie md:mr-3.5 text-lg md:text-base mb-1 md:mb-0 transition-transform group-hover:scale-110"></i>
                 <span>แดชบอร์ด</span>
             </button>
             
-            <button onclick="switchTab('equipment-summary')" id="nav-equipment-summary" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-2 md:px-5 py-2 md:py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
-                <i class="fa-solid fa-tags md:mr-3 text-lg md:text-base mb-1 md:mb-0"></i>
-                <span>หมวดหมู่พัสดุ</span>
+            <button onclick="switchTab('equipment-summary')" id="nav-equipment-summary" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-3 md:px-5 py-2 md:py-3.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
+                <i class="fa-solid fa-tags md:mr-3.5 text-lg md:text-base mb-1 md:mb-0"></i>
+                <span>หมวดหมู่อุปกรณ์</span>
             </button>
             
-            <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-2 md:px-5 py-2 md:py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
-                <i class="fa-solid fa-calendar-days md:mr-3 text-lg md:text-base mb-1 md:mb-0"></i>
+            <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-3 md:px-5 py-2 md:py-3.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
+                <i class="fa-solid fa-calendar-days md:mr-3.5 text-lg md:text-base mb-1 md:mb-0"></i>
                 <span>ปฏิทินส่งมอบ</span>
             </button>
             
-            <button onclick="switchTab('receiving')" id="nav-receiving" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-2 md:px-5 py-2 md:py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium relative">
-                <i class="fa-solid fa-truck-ramp-box md:mr-3 text-lg md:text-base mb-1 md:mb-0"></i>
+            <button onclick="switchTab('receiving')" id="nav-receiving" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-3 md:px-5 py-2 md:py-3.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium relative">
+                <i class="fa-solid fa-truck-ramp-box md:mr-3.5 text-lg md:text-base mb-1 md:mb-0"></i>
                 <span class="relative">
                     ตรวจรับพัสดุ
-                    <span id="pending-badge" class="absolute -top-3 -right-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full shadow-sm animate-bounce hidden">0</span>
+                    <span id="pending-badge" class="absolute -top-3.5 -right-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shadow-md animate-bounce hidden">0</span>
                 </span>
             </button>
             
-            <button onclick="switchTab('all-items')" id="nav-all-items" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-2 md:px-5 py-2 md:py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
-                <i class="fa-solid fa-cubes md:mr-3 text-lg md:text-base mb-1 md:mb-0"></i>
+            <button onclick="switchTab('all-items')" id="nav-all-items" class="nav-btn flex-1 md:flex-none flex md:inline-flex flex-col md:flex-row items-center justify-center md:justify-start px-3 md:px-5 py-2 md:py-3.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 hover:bg-slate-100/60 dark:hover:bg-slate-700/40 transition-all text-xs md:text-sm font-medium">
+                <i class="fa-solid fa-cubes md:mr-3.5 text-lg md:text-base mb-1 md:mb-0"></i>
                 <span>ครุภัณฑ์ทั้งหมด</span>
             </button>
         </div>
         
         <!-- Theme Mode Toggle Button -->
         <div class="hidden md:flex mt-auto p-5 border-t border-slate-200/50 dark:border-slate-700/50">
-            <button id="theme-toggle" class="flex items-center w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-brand-500 hover:text-white dark:hover:bg-brand-600 transition-all duration-300 shadow-inner">
+            <button id="theme-toggle" class="flex items-center w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-brand-500 hover:text-white dark:hover:bg-brand-600 transition-all duration-300 shadow-inner">
                 <i id="theme-toggle-dark-icon" class="fa-solid fa-moon mr-3 text-lg hidden"></i>
                 <i id="theme-toggle-light-icon" class="fa-solid fa-sun mr-3 text-lg hidden"></i>
-                <span class="font-medium text-xs" id="theme-toggle-text">สลับโหมดหน้าจอ</span>
+                <span class="font-medium text-sm" id="theme-toggle-text">สลับโหมดหน้าจอ</span>
             </button>
         </div>
     </nav>
 
     <!-- Main Content Area -->
-    <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-20 md:pb-8">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
         
         <!-- Mobile Header -->
-        <div class="md:hidden flex justify-between items-center mb-4 bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+        <div class="md:hidden flex justify-between items-center mb-6 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
             <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center shadow-md">
-                    <i class="fa-solid fa-satellite-dish text-white text-xs"></i>
+                    <i class="fa-solid fa-satellite-dish text-white text-sm"></i>
                 </div>
-                <span class="font-bold text-sm text-slate-800 dark:text-white">AMS UBP PRO</span>
+                <span class="font-bold text-md text-slate-800 dark:text-white">AMS UBP PRO</span>
             </div>
             <button id="theme-toggle-mobile" class="text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
-                <i id="theme-toggle-dark-icon-mobile" class="fa-solid fa-moon hidden text-md"></i>
-                <i id="theme-toggle-light-icon-mobile" class="fa-solid fa-sun hidden text-md"></i>
+                <i id="theme-toggle-dark-icon-mobile" class="fa-solid fa-moon hidden text-lg"></i>
+                <i id="theme-toggle-light-icon-mobile" class="fa-solid fa-sun hidden text-lg"></i>
             </button>
         </div>
 
         <!-- ================= TAB: DASHBOARD ================= -->
         <section id="tab-dashboard" class="tab-content fade-in">
             <!-- Section Header -->
-            <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 border-b pb-4 dark:border-slate-800 gap-4">
+            <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 border-b pb-5 dark:border-slate-800 gap-4">
                 <div>
-                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white flex flex-wrap items-center gap-2.5">
-                        <span>ภาพรวมและการตรวจรับสัญญา UBP</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white flex flex-wrap items-center gap-3">
+                        <span>ภาพรวมโครงการ & แดชบอร์ดตรวจสอบ</span>
                         <!-- API Badge Status -->
-                        <span id="api-status-badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                            <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
-                            <span>กำลังเชื่อมต่อฐานข้อมูล...</span>
+                        <span id="api-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-400 animate-pulse"></span>
+                            <span>กำลังตรวจสอบสัญญากับคลัง...</span>
                         </span>
                     </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">วิเคราะห์ข้อมูลความคืบหน้า รายงานตรวจสอบอุปกรณ์ และสัญญาส่งมอบพัสดุ</p>
+                    <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1.5">วิเคราะห์ข้อมูลความคืบหน้า รายงานตรวจสอบอุปกรณ์ และกำหนดวันส่งมอบในสัญญาจัดหา</p>
                 </div>
                 
-                <div class="w-full xl:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                    <div class="flex items-center gap-2 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl shadow-sm border border-slate-200/60 dark:border-slate-700/60">
-                        <span class="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap"><i class="fa-solid fa-building mr-1.5 text-brand-500"></i>คู่ค้าหลัก:</span>
-                        <select id="dash-filter-vendor" onchange="renderDashboard()" class="bg-transparent text-slate-800 dark:text-white text-xs font-bold outline-none border-none pr-4 cursor-pointer">
-                            <option value="all">ทุกบริษัทคู่ค้า</option>
+                <div class="w-full xl:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+                    <div class="flex items-center gap-2 bg-white dark:bg-slate-800 px-3.5 py-1.5 rounded-xl shadow-sm border border-slate-200/60 dark:border-slate-700/60">
+                        <span class="text-xs md:text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"><i class="fa-solid fa-building mr-1.5 text-brand-500"></i>เลือกคู่ค้า:</span>
+                        <select id="dash-filter-vendor" onchange="renderDashboard()" class="bg-transparent text-slate-800 dark:text-white text-xs md:text-sm font-semibold outline-none border-none pr-6 cursor-pointer">
+                            <option value="all">ทุกบริษัท/ผู้จัดจำหน่าย</option>
                         </select>
                     </div>
                 </div>
             </div>
 
             <!-- Smart Quick Tags -->
-            <div class="flex flex-wrap gap-1.5 mb-5 items-center bg-slate-100/50 dark:bg-slate-800/40 p-2.5 rounded-xl" id="quick-filter-container">
-                <span class="text-xs font-bold text-slate-500 dark:text-slate-400 mr-2"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i>คัดกรองด่วน:</span>
+            <div class="flex flex-wrap gap-2 mb-6 items-center bg-slate-100/50 dark:bg-slate-800/40 p-3 rounded-2xl" id="quick-filter-container">
+                <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mr-2"><i class="fa-solid fa-bolt text-amber-500 mr-1.5"></i>คู่ค้าหลัก:</span>
             </div>
 
             <!-- Delay Alerts Notification -->
-            <div id="dash-alert-delayed" class="hidden mb-5 bg-gradient-to-r from-red-500/10 to-amber-500/10 dark:from-red-950/30 dark:to-amber-950/20 border-l-4 border-red-500 p-4 rounded-r-xl flex items-center border border-slate-200/10 dark:border-slate-700/10 transition-all duration-300">
-                <div class="p-1.5 bg-red-500 text-white rounded-lg mr-3 animate-pulse"><i class="fa-solid fa-triangle-exclamation text-md"></i></div>
+            <div id="dash-alert-delayed" class="hidden mb-6 bg-gradient-to-r from-red-500/10 to-amber-500/10 dark:from-red-950/40 dark:to-amber-950/30 border-l-4 border-red-500 p-4.5 rounded-r-2xl flex items-start md:items-center shadow-md border border-slate-200/20 dark:border-slate-700/20 transition-all duration-300">
+                <div class="p-2 bg-red-500 text-white rounded-lg mr-4 animate-pulse"><i class="fa-solid fa-triangle-exclamation text-lg"></i></div>
                 <div class="flex-1">
-                    <h4 class="text-red-800 dark:text-red-400 font-extrabold text-xs">พัสดุและวัสดุส่งช้ากว่าแผนสัญญา</h4>
-                    <p id="dash-alert-text" class="text-red-600 dark:text-red-300 text-xs mt-0.5 font-medium"></p>
+                    <h4 class="text-red-800 dark:text-red-400 font-extrabold text-sm md:text-base">ตรวจพบพัสดุและวัสดุอุปกรณ์จัดส่งล่าช้ากว่าที่สัญญาไว้</h4>
+                    <p id="dash-alert-text" class="text-red-600 dark:text-red-300 text-xs md:text-sm mt-0.5 font-medium"></p>
                 </div>
             </div>
             
-            <!-- Cards Statistics Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+            <!-- Cards Statistics Grid (Optimized for Mobile/iPad to avoid text overflows) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 md:gap-5 mb-8">
                 <!-- Stat: Total -->
-                <div onclick="openDashboardItemsModal('all')" class="cursor-pointer hover:scale-[1.02] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 rounded-xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group">
-                    <div class="absolute right-[-10px] top-[-10px] opacity-[0.03] dark:opacity-[0.05] text-slate-900 dark:text-white"><i class="fa-solid fa-boxes-stacked text-6xl"></i></div>
-                    <div>
-                        <span class="text-slate-500 dark:text-slate-400 text-xs font-bold block truncate">อุปกรณ์ในสัญญา</span>
-                        <div id="stat-total" class="text-2xl font-black text-slate-800 dark:text-white mt-1">0</div>
+                <div onclick="openDashboardItemsModal('all')" class="cursor-pointer hover:scale-[1.03] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 md:p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group min-w-0">
+                    <div class="absolute right-[-15px] top-[-15px] opacity-[0.03] dark:opacity-[0.05] text-slate-900 dark:text-white transition-transform group-hover:scale-110 group-hover:rotate-12 duration-500"><i class="fa-solid fa-boxes-stacked text-7xl md:text-8xl"></i></div>
+                    <div class="min-w-0">
+                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold block truncate">อุปกรณ์ตามสัญญา</span>
+                        <div id="stat-total" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white mt-1.5 md:mt-2 truncate">0</div>
                     </div>
-                    <span class="text-[10px] text-slate-400 mt-2 block truncate"><i class="fa-solid fa-circle-info mr-1"></i>จำนวนยอดรวมทั้งหมด</span>
+                    <span class="text-[10px] text-slate-400 mt-2.5 md:mt-3 font-bold block truncate"><i class="fa-solid fa-circle-info mr-1"></i>ยอดสรุปทั้งหมด</span>
                 </div>
                 <!-- Stat: Received -->
-                <div onclick="openDashboardItemsModal('received')" class="cursor-pointer hover:scale-[1.02] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 rounded-xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group">
-                    <div class="absolute right-[-10px] top-[-10px] opacity-[0.04] text-emerald-500"><i class="fa-solid fa-circle-check text-6xl"></i></div>
-                    <div>
-                        <span class="text-slate-500 dark:text-slate-400 text-xs font-bold block truncate">ตรวจรับเรียบร้อย</span>
-                        <div id="stat-received" class="text-2xl font-black text-emerald-500 mt-1">0</div>
+                <div onclick="openDashboardItemsModal('received')" class="cursor-pointer hover:scale-[1.03] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 md:p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group min-w-0">
+                    <div class="absolute right-[-15px] top-[-15px] opacity-[0.05] text-emerald-500 transition-transform group-hover:scale-110 duration-500"><i class="fa-solid fa-circle-check text-7xl md:text-8xl"></i></div>
+                    <div class="min-w-0">
+                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold block truncate">ตรวจรับสำเร็จ</span>
+                        <div id="stat-received" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-emerald-500 mt-1.5 md:mt-2 truncate">0</div>
                     </div>
-                    <span class="text-[10px] text-emerald-500/80 mt-2 font-bold block truncate"><i class="fa-solid fa-circle-check mr-1"></i>ส่งเข้าคลังสำเร็จ</span>
+                    <span class="text-[10px] text-emerald-500/80 mt-2.5 md:mt-3 font-extrabold block truncate"><i class="fa-solid fa-circle-check mr-1"></i>ดำเนินการครบถ้วน</span>
                 </div>
                 <!-- Stat: Pending -->
-                <div onclick="openDashboardItemsModal('pending')" class="cursor-pointer hover:scale-[1.02] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 rounded-xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group">
-                    <div class="absolute right-[-10px] top-[-10px] opacity-[0.04] text-amber-500"><i class="fa-solid fa-clock text-6xl"></i></div>
-                    <div>
-                        <span class="text-slate-500 dark:text-slate-400 text-xs font-bold block truncate">รอดำเนินการ</span>
-                        <div id="stat-pending" class="text-2xl font-black text-amber-500 mt-1">0</div>
+                <div onclick="openDashboardItemsModal('pending')" class="cursor-pointer hover:scale-[1.03] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 md:p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group min-w-0">
+                    <div class="absolute right-[-15px] top-[-15px] opacity-[0.05] text-amber-500 transition-transform group-hover:scale-110 duration-500"><i class="fa-solid fa-clock text-7xl md:text-8xl"></i></div>
+                    <div class="min-w-0">
+                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold block truncate">รอดำเนินการ</span>
+                        <div id="stat-pending" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-amber-500 mt-1.5 md:mt-2 truncate">0</div>
                     </div>
-                    <span class="text-[10px] text-amber-500/80 mt-2 font-bold block truncate"><i class="fa-solid fa-hourglass-start mr-1"></i>รอคู่ค้าส่งมอบ</span>
+                    <span class="text-[10px] text-amber-500/80 mt-2.5 md:mt-3 font-extrabold block truncate"><i class="fa-solid fa-hourglass-start mr-1"></i>รอคู่ค้าส่งเข้าคลัง</span>
                 </div>
                 <!-- Stat: Delayed -->
-                <div onclick="openDashboardItemsModal('delayed')" class="cursor-pointer hover:scale-[1.02] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 rounded-xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group">
-                    <div class="absolute right-[-10px] top-[-10px] opacity-[0.04] text-red-500"><i class="fa-solid fa-circle-exclamation text-6xl"></i></div>
-                    <div>
-                        <span class="text-slate-500 dark:text-slate-400 text-xs font-bold block truncate">ส่งล่าช้ากว่าดิว</span>
-                        <div id="stat-delayed" class="text-2xl font-black text-red-500 mt-1">0</div>
+                <div onclick="openDashboardItemsModal('delayed')" class="cursor-pointer hover:scale-[1.03] active:scale-[0.98] bg-white dark:bg-slate-800 p-4 md:p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden transition-all group min-w-0">
+                    <div class="absolute right-[-15px] top-[-15px] opacity-[0.05] text-red-500 transition-transform group-hover:scale-110 duration-500"><i class="fa-solid fa-circle-exclamation text-7xl md:text-8xl"></i></div>
+                    <div class="min-w-0">
+                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold block truncate">ส่งล่าช้ากว่ากำหนด</span>
+                        <div id="stat-delayed" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-red-500 mt-1.5 md:mt-2 truncate">0</div>
                     </div>
-                    <span class="text-[10px] text-red-500 font-bold mt-2 block truncate"><i class="fa-solid fa-clock-rotate-left mr-1"></i>เกินระยะเวลาสัญญา</span>
+                    <span class="text-[10px] text-red-500 font-extrabold mt-2.5 md:mt-3 block truncate"><i class="fa-solid fa-clock-rotate-left mr-1"></i>เกินดิว/ล่าช้า</span>
                 </div>
-                <!-- Project Progression Gauge -->
-                <div class="col-span-2 md:col-span-1 bg-gradient-to-br from-brand-600 to-teal-600 text-white p-4 rounded-xl shadow-md relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute right-[-10px] bottom-[-10px] opacity-10"><i class="fa-solid fa-percent text-6xl"></i></div>
-                    <div>
-                        <span class="text-[11px] text-brand-100 font-bold uppercase tracking-wider block">เปอร์เซ็นต์ตรวจรับ</span>
-                        <div class="flex items-baseline gap-1 mt-1">
-                            <span id="stat-percentage" class="text-2xl font-black">0%</span>
-                            <span class="text-[10px] text-teal-100 font-bold">ของทั้งหมด</span>
+                <!-- Project Progression Gauge (Responsive column adjustment) -->
+                <div class="col-span-2 md:col-span-1 bg-gradient-to-br from-brand-600 to-teal-600 text-white p-4 md:p-5 rounded-2xl shadow-lg relative overflow-hidden flex flex-col justify-between min-w-0">
+                    <div class="absolute right-[-15px] bottom-[-15px] opacity-10"><i class="fa-solid fa-percent text-7xl md:text-8xl"></i></div>
+                    <div class="z-10 min-w-0">
+                        <span class="text-xs text-brand-100 font-bold uppercase tracking-wider block truncate">ความสำเร็จจัดส่ง</span>
+                        <div class="flex items-baseline gap-1 mt-1 flex-wrap">
+                            <span id="stat-percentage" class="text-2xl sm:text-3xl md:text-4xl font-black truncate">0%</span>
+                            <span class="text-[10px] text-teal-100 font-bold truncate">ของสัญญา</span>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <div class="w-full bg-slate-950/20 rounded-full h-1.5 shadow-inner">
-                            <div id="gauge-bar" class="bg-white h-1.5 rounded-full transition-all duration-700" style="width: 0%"></div>
+                    <div class="mt-3.5 md:mt-4 z-10">
+                        <div class="w-full bg-slate-900/30 rounded-full h-2 shadow-inner">
+                            <div id="gauge-bar" class="bg-white h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-[9px] text-teal-100 font-bold mt-1.5 uppercase truncate">
+                            <span>เริ่มงาน</span>
+                            <span>เป้า 100%</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Graphs & Charts Analytics Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                 <!-- Status Doughnut Chart -->
-                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
                     <div>
-                        <div class="flex justify-between items-center mb-1 pb-2 border-b border-slate-100 dark:border-slate-700/50">
-                            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">สัดส่วนพัสดุตรวจรับ</h3>
-                            <i class="fa-solid fa-chart-pie text-brand-500"></i>
+                        <div class="flex justify-between items-center mb-1 pb-3 border-b border-slate-100 dark:border-slate-700/50">
+                            <h3 class="text-base font-extrabold text-slate-800 dark:text-white">อัตราส่วนและปริมาณจัดซื้อ</h3>
+                            <i class="fa-solid fa-chart-pie text-brand-500 text-lg"></i>
                         </div>
+                        <p class="text-[11px] text-slate-400 mt-1.5">คำนวณจากเปอร์เซ็นต์สัดส่วนการส่งมอบจริงในแต่ละหมวดหมู่</p>
                     </div>
-                    <div class="relative flex-1 w-full flex justify-center items-center min-h-[200px] mt-2">
+                    <div class="relative flex-1 w-full flex justify-center items-center min-h-[250px] mt-4">
                         <canvas id="statusChart"></canvas>
                     </div>
                 </div>
 
                 <!-- Vendor Horizon Bar Chart -->
-                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
                     <div>
-                        <div class="flex justify-between items-center mb-1 pb-2 border-b border-slate-100 dark:border-slate-700/50">
-                            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">จำนวนแบ่งตามบริษัทคู่ค้า</h3>
-                            <i class="fa-solid fa-chart-column text-brand-500"></i>
+                        <div class="flex justify-between items-center mb-1 pb-3 border-b border-slate-100 dark:border-slate-700/50">
+                            <h3 class="text-base font-extrabold text-slate-800 dark:text-white">จำนวนแบ่งตามบริษัทคู่ค้า</h3>
+                            <i class="fa-solid fa-chart-column text-brand-500 text-lg" title="คลิกแท่งกราฟเพื่อเจาะลึกเฉพาะราย"></i>
                         </div>
+                        <p class="text-[11px] text-slate-400 mt-1.5">คลิกที่แท่งกราฟบริษัทคู่ค้าเพื่อดูรายงานละเอียดแยกรายเครื่อง</p>
                     </div>
-                    <div class="relative flex-1 w-full min-h-[200px] mt-2">
+                    <div class="relative flex-1 w-full min-h-[250px] mt-4">
                         <canvas id="vendorChart"></canvas>
                     </div>
                 </div>
 
                 <!-- Live Notification updates -->
-                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col">
-                    <div class="flex justify-between items-center mb-2 pb-2 border-b border-slate-100 dark:border-slate-700/50">
-                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">ประวัติการเคลื่อนไหวล่าสุด</h3>
-                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 animate-pulse">LIVE FEED</span>
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 flex flex-col">
+                    <div class="flex justify-between items-center mb-3 pb-3 border-b border-slate-100 dark:border-slate-700/50">
+                        <h3 class="text-base font-extrabold text-slate-800 dark:text-white">ความเคลื่อนไหวตรวจรับล่าสุด</h3>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 animate-pulse"><i class="fa-solid fa-satellite-dish mr-1 text-[8px]"></i>LIVE UPDATE</span>
                     </div>
-                    <div id="recent-activity-list" class="space-y-2.5 flex-1 overflow-y-auto max-h-[220px] pr-1"></div>
+                    <div id="recent-activity-list" class="space-y-3.5 flex-1 overflow-y-auto max-h-[250px] pr-1.5">
+                        <!-- Dynamic updates are populated here -->
+                    </div>
                 </div>
             </div>
 
             <!-- Plan VS Actual Line Area Chart -->
-            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b border-slate-100 dark:border-slate-700/50 pb-2.5 gap-2">
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 mb-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 border-b border-slate-100 dark:border-slate-700/50 pb-3 gap-2">
                     <div>
-                        <h3 class="text-sm font-bold text-slate-700 dark:text-white flex items-center gap-2">
+                        <h3 class="text-base font-extrabold text-slate-800 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-chart-line text-brand-500"></i>
-                            <span>เปรียบเทียบระยะเวลา แผนส่งมอบ (Plan) vs วันที่เข้าคลังจริง (Actual)</span>
+                            <span>เปรียบเทียบระยะเวลา แผนส่งมอบ (Plan) vs วันที่ตรวจรับพัสดุเข้าคลังจริง (Actual)</span>
                         </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">วิเคราะห์และประเมินประสิทธิภาพความเร็วการกระจายสินค้าเข้าคลังเปรียบเทียบกับข้อตกลงซื้อขายรายเดือน</p>
                     </div>
+                    <span class="bg-brand-50 text-brand-700 dark:bg-brand-950/40 dark:text-brand-400 text-xs font-bold px-3 py-1.5 rounded-lg border border-brand-200/20"><i class="fa-solid fa-gears mr-1"></i>วิเคราะห์ประสิทธิภาพคู่ค้า</span>
                 </div>
-                <div class="relative w-full min-h-[240px]">
+                <div class="relative w-full min-h-[280px]">
                     <canvas id="timelineChart"></canvas>
                 </div>
             </div>
@@ -310,55 +320,61 @@
         <section id="tab-equipment-summary" class="tab-content hidden fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div>
-                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">หมวดหมู่ครุภัณฑ์พัสดุ</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">สรุปเปอร์เซ็นต์อัตราการรับของ แยกประเภทตามกลุ่มระบบงาน (คลิกเลือกการ์ดเพื่อกรองอุปกรณ์)</p>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white">ภาพรวมหมวดหมู่ครุภัณฑ์</h2>
+                    <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1.5">สรุปเปอร์เซ็นต์อัตราการรับของ แยกประเภทตามกลุ่มระบบงาน (คลิกการ์ดเพื่อดูลิสต์อุปกรณ์)</p>
                 </div>
-                <div class="relative w-full md:w-72">
-                    <select id="search-equipment-summary" onchange="renderEquipmentSummary()" class="w-full pl-3 pr-8 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-bold outline-none cursor-pointer">
-                        <option value="all">ดูทุกหมวดหมู่อุปกรณ์</option>
+                <div class="relative w-full md:w-80">
+                    <div class="absolute left-3 top-3.5 text-slate-400"><i class="fa-solid fa-filter text-sm"></i></div>
+                    <select id="search-equipment-summary" onchange="renderEquipmentSummary()" class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none transition-shadow cursor-pointer shadow-sm">
+                        <option value="all">ดูหมวดหมู่อุปกรณ์ทั้งหมด</option>
                     </select>
                 </div>
             </div>
             
-            <div id="equipment-summary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+            <div id="equipment-summary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             
-            <div id="no-equipment-msg" class="hidden text-center py-12 text-slate-500 bg-white dark:bg-slate-800 rounded-2xl">
-                <i class="fa-solid fa-folder-open text-4xl mb-3 text-slate-300"></i>
-                <p class="text-sm font-bold">ไม่พบข้อมูลในหมวดหมู่ที่ต้องการ</p>
+            <div id="no-equipment-msg" class="hidden text-center py-16 text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 rounded-3xl shadow-sm">
+                <i class="fa-solid fa-folder-open text-6xl mb-4 text-slate-300 dark:text-slate-600"></i>
+                <p class="text-lg font-bold">ไม่พบข้อมูลในหมวดหมู่ที่เลือก</p>
             </div>
         </section>
 
         <!-- ================= TAB: CALENDAR ================= -->
         <section id="tab-calendar" class="tab-content hidden fade-in">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 border-b pb-3 dark:border-slate-800 gap-3">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4 dark:border-slate-800 gap-4">
                 <div>
-                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">ปฏิทินแผนจัดส่งพัสดุ</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ติดตามวันนัดรับตามสัญญากับวันนำพัสดุลงตรวจของจริง</p>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white">ปฏิทินแผนและวันจัดส่งครุภัณฑ์</h2>
+                    <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1.5">ติดตามการเคลื่อนไหว วันส่งมอบตามสัญญากับวันเข้าคลังพัสดุจริง</p>
                 </div>
                 
-                <div class="flex items-center justify-between gap-3 bg-white dark:bg-slate-800 p-1.5 rounded-xl border border-slate-200/50 dark:border-slate-700/50 w-full md:w-auto">
-                    <button onclick="changeMonth(-1)" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300"><i class="fa-solid fa-chevron-left"></i></button>
-                    <span id="cal-month-year" class="font-extrabold text-sm w-28 text-center text-slate-800 dark:text-white">กรกฎาคม 2026</span>
-                    <button onclick="changeMonth(1)" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300"><i class="fa-solid fa-chevron-right"></i></button>
+                <!-- Month/Year Picker Controls -->
+                <div class="flex items-center justify-between gap-3 bg-white dark:bg-slate-800 p-2 rounded-xl shadow-premium dark:shadow-premium-dark border border-slate-200/50 dark:border-slate-700/50 w-full md:w-auto">
+                    <button onclick="changeMonth(-1)" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 transition-colors flex-shrink-0"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="cal-month-year" class="font-bold text-base md:text-lg w-full text-center text-slate-800 dark:text-white flex-1 min-w-[120px]">กรกฎาคม 2026</span>
+                    <button onclick="changeMonth(1)" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 transition-colors flex-shrink-0"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
             
-            <div class="flex flex-wrap gap-3 mb-4 text-[11px] font-bold">
-                <div class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 mr-1.5 shadow-sm"></span> แผนส่งพัสดุ</div>
-                <div class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-red-500 mr-1.5 shadow-sm"></span> แผนล่าช้า</div>
-                <div class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1.5 shadow-sm"></span> ตรวจรับเรียบร้อย</div>
+            <!-- Calendar Status Info Indicators -->
+            <div class="flex flex-wrap gap-4 mb-5 text-xs font-bold">
+                <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-500 mr-2 shadow-sm shadow-amber-500/30"></span> แผนจัดส่ง</div>
+                <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-red-500 mr-2 shadow-sm shadow-red-500/30"></span> ล่าช้า</div>
+                <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-500 mr-2 shadow-sm shadow-emerald-500/30"></span> ตรวจรับเข้าคลังเสร็จสิ้น</div>
             </div>
             
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-premium border border-slate-200/40 dark:border-slate-700/50 overflow-hidden max-w-3xl mx-auto">
-                <div class="grid grid-cols-7 bg-slate-50/60 dark:bg-slate-900/40 border-b border-slate-200/30 dark:border-slate-700/40 py-2">
-                    <div class="text-center text-xs font-bold text-red-500">อา.</div>
-                    <div class="text-center text-xs font-bold text-slate-500 dark:text-slate-300">จ.</div>
-                    <div class="text-center text-xs font-bold text-slate-500 dark:text-slate-300">อ.</div>
-                    <div class="text-center text-xs font-bold text-slate-500 dark:text-slate-300">พ.</div>
-                    <div class="text-center text-xs font-bold text-slate-500 dark:text-slate-300">พฤ.</div>
-                    <div class="text-center text-xs font-bold text-slate-500 dark:text-slate-300">ศ.</div>
-                    <div class="text-center text-xs font-bold text-slate-500 dark:text-slate-300">ส.</div>
+            <!-- Redesigned Rounded Premium Calendar Wrapper -->
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-premium dark:shadow-premium-dark border border-slate-200/40 dark:border-slate-700/50 overflow-hidden max-w-4xl mx-auto">
+                <!-- Day Labels Header -->
+                <div class="grid grid-cols-7 bg-slate-50/60 dark:bg-slate-900/40 border-b border-slate-200/30 dark:border-slate-700/40 py-2.5">
+                    <div class="text-center text-xs md:text-sm font-extrabold text-red-500">อา.</div>
+                    <div class="text-center text-xs md:text-sm font-extrabold text-slate-600 dark:text-slate-300">จ.</div>
+                    <div class="text-center text-xs md:text-sm font-extrabold text-slate-600 dark:text-slate-300">อ.</div>
+                    <div class="text-center text-xs md:text-sm font-extrabold text-slate-600 dark:text-slate-300">พ.</div>
+                    <div class="text-center text-xs md:text-sm font-extrabold text-slate-600 dark:text-slate-300">พฤ.</div>
+                    <div class="text-center text-xs md:text-sm font-extrabold text-slate-600 dark:text-slate-300">ศ.</div>
+                    <div class="text-center text-xs md:text-sm font-extrabold text-slate-600 dark:text-slate-300">ส.</div>
                 </div>
+                <!-- Compact Circular Grid Calendar Container (No longer boxy blocks) -->
                 <div id="calendar-grid" class="cal-grid-modern"></div>
             </div>
         </section>
@@ -367,145 +383,155 @@
         <section id="tab-receiving" class="tab-content hidden fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div>
-                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">รอดำเนินการรับของ</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">คลิกเลือกอุปกรณ์รอดำเนินการเพื่อพิมพ์บันทึกเลข S/N และแนบไฟล์กล้องตรวจรับ</p>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white">รอดำเนินการรับพัสดุและวัสดุ</h2>
+                    <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1.5">รายการอุปกรณ์ที่รอพัสดุจัดส่งเข้ามายังสำนักงาน คลิกเพื่อตรวจสอบและบันทึกรหัส Serial Number เข้าคลังระบบ</p>
                 </div>
             </div>
             
-            <!-- Filters Controls box -->
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-premium border border-slate-100 dark:border-slate-800 mb-5 grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">ค้นหาข้อมูล</label>
+            <!-- Filters Controls box for Pending items -->
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 mb-6 flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">พิมพ์ค้นหาด่วน</label>
                     <div class="relative">
-                        <input type="text" id="search-pending" placeholder="พิมพ์คำค้นหาด่วน..." class="w-full pl-8 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs outline-none focus:ring-1 focus:ring-brand-500">
-                        <i class="fa-solid fa-search absolute left-2.5 top-3 text-slate-400 text-xs"></i>
+                        <input type="text" id="search-pending" placeholder="ค้นหาชื่ออุปกรณ์, รหัสเครื่อง, หรือข้อมูลคู่ค้า..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 outline-none transition-shadow shadow-inner">
+                        <i class="fa-solid fa-search absolute left-3 top-3.5 text-slate-400 text-sm"></i>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">กรองกลุ่มพัสดุ</label>
-                    <select id="filter-pending-name" onchange="renderPendingCards()" class="w-full px-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs outline-none">
+                <div class="w-full md:w-1/4">
+                    <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">กรองชนิดอุปกรณ์</label>
+                    <select id="filter-pending-name" onchange="renderPendingCards()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
                         <option value="all">อุปกรณ์ทั้งหมด</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">กรองบริษัทคู่สัญญา</label>
-                    <select id="filter-pending-vendor" onchange="renderPendingCards()" class="w-full px-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs outline-none">
+                <div class="w-full md:w-1/3">
+                    <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">กรองตามคู่ค้าจัดจำหน่าย</label>
+                    <select id="filter-pending-vendor" onchange="renderPendingCards()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
                         <option value="all">ทุกบริษัท</option>
                     </select>
                 </div>
             </div>
             
-            <div id="pending-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+            <div id="pending-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
             
-            <div id="no-pending-msg" class="hidden text-center py-12 text-slate-500 bg-white dark:bg-slate-800 rounded-2xl">
-                <i class="fa-solid fa-circle-check text-4xl mb-3 text-emerald-500"></i>
-                <p class="text-sm font-bold">ไม่มีรายการตรวจส่งตกค้างในระบบคลัง</p>
+            <div id="no-pending-msg" class="hidden text-center py-16 text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 rounded-3xl shadow-premium">
+                <i class="fa-solid fa-circle-check text-6xl mb-4 text-emerald-500"></i>
+                <p class="text-lg font-bold">ไม่มีรายการพัสดุตกค้าง หรือตรวจรับเข้าคลังเรียบร้อยหมดแล้ว</p>
             </div>
         </section>
 
-        <!-- ================= TAB: ALL ITEMS ================= -->
+        <!-- ================= TAB: ALL ITEMS (Table Lists) ================= -->
         <section id="tab-all-items" class="tab-content hidden fade-in">
-            <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white mb-5">ทะเบียนครุภัณฑ์ทั้งหมด</h2>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white mb-6">รายการครุภัณฑ์และพัสดุในระบบ</h2>
             
-            <!-- Filters -->
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-premium border border-slate-100 dark:border-slate-800 mb-5 grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">ประเภทครุภัณฑ์</label>
-                    <select id="filter-name" onchange="renderAllItemsTable()" class="w-full px-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-bold outline-none">
-                        <option value="all">เลือกพัสดุทั้งหมด</option>
+            <!-- Filter box for all items -->
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 mb-6 flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">ชื่อเครื่องครุภัณฑ์</label>
+                    <select id="filter-name" onchange="renderAllItemsTable()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
+                        <option value="all">เลือกดูอุปกรณ์ทั้งหมด</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">สถานะพัสดุ</label>
-                    <select id="filter-status" onchange="renderAllItemsTable()" class="w-full px-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-bold outline-none">
-                        <option value="all">สถานะ: ทั้งหมด</option>
-                        <option value="received">ตรวจรับสำเร็จ</option>
+                <div class="w-full md:w-1/4">
+                    <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">คัดกรองตามสถานะ</label>
+                    <select id="filter-status" onchange="renderAllItemsTable()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
+                        <option value="all">ทั้งหมด</option>
+                        <option value="received">รับแล้วสำเร็จ</option>
                         <option value="pending">รอดำเนินการ</option>
-                        <option value="delayed">เกินกำหนดจัดส่ง</option>
+                        <option value="delayed">ล่าช้า</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">คู่ค้าจัดหา</label>
-                    <select id="filter-vendor" onchange="renderAllItemsTable()" class="w-full px-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-bold outline-none">
+                <div class="w-full md:w-1/3">
+                    <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">คู่สัญญาผู้จัดจำหน่าย</label>
+                    <select id="filter-vendor" onchange="renderAllItemsTable()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
                         <option value="all">ทุกบริษัทคู่ค้า</option>
                     </select>
                 </div>
             </div>
             
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-premium overflow-hidden border border-slate-100 dark:border-slate-850">
-                <div class="overflow-x-auto font-sans">
+            <!-- Table data layout (Optimized with responsive hidden column) -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-850 overflow-hidden">
+                <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-slate-50 dark:bg-slate-900/40 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider border-b border-slate-100 dark:border-slate-700">
-                                <th class="p-3 w-12 text-center font-extrabold">ลำดับ</th>
-                                <th class="p-3 w-24 font-extrabold">รหัส ID</th>
-                                <th class="p-3 min-w-[200px] font-extrabold">รายการอุปกรณ์</th>
-                                <th class="p-3 hidden md:table-cell font-extrabold">ผู้จัดจำหน่าย</th>
-                                <th class="p-3 w-28 font-extrabold">กำหนดแผน</th>
-                                <th class="p-3 text-center w-28 font-extrabold">สถานะ</th>
+                                <th class="p-4 font-extrabold w-12 text-center">ลำดับ</th>
+                                <th class="p-4 font-extrabold w-24">รหัส ID</th>
+                                <th class="p-4 font-extrabold min-w-[200px]">ชื่ออุปกรณ์ / ยี่ห้อรุ่น</th>
+                                <th class="p-4 font-extrabold hidden md:table-cell">บริษัทคู่ค้าจัดหา</th>
+                                <th class="p-4 font-extrabold w-28">แผนดิว</th>
+                                <th class="p-4 font-extrabold text-center w-32">สถานะ</th>
                             </tr>
                         </thead>
-                        <tbody id="all-items-tbody" class="divide-y divide-slate-100 dark:divide-slate-700/50 text-xs"></tbody>
+                        <tbody id="all-items-tbody" class="divide-y divide-slate-100 dark:divide-slate-700/50 text-sm"></tbody>
                     </table>
+                </div>
+                <div class="p-4 bg-slate-50 dark:bg-slate-900/20 border-t border-slate-100 dark:border-slate-700/50 text-xs text-center text-slate-400 font-bold">
+                    <i class="fa-solid fa-mouse-pointer mr-1 text-brand-500"></i> คลิกบนแถวรายการข้อมูลเพื่อตรวจสอบรายละเอียดทั้งหมด
                 </div>
             </div>
         </section>
     </main>
 
     <!-- ================= MODAL: RECEIVING FORM ================= -->
-    <div id="receive-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('receive-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[90vh] fade-in">
-            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-5 py-4 flex justify-between items-center text-white">
-                <h3 class="font-extrabold text-sm"><i class="fa-solid fa-clipboard-check mr-2"></i> บันทึกผลตรวจรับพัสดุลงคลัง</h3>
-                <button type="button" onclick="closeModal('receive-modal')" class="text-white hover:scale-110 transition-all"><i class="fa-solid fa-times text-md"></i></button>
+    <div id="receive-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('receive-modal')"></div>
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-lg sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in flex flex-col max-h-[90vh]">
+            <!-- Header modal -->
+            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-5 flex justify-between items-center text-white flex-shrink-0">
+                <h3 class="font-extrabold text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i> บันทึกข้อมูลตรวจรับพัสดุ</h3>
+                <button type="button" onclick="closeModal('receive-modal')" class="text-white/80 hover:text-white hover:scale-110 transition-all"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-5 overflow-y-auto flex-1">
-                <div class="bg-slate-50 dark:bg-slate-900/40 p-4 rounded-xl mb-4 border border-slate-100 dark:border-slate-700">
+            <!-- Body -->
+            <div class="p-5 sm:p-6 overflow-y-auto flex-1">
+                <!-- Info of selected item -->
+                <div class="bg-slate-50 dark:bg-slate-900/40 p-4.5 rounded-2xl mb-5 border border-slate-100 dark:border-slate-700">
                     <div class="flex justify-between items-start">
                         <div>
-                            <span id="modal-item-id" class="text-[10px] font-bold bg-brand-100 text-brand-700 dark:bg-brand-950/40 dark:text-brand-400 px-2.5 py-0.5 rounded-lg">AMS-XX</span>
-                            <span id="modal-item-delay-badge" class="ml-2 text-[9px] font-extrabold bg-red-100 text-red-600 px-2 py-0.5 rounded-full uppercase hidden">ล่าช้า</span>
-                            <h4 id="modal-item-name" class="font-extrabold text-slate-800 dark:text-white mt-2 text-sm leading-snug"></h4>
-                            <p id="modal-item-desc" class="text-xs text-slate-400 dark:text-slate-500 mt-1"></p>
+                            <span id="modal-item-id" class="text-xs font-bold bg-brand-100 text-brand-700 dark:bg-brand-950/40 dark:text-brand-400 px-2.5 py-1 rounded-lg border border-brand-200/30">AMS-XX</span>
+                            <span id="modal-item-delay-badge" class="ml-2 text-[10px] font-extrabold bg-red-100 text-red-600 px-2 py-1 rounded-full uppercase tracking-wider hidden"><i class="fa-solid fa-triangle-exclamation mr-1"></i>ล่าช้า</span>
+                            <h4 id="modal-item-name" class="font-extrabold text-slate-800 dark:text-white mt-3 text-lg leading-snug">ชื่ออุปกรณ์ครุภัณฑ์</h4>
+                            <p id="modal-item-desc" class="text-xs text-slate-400 dark:text-slate-500 mt-1">ยี่ห้อ, รุ่นสเปก</p>
                         </div>
+                    </div>
+                    <div class="mt-3.5 pt-3.5 border-t border-slate-200/40 dark:border-slate-700/50 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                        <i class="fa-solid fa-building mr-1.5 text-brand-500"></i> บริษัทคู่สัญญา: <span id="modal-item-vendor" class="text-slate-700 dark:text-slate-300"></span>
                     </div>
                 </div>
                 
-                <form id="receive-form" class="space-y-3 text-xs">
+                <!-- Main update form fields -->
+                <form id="receive-form" class="space-y-4">
                     <input type="hidden" id="modal-input-id">
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">วันที่ตรวจพัสดุเข้า *</label>
-                            <input type="date" id="modal-input-date" required class="w-full px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none">
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">วันที่รับเข้าคลังจริง *</label>
+                            <input type="date" id="modal-input-date" required class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none shadow-inner font-sans">
                         </div>
                         
-                        <!-- File upload with Premium Camera Image preview -->
+                        <!-- Tap to Photo File upload zone -->
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">เอกสาร/รูปภาพใบรับของ *</label>
-                            <div onclick="document.getElementById('modal-input-document').click()" class="border border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-2 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all flex flex-col items-center justify-center min-h-[42px] relative overflow-hidden group">
-                                <div id="receive-upload-placeholder" class="flex flex-col items-center">
-                                    <i class="fa-solid fa-camera text-slate-400 mb-0.5"></i>
-                                    <span class="text-[9px] font-bold text-slate-500" id="upload-status-text">แตะอัปรูปใบรับของ</span>
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">รูปภาพหรือใบส่งของ *</label>
+                            <div onclick="document.getElementById('modal-input-document').click()" class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-400 rounded-2xl p-3.5 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all flex flex-col items-center justify-center gap-1.5 group">
+                                <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                                    <i class="fa-solid fa-camera text-sm"></i>
                                 </div>
-                                <img id="receive-upload-preview" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview">
+                                <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 line-clamp-1" id="upload-status-text">แตะเพื่อถ่าย/อัปภาพ</span>
                             </div>
-                            <input type="file" id="modal-input-document" accept="image/*" class="hidden" onchange="previewSelectedImage(this, 'receive-upload-placeholder', 'receive-upload-preview', 'upload-status-text')">
+                            <input type="file" id="modal-input-document" accept="image/*" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Serial Number (S/N จากเครื่องจริง) *</label>
-                        <input type="text" id="modal-input-sn" required placeholder="คัดลอก Serial Number ข้างอุปกรณ์..." class="w-full px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono font-bold">
+                        <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Serial Number (S/N จากพัสดุจริง) *</label>
+                        <input type="text" id="modal-input-sn" required placeholder="พิมพ์ Serial Number ข้างอุปกรณ์..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none shadow-inner font-mono">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">บันทึกหมายเหตุการตรวจสอบ (ลงคลัง) *</label>
-                        <textarea id="modal-input-notes" rows="2" required placeholder="ระบุผู้ตรวจสอบพัสดุ สภาพของภายนอก..." class="w-full px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none resize-none"></textarea>
+                        <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">หมายเหตุการรับตรวจอุปกรณ์</label>
+                        <textarea id="modal-input-notes" rows="2" placeholder="ระบุเจ้าหน้าที่รับของ สภาพพัสดุ หรือรายละเอียดเบื้องต้นอื่นๆ..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner"></textarea>
                     </div>
                     
-                    <div class="pt-3 flex justify-end gap-2 border-t border-slate-100 dark:border-slate-700 mt-4">
-                        <button type="button" onclick="closeModal('receive-modal')" class="px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 font-bold transition-colors">ยกเลิก</button>
-                        <button type="submit" id="btn-save-receive" class="px-5 py-2 bg-gradient-to-r from-brand-600 to-teal-500 text-white rounded-xl font-bold transition-all flex items-center shadow-md"><i class="fa-solid fa-save mr-1.5"></i> บันทึกรับของ</button>
+                    <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 dark:border-slate-700 mt-5">
+                        <button type="button" onclick="closeModal('receive-modal')" class="px-5 py-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-bold transition-colors text-sm">ยกเลิก</button>
+                        <button type="submit" id="btn-save-receive" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-teal-500 text-white font-bold transition-all flex items-center shadow-md hover:shadow-lg"><i class="fa-solid fa-save mr-2"></i> บันทึกตรวจรับ</button>
                     </div>
                 </form>
             </div>
@@ -513,17 +539,18 @@
     </div>
 
     <!-- ================= MODAL: DASHBOARD CARD DETAILS ================= -->
-    <div id="dash-items-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('dash-items-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[85vh] fade-in">
-            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-5 py-3 flex justify-between items-center text-white">
-                <h3 class="font-extrabold text-xs md:text-sm flex items-center"><i class="fa-solid fa-list mr-2"></i> <span id="dash-modal-title">รายงานพัสดุอุปกรณ์</span></h3>
-                <button type="button" onclick="closeModal('dash-items-modal')" class="text-white"><i class="fa-solid fa-times text-lg"></i></button>
+    <div id="dash-items-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('dash-items-modal')"></div>
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-4xl sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[90vh] fade-in">
+            <div class="bg-gradient-to-r from-brand-600 to-teal-500 px-6 py-4 flex justify-between items-center text-white flex-shrink-0">
+                <h3 class="font-extrabold text-base md:text-lg flex items-center"><i class="fa-solid fa-list mr-2"></i> <span id="dash-modal-title">รายการอุปกรณ์ที่ค้นหา</span></h3>
+                <button type="button" onclick="closeModal('dash-items-modal')" class="text-white/80 hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-750 grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-750 grid grid-cols-1 sm:grid-cols-3 gap-3 flex-shrink-0">
                 <div>
-                    <select id="dash-modal-filter-status" onchange="filterDashModalTable()" class="w-full px-2 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs outline-none">
+                    <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">ตัวกรองสถานะ</label>
+                    <select id="dash-modal-filter-status" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:ring-1 focus:ring-brand-500 outline-none">
                         <option value="all">สถานะ: ทั้งหมด</option>
                         <option value="received">สถานะ: รับแล้วสำเร็จ</option>
                         <option value="pending">สถานะ: รอดำเนินการ</option>
@@ -531,115 +558,124 @@
                     </select>
                 </div>
                 <div>
-                    <select id="dash-modal-filter-vendor" onchange="filterDashModalTable()" class="w-full px-2 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs outline-none">
+                    <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">ตัวกรองบริษัท</label>
+                    <select id="dash-modal-filter-vendor" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:ring-1 focus:ring-brand-500 outline-none">
                         <option value="all">ผู้จัดจำหน่าย: ทั้งหมด</option>
                     </select>
                 </div>
                 <div>
-                    <select id="dash-modal-filter-type" onchange="filterDashModalTable()" class="w-full px-2 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs outline-none">
+                    <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">ชนิดประเภทอุปกรณ์</label>
+                    <select id="dash-modal-filter-type" onchange="filterDashModalTable()" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:ring-1 focus:ring-brand-500 outline-none">
                         <option value="all">ชนิดอุปกรณ์: ทั้งหมด</option>
                     </select>
                 </div>
             </div>
             
-            <div class="overflow-y-auto p-4 flex-1">
+            <div class="overflow-y-auto p-4 sm:p-6 flex-1">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 dark:bg-slate-900/40 text-slate-600 dark:text-slate-300 text-[11px] uppercase tracking-wider border-b border-slate-100 dark:border-slate-700">
-                                <th class="p-2.5 w-12 text-center font-bold">ลำดับ</th>
-                                <th class="p-2.5 font-bold">รหัส ID คลัง</th>
-                                <th class="p-2.5 font-bold">อุปกรณ์ / รุ่นสเปก</th>
-                                <th class="p-2.5 font-bold">ผู้ส่งมอบ</th>
-                                <th class="p-2.5 font-bold">แผนดิว</th>
-                                <th class="p-2.5 font-bold">สถานะ</th>
+                            <tr class="bg-slate-50 dark:bg-slate-900/40 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider border-b border-slate-100 dark:border-slate-700">
+                                <th class="p-3 font-extrabold w-16 text-center">ลำดับ</th>
+                                <th class="p-3 font-extrabold">รหัส ID คลัง</th>
+                                <th class="p-3 font-extrabold">ชื่ออุปกรณ์ / สเปก</th>
+                                <th class="p-3 font-extrabold">คู่สัญญาผู้ผลิต</th>
+                                <th class="p-3 font-extrabold">แผนส่งมอบ</th>
+                                <th class="p-3 font-extrabold">สถานะ</th>
                             </tr>
                         </thead>
-                        <tbody id="dash-modal-tbody" class="divide-y divide-slate-100 dark:divide-slate-750 text-xs"></tbody>
+                        <tbody id="dash-modal-tbody" class="divide-y divide-slate-100 dark:divide-slate-750 text-sm"></tbody>
                     </table>
                 </div>
             </div>
             
-            <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-end">
-                <button type="button" onclick="closeModal('dash-items-modal')" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-800 dark:text-white font-extrabold text-xs transition-colors">ปิดหน้าต่าง</button>
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center flex-shrink-0">
+                <p class="text-[11px] text-slate-400 font-bold"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> คลิกที่แถวข้อมูลพัสดุเพื่อเรียกดูเพิ่มเติม</p>
+                <button type="button" onclick="closeModal('dash-items-modal')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-800 dark:text-white font-extrabold transition-colors text-xs">ปิดหน้าต่าง</button>
             </div>
         </div>
     </div>
 
     <!-- ================= MODAL: ITEM FULL DETAILS ================= -->
-    <div id="details-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('details-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[90vh] fade-in">
-            <div class="bg-slate-50 dark:bg-slate-900/60 px-5 py-4 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700">
-                <h3 class="text-slate-800 dark:text-white font-extrabold text-sm"><i class="fa-solid fa-circle-info mr-1 text-brand-500"></i> ทะเบียนตรวจสอบพัสดุ</h3>
-                <button type="button" onclick="closeModal('details-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-times text-lg"></i></button>
+    <div id="details-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('details-modal')"></div>
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-lg sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in flex flex-col max-h-[90vh]">
+            <div class="bg-slate-100 dark:bg-slate-900/60 px-6 py-5 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700 flex-shrink-0">
+                <h3 class="text-slate-800 dark:text-white font-extrabold text-md md:text-lg flex items-center">
+                    <i class="fa-solid fa-circle-info mr-2 text-brand-500"></i> 
+                    <span id="det-title-text">รายละเอียดพัสดุครุภัณฑ์</span>
+                </h3>
+                <button type="button" onclick="closeModal('details-modal')" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
-            <div class="p-5 overflow-y-auto flex-1">
+            <div class="p-5 sm:p-6 overflow-y-auto flex-1">
                 <!-- VIEW MODE CONTAINER -->
-                <div id="det-view-mode" class="space-y-4 text-xs">
-                    <div class="flex justify-between items-center">
-                        <span id="det-id" class="text-[10px] font-bold bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 px-2.5 py-1 rounded-xl"></span>
+                <div id="det-view-mode" class="space-y-4">
+                    <div class="flex justify-between items-center mb-5">
+                        <span id="det-id" class="text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-xl border border-slate-200/50 dark:border-slate-600"></span>
                         <div id="det-status-badge"></div>
                     </div>
                     
-                    <h4 id="det-name" class="font-extrabold text-slate-800 dark:text-white text-sm leading-snug"></h4>
-                    <p class="text-xs text-slate-400 border-b pb-2">
-                        <span>ยี่ห้อ:</span> <span id="det-brand" class="text-slate-700 dark:text-slate-300 font-bold"></span> | 
-                        <span>รุ่น:</span> <span id="det-model" class="text-slate-700 dark:text-slate-300 font-bold"></span>
+                    <h4 id="det-name" class="font-extrabold text-slate-800 dark:text-white text-lg md:text-xl mb-1.5 leading-snug"></h4>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mb-5 border-b border-slate-100 dark:border-slate-700/50 pb-4 font-semibold">
+                        <span class="text-slate-500">ยี่ห้อสินค้า:</span> <span id="det-brand" class="text-slate-700 dark:text-slate-300"></span> | 
+                        <span class="text-slate-500">รุ่นโมเดล:</span> <span id="det-model" class="text-slate-700 dark:text-slate-300"></span>
                     </p>
                     
-                    <div class="space-y-2.5">
-                        <div class="flex items-center">
-                            <div class="w-1/3 text-slate-400 font-bold">ผู้ผลิตจัดส่ง:</div>
-                            <div class="w-2/3 text-slate-800 dark:text-slate-200 font-bold" id="det-vendor"></div>
+                    <div class="space-y-4 text-xs md:text-sm">
+                        <div class="flex items-start">
+                            <div class="w-1/3 text-slate-400 dark:text-slate-500 font-bold"><i class="fa-solid fa-building w-5 text-brand-500"></i> บริษัทผู้จัดหา:</div>
+                            <div class="w-2/3 text-slate-800 dark:text-slate-200 font-extrabold" id="det-vendor"></div>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-1/3 text-slate-400 font-bold">กำหนดในแผน:</div>
+                            <div class="w-1/3 text-slate-400 dark:text-slate-500 font-bold"><i class="fa-regular fa-calendar-check w-5 text-brand-500"></i> ดิวส่งตามแผน:</div>
                             <div class="w-2/3 text-slate-800 dark:text-slate-200 font-semibold" id="det-planDate"></div>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-1/3 text-slate-400 font-bold">วันตรวจของจริง:</div>
+                            <div class="w-1/3 text-slate-400 dark:text-slate-500 font-bold"><i class="fa-solid fa-boxes-packing w-5 text-brand-500"></i> วันรับพัสดุจริง:</div>
                             <div class="w-2/3 text-slate-800 dark:text-slate-200 font-semibold" id="det-rcvDate"></div>
                         </div>
                         <div class="flex items-center">
-                            <div class="w-1/3 text-slate-400 font-bold">Serial Number:</div>
-                            <div class="w-2/3 text-slate-800 dark:text-slate-200 font-mono font-extrabold bg-slate-50 dark:bg-slate-900 px-2 py-0.5 rounded-lg border dark:border-slate-800" id="det-sn"></div>
+                            <div class="w-1/3 text-slate-400 dark:text-slate-500 font-bold"><i class="fa-solid fa-barcode w-5 text-brand-500"></i> Serial Number:</div>
+                            <div class="w-2/3 text-slate-800 dark:text-slate-200 font-mono font-bold bg-slate-50 dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200/50 dark:border-slate-800 shadow-inner" id="det-sn"></div>
                         </div>
-                        <div class="flex flex-col pt-1.5" id="det-doc-container">
-                            <span class="text-slate-400 font-bold mb-1">ภาพหลักฐานตรวจสอบ:</span>
-                            <div id="det-doc-status"></div>
+                        <div class="flex flex-col pt-2" id="det-doc-container">
+                            <span class="text-slate-400 dark:text-slate-500 font-bold mb-2"><i class="fa-solid fa-file-invoice w-5 text-brand-500"></i> หลักฐานเอกสารประกอบ:</span>
+                            <div id="det-doc-status" class="text-xs text-slate-600 dark:text-slate-400"></div>
                         </div>
                     </div>
                     
-                    <div class="pt-3 border-t">
-                        <div class="text-[10px] text-slate-400 font-bold mb-1">บันทึกหมายเหตุคลัง:</div>
-                        <div class="bg-slate-50 dark:bg-slate-900/30 p-3 rounded-xl text-slate-600 dark:text-slate-300 italic min-h-[50px] border dark:border-slate-800" id="det-notes"></div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+                        <div class="text-xs text-slate-400 dark:text-slate-500 font-bold mb-2"><i class="fa-regular fa-comment-dots text-brand-500"></i> บันทึกหมายเหตุคลัง:</div>
+                        <div class="bg-slate-50 dark:bg-slate-900/30 p-4 rounded-2xl text-xs md:text-sm text-slate-600 dark:text-slate-300 italic min-h-[70px] border border-slate-200/30 dark:border-slate-800" id="det-notes"></div>
                     </div>
                     
-                    <div class="pt-4 flex justify-end gap-2 border-t">
-                        <button type="button" onclick="enableDetEditMode()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-sm"><i class="fa-solid fa-edit mr-1"></i>แก้ไขพัสดุ</button>
-                        <button type="button" onclick="closeModal('details-modal')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 text-slate-800 dark:text-white font-bold rounded-xl">ปิด</button>
+                    <div class="pt-6 flex justify-end gap-3 border-t border-slate-100 dark:border-slate-700">
+                        <button type="button" onclick="enableDetEditMode()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold transition-colors text-xs shadow-md"><i class="fa-solid fa-edit mr-1.5"></i>แก้ไขข้อมูล</button>
+                        <button type="button" onclick="closeModal('details-modal')" class="px-6 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-800 dark:text-white font-bold transition-colors text-xs shadow-md">ปิดหน้าต่างรายงาน</button>
                     </div>
                 </div>
 
-                <!-- EDIT MODE CONTAINER -->
-                <form id="det-edit-form" class="hidden space-y-3.5 text-xs" onsubmit="saveDetEdit(event)">
+                <!-- EDIT MODE CONTAINER (FORM with modernized Tap-To-Photo box) -->
+                <form id="det-edit-form" class="hidden space-y-4" onsubmit="saveDetEdit(event)">
                     <input type="hidden" id="det-edit-id">
                     
-                    <div class="bg-slate-50 dark:bg-slate-900/40 p-3 rounded-xl border space-y-1">
-                        <span class="text-brand-600 dark:text-brand-400 font-bold">แก้ไขข้อมูลพัสดุ ID: <span id="det-edit-id-label"></span></span>
-                        <div id="det-edit-name-label" class="font-extrabold text-slate-800 dark:text-white leading-snug"></div>
+                    <div class="bg-slate-50 dark:bg-slate-900/40 p-4.5 rounded-2xl border border-slate-100 dark:border-slate-700 space-y-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-brand-600 dark:text-brand-400">แก้ไขข้อมูลพัสดุ ID: <span id="det-edit-id-label"></span></span>
+                            <span class="text-slate-400">ระบุข้อมูลจริงเพื่อลงบันทึก</span>
+                        </div>
+                        <div id="det-edit-name-label" class="text-sm font-extrabold text-slate-800 dark:text-white leading-snug"></div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">วันรับของจริง *</label>
-                            <input type="date" id="det-edit-rcvDate-input" class="w-full px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none">
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">วันรับพัสดุจริง *</label>
+                            <input type="date" id="det-edit-rcvDate-input" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none shadow-inner font-sans">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">สถานะพัสดุ</label>
-                            <select id="det-edit-status-input" class="w-full px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none">
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">สถานะพัสดุ</label>
+                            <select id="det-edit-status-input" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
                                 <option value="pending">รอดำเนินการ</option>
                                 <option value="received">ตรวจรับสำเร็จ</option>
                             </select>
@@ -647,30 +683,34 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Serial Number (S/N) *</label>
-                        <input type="text" id="det-edit-sn-input" class="w-full px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono font-bold">
+                        <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Serial Number (S/N จากพัสดุจริง) *</label>
+                        <input type="text" id="det-edit-sn-input" placeholder="พิมพ์ Serial Number ข้างอุปกรณ์..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none shadow-inner font-mono">
                     </div>
 
+                    <!-- Modernized Tap-to-Photo section inside Detail Editor -->
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">ภาพใบรับเอกสาร</label>
-                        <div onclick="document.getElementById('det-edit-file-input').click()" class="border border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all flex flex-col items-center justify-center min-h-[42px] relative overflow-hidden group">
-                            <div id="edit-upload-placeholder" class="flex flex-col items-center">
-                                <i class="fa-solid fa-camera text-slate-400 mb-0.5"></i>
-                                <span class="text-[9px] font-bold text-slate-500" id="edit-upload-status-text">แตะเพื่อถ่ายรูปหรืออัปภาพ</span>
-                            </div>
-                            <img id="edit-upload-preview" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">ภาพใบรับเอกสาร</label>
                         </div>
-                        <input type="file" id="det-edit-file-input" accept="image/*" class="hidden" onchange="previewSelectedImage(this, 'edit-upload-placeholder', 'edit-upload-preview', 'edit-upload-status-text')">
+                        
+                        <!-- Tap to Photo Area -->
+                        <div onclick="document.getElementById('det-edit-file-input').click()" class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-400 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all flex flex-col items-center justify-center gap-1.5 group mb-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-camera text-sm"></i>
+                            </div>
+                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300" id="edit-upload-status-text">แตะเพื่อถ่าย/อัปภาพ</span>
+                        </div>
+                        <input type="file" id="det-edit-file-input" accept="image/*" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">บันทึกหมายเหตุคลัง *</label>
-                        <textarea id="det-edit-notes-input" rows="2" placeholder="ระบุเจ้าหน้าที่รับของ สภาพพัสดุ..." class="w-full px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none resize-none"></textarea>
+                        <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">บันทึกหมายเหตุคลัง</label>
+                        <textarea id="det-edit-notes-input" rows="2" placeholder="ระบุเจ้าหน้าที่รับของ สภาพพัสดุ หรือรายละเอียดเบื้องต้นอื่นๆ..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none resize-none shadow-inner"></textarea>
                     </div>
 
-                    <div class="pt-3 flex justify-end gap-2 border-t">
-                        <button type="button" onclick="disableDetEditMode()" class="px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 font-bold transition-colors">ยกเลิก</button>
-                        <button type="submit" id="btn-save-det-edit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-teal-500 text-white font-bold shadow-md"><i class="fa-solid fa-save mr-1.5"></i>บันทึกการแก้ไข</button>
+                    <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 dark:border-slate-700 mt-5">
+                        <button type="button" onclick="disableDetEditMode()" class="px-5 py-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-bold transition-colors text-sm">ยกเลิก</button>
+                        <button type="submit" id="btn-save-det-edit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-teal-500 text-white font-bold transition-all flex items-center shadow-md hover:shadow-lg"><i class="fa-solid fa-save mr-2"></i>บันทึกการแก้ไข</button>
                     </div>
                 </form>
             </div>
@@ -678,78 +718,56 @@
     </div>
 
     <!-- ================= MODAL: CALENDAR DAY DETAILS ================= -->
-    <div id="cal-day-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('cal-day-modal')"></div>
-        <div class="relative bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 flex flex-col max-h-[80vh] fade-in">
-            <div class="bg-slate-50 dark:bg-slate-900/60 px-5 py-3 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700">
-                <h3 class="text-slate-800 dark:text-white font-extrabold text-sm" id="cal-day-title">รายการวันที่ --/--/----</h3>
-                <button type="button" onclick="closeModal('cal-day-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-times text-md"></i></button>
+    <div id="cal-day-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 sm:p-0">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeModal('cal-day-modal')"></div>
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-md sm:mx-4 rounded-3xl shadow-2xl overflow-hidden transform transition-all border border-slate-200/50 dark:border-slate-700/50 fade-in flex flex-col max-h-[90vh]">
+            <div class="bg-slate-100 dark:bg-slate-900/60 px-6 py-4 flex justify-between items-center border-b border-slate-200/50 dark:border-slate-700 flex-shrink-0">
+                <h3 class="text-slate-800 dark:text-white font-extrabold" id="cal-day-title">รายการวันที่ --/--/----</h3>
+                <button type="button" onclick="closeModal('cal-day-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-times text-lg"></i></button>
             </div>
-            <div class="overflow-y-auto flex-1 divide-y divide-slate-100 dark:divide-slate-700" id="cal-day-list"></div>
+            <div class="p-0 overflow-y-auto flex-1 custom-scrollbar" id="cal-day-list"></div>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast-message" class="fixed top-4 right-4 z-50 flex items-center w-full max-w-xs p-3 space-x-3 text-slate-500 bg-white rounded-2xl shadow-xl dark:text-slate-400 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 transform transition-all duration-300 opacity-0 translate-y-[1rem] pointer-events-none">
-        <div id="toast-icon-bg" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg shadow-sm"><i id="toast-icon" class="fa-solid text-sm"></i></div>
-        <div id="toast-text" class="text-xs font-bold text-slate-700 dark:text-slate-200">ข้อความระบบ</div>
+    <div id="toast-message" class="fixed top-5 right-5 z-50 flex items-center w-full max-w-sm p-4.5 space-x-3 text-slate-500 bg-white rounded-2xl shadow-xl dark:text-slate-400 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 transform transition-all duration-300 opacity-0 translate-y-[1rem] pointer-events-none">
+        <div id="toast-icon-bg" class="inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-xl shadow-md"><i id="toast-icon" class="fa-solid text-md"></i></div>
+        <div id="toast-text" class="ml-3 text-sm font-extrabold text-slate-700 dark:text-slate-200">ข้อความระบบ</div>
     </div>
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // API Web App URL จาก Google Apps Script (แก้ไขตรงนี้หลังทำการ Deploy แบบ Anyone)
-        const API_URL = "https://script.google.com/macros/s/AKfycbw7e4gWvmoQTFGvneYctEOdRl0Vhn9RLA9jfxoW8yz74LLARqTSIj7I5PBRecYL9wtd/exec";
+        // Endpoint Google Apps Script API_URL
+        const API_URL = "https://script.google.com/macros/s/AKfycbyGDNraTW8InsxMT2kXfQ-ht0T8-CWVFTkfDU6yHtnUz2GLi3ILyAu40eyRQXmliyKp/exec";
         
-        // Mockup Database fallback แบบสมบูรณ์ สำหรับกรณีทดสอบขณะออฟไลน์หรือไม่ระบุ API
-        let equipmentData = [
-            { no: 1, id: "AMS-001", name: "เครื่องคอมพิวเตอร์แม่ข่ายหลัก (Core Server UBP)", brand: "Dell", model: "PowerEdge R750", vendor: "บริษัท สกาย ไอซีที จำกัด (มหาชน)", planDate: "2026-07-10", status: "pending", receiveDate: "", sn: "", docUrl: "", warehouseNotes: "", notes: "", hasDoc: false },
-            { no: 2, id: "AMS-002", name: "อุปกรณ์กระจายสัญญาณความเร็วสูง L3 Switch", brand: "Cisco", model: "Catalyst 9300", vendor: "บริษัท สกาย ไอซีที จำกัด (มหาชน)", planDate: "2026-07-10", status: "pending", receiveDate: "", sn: "", docUrl: "", warehouseNotes: "", notes: "", hasDoc: false },
-            { no: 3, id: "AMS-003", name: "กล้องตรวจการรอบทิศทาง IP Dome Camera", brand: "Hikvision", model: "DS-2CD2143G0-I", vendor: "บริษัท อุปกรณ์ไอที แอนด์ ซีเคียวริตี้", planDate: "2026-07-15", status: "pending", receiveDate: "", sn: "", docUrl: "", warehouseNotes: "", notes: "", hasDoc: false },
-            { no: 4, id: "AMS-004", name: "เครื่องสำรองไฟฟ้าอัตโนมัติ 3000VA", brand: "APC", model: "Smart-UPS 3000", vendor: "บริษัท อุปกรณ์ไอที แอนด์ ซีเคียวริตี้", planDate: "2026-07-15", status: "pending", receiveDate: "", sn: "", docUrl: "", warehouseNotes: "", notes: "", hasDoc: false },
-            { no: 5, id: "AMS-005", name: "สายสัญญาณไฟเบอร์ออฟติกชนิดภายนอก 24 Core", brand: "Link", model: "FOT-OUT-24C", vendor: "หจก. ยูเนี่ยน เน็ตเวิร์ก โซลูชั่น", planDate: "2026-07-22", status: "pending", receiveDate: "", sn: "", docUrl: "", warehouseNotes: "", notes: "", hasDoc: false },
-            { no: 6, id: "AMS-006", name: "กล่องกระจายสายใยแก้วนำแสงตู้ Rack 1U", brand: "Link", model: "UFC-9600", vendor: "หจก. ยูเนี่ยน เน็ตเวิร์ก โซลูชั่น", planDate: "2026-07-22", status: "pending", receiveDate: "", sn: "", docUrl: "", warehouseNotes: "", notes: "", hasDoc: false }
-        ];
+        // Mockup Database fallback - Set to zero as requested
+        let equipmentData = [];
 
         const today = new Date();
         today.setHours(0,0,0,0);
 
-        // แปลงไฟล์เป็น Base64
+        // ================= File Utility for Apps Script =================
         function getBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onload = () => resolve(reader.result.split(',')[1]); // Only keep Base64 encoding part
                 reader.onerror = error => reject(error);
             });
         }
 
-        // แสดงพรีวิวภาพถ่ายก่อนที่จะทำการส่งข้อมูลจริง
-        function previewSelectedImage(input, placeholderId, previewId, textId) {
+        function updateUploadStatus(input, textId) {
             const label = document.getElementById(textId);
-            const placeholder = document.getElementById(placeholderId);
-            const preview = document.getElementById(previewId);
-            
             if (input.files && input.files.length > 0) {
-                const file = input.files[0];
-                label.innerText = `📷 เลือกแล้ว: ${file.name}`;
-                
-                // สร้าง Object URL สำหรับเปิดดูตัวอย่างภาพถ่าย
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                    placeholder.classList.add('opacity-0');
-                }
-                reader.readAsDataURL(file);
+                label.innerText = `📷 เลือกไฟล์แล้ว: ${input.files[0].name}`;
+                label.className = "text-xs font-extrabold text-emerald-500 dark:text-emerald-400";
             } else {
-                label.innerText = "แตะเพื่ออัปรูปใบรับของ";
-                preview.src = "";
-                preview.classList.add('hidden');
-                placeholder.classList.remove('opacity-0');
+                label.innerText = "แตะเพื่อถ่าย/อัปภาพ";
+                label.className = "text-xs font-bold text-slate-600 dark:text-slate-300";
             }
         }
 
-        // พาร์สฟอร์แมตวันที่ให้ถูกต้องปลอดภัย
+        // Date Parsing Utilities
         function parseDate(dateStr) {
             if (!dateStr) return null;
             if (dateStr.includes("GMT") || dateStr.match(/[a-zA-Z]/)) {
@@ -794,22 +812,22 @@
             const badge = document.getElementById('api-status-badge');
             if (!badge) return;
             if (status === 'loading') {
-                badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 dark:bg-amber-950/20 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span><span>กำลังดึงข้อมูลเรียลไทม์...</span>`;
+                badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 dark:bg-amber-950/20 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 shadow-sm";
+                badge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span><span>กำลังดึงสัญญาล่าสุดจาก Sheets...</span>`;
             } else if (status === 'success') {
-                badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50 shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 shadow-glow"></span><span>เชื่อมต่อ Google Sheets สำเร็จ</span>`;
+                badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50 shadow-sm";
+                badge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-glow"></span><span>เชื่อมต่อคลังพัสดุสำเร็จ</span>`;
             } else {
-                badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-50 text-red-700 dark:bg-red-950/20 dark:text-red-400 border border-red-200 dark:border-red-900/50 shadow-sm";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500"></span><span>ออฟไลน์: ${errorMsg}</span>`;
+                badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-red-700 dark:bg-red-950/20 dark:text-red-400 border border-red-200 dark:border-red-900/50 shadow-sm";
+                badge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-bounce"></span><span>การเชื่อมต่อขัดข้อง: ${errorMsg}</span>`;
             }
         }
 
         async function fetchRealtimeData() {
             updateConnectionBadge('loading');
             try {
-                if (!API_URL || API_URL.includes("API_URL_ของใหม่") || API_URL.includes("AKfycby1-pX-XcGyuyyl8Aa9UW89A66B9H2Yh-rm8RzpBeEi-LIb79kOwmMwcEjPZ0pVRGNy")) {
-                    updateConnectionBadge('error', 'ระบบจำลองข้อมูลท้องถิ่น (Mock Data)');
+                if (!API_URL || API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
+                    updateConnectionBadge('error', 'ระบบทำงานในโหมดออฟไลน์ (Local Mock)');
                     cleanAllDates();
                     populateDropdowns();
                     renderDashboard();
@@ -824,11 +842,11 @@
                     populateDropdowns();
                     renderDashboard();
                 } else {
-                    throw new Error(result.message || "ไม่สามารถอ่านทะเบียนพัสดุได้");
+                    throw new Error(result.message || "ไม่พบข้อมูล");
                 }
             } catch (err) {
-                console.warn("API Connection Mode Offline. Using premium fallsback data.", err);
-                updateConnectionBadge('error', 'ใช้งานข้อมูลจำลองทดสอบ');
+                console.warn("Connection Fallback Status: Using mock database.", err);
+                updateConnectionBadge('error', 'ใช้งานฐานข้อมูลเริ่มต้น');
                 cleanAllDates();
                 populateDropdowns();
                 renderDashboard();
@@ -907,7 +925,7 @@
                 } else if (isPendingFilter) {
                     select.innerHTML = '<option value="all">ทุกบริษัท</option>';
                 } else {
-                    select.innerHTML = '<option value="all">ทุกบริษัทคู่ค้า</option>';
+                    select.innerHTML = '<option value="all">ทุกบริษัท/ผู้จัดจำหน่าย</option>';
                 }
                 uniqueVendors.forEach(v => select.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`));
             });
@@ -924,20 +942,20 @@
         function renderDynamicQuickFilters() {
             const container = document.getElementById('quick-filter-container');
             if (!container) return;
-            container.innerHTML = `<span class="text-xs font-bold text-slate-500 dark:text-slate-400 mr-2"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i>คัดกรองด่วน:</span>`;
+            container.innerHTML = `<span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mr-2"><i class="fa-solid fa-bolt text-amber-500 mr-1.5"></i>คู่ค้าหลัก:</span>`;
             container.insertAdjacentHTML('beforeend', `
-                <button onclick="quickFilterTag('all')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-brand-100 text-brand-700 hover:bg-brand-200 dark:bg-brand-900/30 dark:text-brand-400 transition-all shadow-sm">ทั้งหมด</button>
+                <button onclick="quickFilterTag('all')" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-brand-100 text-brand-700 hover:bg-brand-200 border border-brand-200/30 dark:bg-brand-900/30 dark:text-brand-400 transition-all shadow-sm">ทั้งหมด</button>
             `);
             uniqueVendors.forEach(vendor => {
                 if (!vendor) return;
                 let shortName = vendor
                     .replace("บริษัท ", "")
                     .replace("จำกัด", "")
-                    .replace("(มหาชน)", "")
                     .replace("ห้างหุ้นส่วนจำกัด ", "")
+                    .replace("ห้างหุ่นส่วนจำกัด ", "")
                     .trim();
                 container.insertAdjacentHTML('beforeend', `
-                    <button onclick="quickFilterTag('${vendor}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-white hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200/50 dark:border-slate-700/50 hover:scale-105 transition-all shadow-sm">${shortName}</button>
+                    <button onclick="quickFilterTag('${vendor}')" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-white hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200/50 dark:border-slate-700/50 hover:scale-105 transition-all shadow-sm">${shortName}</button>
                 `);
             });
         }
@@ -945,7 +963,7 @@
         function quickFilterTag(vendorName) {
             document.getElementById('dash-filter-vendor').value = vendorName;
             renderDashboard();
-            showToast(`แสดงพัสดุเฉพาะคู่ค้า: ${vendorName === 'all' ? 'ทุกบริษัท' : vendorName}`, 'info');
+            showToast(`ตัวคัดกรองคู่ค้า: ${vendorName === 'all' ? 'ทุกบริษัท' : vendorName}`, 'info');
         }
 
         function animateValue(obj, start, end, duration) {
@@ -973,10 +991,10 @@
             const pending = currentData.filter(item => item.status === 'pending').length;
             const delayed = currentData.filter(item => isItemDelayed(item)).length;
             
-            animateValue(document.getElementById('stat-total'), 0, total, 300);
-            animateValue(document.getElementById('stat-received'), 0, received, 300);
-            animateValue(document.getElementById('stat-pending'), 0, pending, 300);
-            animateValue(document.getElementById('stat-delayed'), 0, delayed, 300);
+            animateValue(document.getElementById('stat-total'), 0, total, 400);
+            animateValue(document.getElementById('stat-received'), 0, received, 400);
+            animateValue(document.getElementById('stat-pending'), 0, pending, 400);
+            animateValue(document.getElementById('stat-delayed'), 0, delayed, 400);
             
             const percentage = total > 0 ? Math.round((received / total) * 100) : 0;
             document.getElementById('stat-percentage').innerText = percentage + "%";
@@ -987,8 +1005,8 @@
             if (delayed > 0) {
                 alertBox.classList.remove('hidden');
                 alertText.innerText = vendorFilter !== 'all' 
-                    ? `พัสดุตรวจรับของ ${vendorFilter} ล่าช้ากว่าแผนรวม ${delayed} รายการ`
-                    : `พบอุปกรณ์และพัสดุรวม ${delayed} รายการที่เกินกำหนดเวลาสัญญา`;
+                    ? `พัสดุและสินค้าในสัญญาของ ${vendorFilter} ล่าช้ากว่ากำหนดรวม ${delayed} รายการ`
+                    : `พบอุปกรณ์และพัสดุรวม ${delayed} รายการเกินกำหนด/ล่าช้า`;
             } else { 
                 alertBox.classList.add('hidden'); 
             }
@@ -1004,17 +1022,18 @@
             const delayedItems = data.filter(i => isItemDelayed(i)).slice(0, 3);
             
             if(receivedItems.length === 0 && delayedItems.length === 0) {
-                list.innerHTML = `<div class="p-3 text-center text-xs text-slate-400">ไม่มีความเคลื่อนไหวในช่วงนี้</div>`;
+                list.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">ไม่มีกิจกรรมในช่วงเวลานี้</div>`;
                 return;
             }
             
             delayedItems.forEach(item => {
                 list.insertAdjacentHTML('beforeend', `
-                    <div onclick="showItemDetails('${item.id}')" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-red-500/10 cursor-pointer border border-transparent hover:border-red-500/10 transition-all text-xs">
-                        <div class="p-1.5 rounded-lg bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div onclick="showItemDetails('${item.id}')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-red-500/10 cursor-pointer border border-transparent hover:border-red-500/20 transition-all text-xs">
+                        <div class="p-2 rounded-lg bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i></div>
                         <div class="flex-1">
-                            <span class="font-extrabold text-red-600 dark:text-red-400">${item.id} เกินแผนส่งมอบ!</span>
-                            <p class="text-slate-600 dark:text-slate-300 line-clamp-1">${item.name}</p>
+                            <span class="font-extrabold text-red-600 dark:text-red-400">${item.id} ล่าช้า!</span>
+                            <p class="text-slate-600 dark:text-slate-300 line-clamp-1 mt-0.5">${item.name}</p>
+                            <span class="text-[10px] text-slate-400 font-semibold block mt-1"><i class="fa-regular fa-clock mr-1"></i>กำหนดเดิม: ${formatDateTH(item.planDate)}</span>
                         </div>
                     </div>
                 `);
@@ -1022,11 +1041,12 @@
             
             receivedItems.forEach(item => {
                 list.insertAdjacentHTML('beforeend', `
-                    <div onclick="showItemDetails('${item.id}')" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-emerald-500/10 cursor-pointer border border-transparent hover:border-emerald-500/10 transition-all text-xs">
-                        <div class="p-1.5 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400"><i class="fa-solid fa-check-double"></i></div>
+                    <div onclick="showItemDetails('${item.id}')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-emerald-500/10 cursor-pointer border border-transparent hover:border-emerald-500/20 transition-all text-xs">
+                        <div class="p-2 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400"><i class="fa-solid fa-check-double"></i></div>
                         <div class="flex-1">
-                            <span class="font-extrabold text-emerald-600 dark:text-emerald-400">ตรวจรับ S/N สำเร็จ</span>
-                            <p class="text-slate-600 dark:text-slate-300 line-clamp-1">${item.name}</p>
+                            <span class="font-extrabold text-emerald-600 dark:text-emerald-400">ตรวจรับและลงเลข S/N สำเร็จ</span>
+                            <p class="text-slate-600 dark:text-slate-300 line-clamp-1 mt-0.5">${item.name}</p>
+                            <span class="text-[10px] text-slate-400 font-semibold block mt-1"><i class="fa-regular fa-calendar mr-1"></i>วันที่ลงคลัง: ${formatDateTH(item.receiveDate)}</span>
                         </div>
                     </div>
                 `);
@@ -1036,7 +1056,7 @@
         function renderCharts(received, pending, delayed, currentData) {
             const isDark = document.documentElement.classList.contains('dark');
             const textColor = isDark ? '#f8fafc' : '#1e293b';
-            const gridColor = isDark ? '#334155' : '#e2e8f0';
+            const gridColor = isDark ? '#334155' : '#f1f5f9';
             
             const ctxStatus = document.getElementById('statusChart').getContext('2d');
             if(statusChartInst) statusChartInst.destroy();
@@ -1045,13 +1065,13 @@
             statusChartInst = new Chart(ctxStatus, {
                 type: 'doughnut',
                 data: {
-                    labels: ['ตรวจรับเสร็จ', 'รอดำเนินการ', 'ส่งล่าช้า'],
+                    labels: ['ตรวจรับสำเร็จ', 'รอดำเนินการ', 'ล่าช้า'],
                     datasets: [{ 
                         data: totalSum === 0 ? [0, 1, 0] : [received, pending - delayed, delayed], 
                         backgroundColor: totalSum === 0 ? ['#e2e8f0', '#f1f5f9', '#e2e8f0'] : ['#10b981', '#f59e0b', '#ef4444'], 
-                        borderWidth: 1.5, 
+                        borderWidth: 2, 
                         borderColor: isDark ? '#1e293b' : '#ffffff',
-                        hoverOffset: 4
+                        hoverOffset: 6
                     }]
                 },
                 options: { 
@@ -1060,12 +1080,12 @@
                     plugins: { 
                         legend: { 
                             position: 'bottom', 
-                            labels: { color: textColor, font: {family: 'Sarabun', size: 10, weight: 'bold'}, padding: 8 } 
+                            labels: { color: textColor, font: {family: 'Sarabun', size: 11, weight: '600'}, padding: 12 } 
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    if(totalSum === 0) return " ไม่มีพัสดุ";
+                                    if(totalSum === 0) return " ไม่มีข้อมูล";
                                     let label = context.label || '';
                                     let value = context.parsed || 0;
                                     let pct = totalSum > 0 ? ((value / totalSum) * 100).toFixed(1) : 0;
@@ -1084,14 +1104,21 @@
                         const ctx = chart.ctx;
                         ctx.restore();
                         
-                        const fontSize = (height / 140).toFixed(2);
-                        ctx.font = `black ${fontSize}em Sarabun`;
+                        const fontSize = (height / 150).toFixed(2);
+                        ctx.font = `extrabold ${fontSize}em Sarabun`;
                         ctx.textBaseline = "middle";
                         ctx.fillStyle = textColor;
                         const text = totalSum.toString();
                         const textX = Math.round((width - ctx.measureText(text).width) / 2);
-                        const textY = Math.round((height - 30) / 2);
+                        const textY = Math.round((height - 35) / 2);
                         ctx.fillText(text, textX, textY);
+                        
+                        ctx.font = `bold ${(height / 350).toFixed(2)}em Sarabun`;
+                        ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+                        const labelText = "ยอดรวมจัดซื้อ";
+                        const labelX = Math.round((width - ctx.measureText(labelText).width) / 2);
+                        const labelY = textY + 25;
+                        ctx.fillText(labelText, labelX, labelY);
                         ctx.save();
                     }
                 }]
@@ -1103,19 +1130,23 @@
             const vendorLabels = Object.keys(vendorCounts);
             const vendorData = Object.values(vendorCounts);
             
+            const premiumColors = [
+                '#14b8a6', '#6366f1', '#a855f7', '#f43f5e', '#0ea5e9', '#eab308', '#f97316', '#84cc16'
+            ];
+            
             const ctxVendor = document.getElementById('vendorChart').getContext('2d');
             if(vendorChartInst) vendorChartInst.destroy();
             vendorChartInst = new Chart(ctxVendor, {
                 type: 'bar',
                 data: {
-                    labels: vendorLabels.map(l => l.length > 12 ? l.substring(0, 12) + '...' : l),
-                    fullLabels: vendorLabels, 
+                    labels: vendorLabels.length > 0 ? vendorLabels.map(l => l.length > 15 ? l.substring(0, 15) + '...' : l) : ['ไม่มีข้อมูล'],
+                    fullLabels: vendorLabels.length > 0 ? vendorLabels : [''], 
                     datasets: [{ 
-                        label: 'พัสดุสัญญา (เครื่อง)',
-                        data: vendorData, 
-                        backgroundColor: '#14b8a6',
-                        borderRadius: 6, 
-                        barPercentage: 0.5
+                        label: 'พัสดุในสัญญา (เครื่อง)',
+                        data: vendorData.length > 0 ? vendorData : [0], 
+                        backgroundColor: vendorLabels.map((_, i) => premiumColors[i % premiumColors.length]) || ['#e2e8f0'],
+                        borderRadius: 8, 
+                        barPercentage: 0.55
                     }]
                 },
                 options: {
@@ -1124,15 +1155,24 @@
                     maintainAspectRatio: false,
                     scales: {
                         x: { 
-                            ticks: { stepSize: 1, color: textColor, font: {family: 'Sarabun', size: 9} }, 
+                            ticks: { stepSize: 1, color: textColor, font: {family: 'Sarabun'} }, 
                             grid: { color: gridColor },
-                            min: 0
+                            title: { display: true, text: 'ปริมาณ (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10, weight: 'bold'} },
+                            min: 0,
+                            suggestedMax: 5
                         },
-                        y: { ticks: { color: textColor, font: {family: 'Sarabun', size: 9, weight: 'bold'} }, grid: { display: false } }
+                        y: { ticks: { color: textColor, font: {family: 'Sarabun', weight: 'bold'} }, grid: { display: false } }
                     },
                     plugins: { 
                         legend: { display: false }, 
-                        tooltip: { callbacks: { title: (ctx) => vendorLabels[ctx[0].dataIndex] } } 
+                        tooltip: { callbacks: { title: (ctx) => vendorLabels[ctx[0].dataIndex] || 'ไม่มีข้อมูล' }, titleFont: {family: 'Sarabun'}, bodyFont: {family: 'Sarabun'} } 
+                    },
+                    onClick: (e, activeEls, chart) => {
+                        if(activeEls.length > 0 && vendorLabels.length > 0) {
+                            const index = activeEls[0].index;
+                            const fullVendorName = chart.data.fullLabels[index];
+                            if (fullVendorName) openDashboardItemsModal('all', fullVendorName);
+                        }
                     }
                 }
             });
@@ -1141,6 +1181,10 @@
         }
 
         function renderTimelineChart(currentData, textColor, gridColor) {
+            const monthsMap = {
+                "01": "ม.ค.", "02": "ก.พ.", "03": "มี.ค.", "04": "เม.ย.", "05": "พ.ค.", "06": "มิ.ย.",
+                "07": "ก.ค.", "08": "ส.ค.", "09": "ก.ย.", "10": "ต.ค.", "11": "พ.ย.", "12": "ธ.ค."
+            };
             const chronologicalGroups = {};
             currentData.forEach(item => {
                 const planD = parseDate(item.planDate);
@@ -1160,7 +1204,7 @@
             const sortedKeys = Object.keys(chronologicalGroups).sort();
             const labelsShort = sortedKeys.map(key => {
                 const [yr, mo] = key.split('-');
-                return `${mo}/${yr}`;
+                return `${monthsMap[mo]} ${yr}`;
             });
             const planDataset = sortedKeys.map(key => chronologicalGroups[key].planCount);
             const actualDataset = sortedKeys.map(key => chronologicalGroups[key].actualCount);
@@ -1171,43 +1215,70 @@
             timelineChartInst = new Chart(ctxTimeline, {
                 type: 'line',
                 data: {
-                    labels: labelsShort.length > 0 ? labelsShort : ["07/2026"],
+                    labels: labelsShort.length > 0 ? labelsShort : ["ม.ค.", "ก.พ.", "มี.ค."],
                     datasets: [
                         {
-                            label: 'แผนส่งมอบ (Plan)',
-                            data: planDataset.length > 0 ? planDataset : [0],
+                            label: 'แผนกำหนดส่งมอบสะสม (Plan)',
+                            data: planDataset.length > 0 ? planDataset : [0, 0, 0],
                             borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.05)',
-                            borderWidth: 2,
-                            tension: 0.3,
+                            backgroundColor: 'rgba(59, 130, 246, 0.08)',
+                            borderWidth: 3.5,
+                            tension: 0.35,
                             fill: true,
-                            pointRadius: 4
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
                         },
                         {
-                            label: 'ตรวจรับจริง (Actual)',
-                            data: actualDataset.length > 0 ? actualDataset : [0],
+                            label: 'ผลตรวจรับสำเร็จสะสม (Actual)',
+                            data: actualDataset.length > 0 ? actualDataset : [0, 0, 0],
                             borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.05)',
-                            borderWidth: 2,
-                            tension: 0.3,
+                            backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                            borderWidth: 3.5,
+                            tension: 0.35,
                             fill: true,
-                            pointRadius: 4
+                            pointBackgroundColor: '#10b981',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
                         }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
                     scales: {
-                        x: { ticks: { color: textColor, font: {family: 'Sarabun', size: 9} }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor, font: {family: 'Sarabun'} }, grid: { color: gridColor } },
                         y: { 
-                            ticks: { color: textColor, stepSize: 1, font: {family: 'Sarabun', size: 9} }, 
+                            ticks: { color: textColor, stepSize: 1, font: {family: 'Sarabun'} }, 
                             grid: { color: gridColor },
-                            min: 0
+                            title: { display: true, text: 'ปริมาณ (เครื่อง)', color: textColor, font: {family: 'Sarabun', size: 10} },
+                            min: 0,
+                            suggestedMax: 5
                         }
                     },
                     plugins: {
-                        legend: { labels: { color: textColor, font: {family: 'Sarabun', size: 10, weight: 'bold'} } }
+                        legend: { position: 'top', labels: { color: textColor, font: {family: 'Sarabun', size: 11, weight: 'bold'}, padding: 15 } },
+                        tooltip: {
+                            titleFont: {family: 'Sarabun'},
+                            bodyFont: {family: 'Sarabun'},
+                            callbacks: {
+                                footer: function(tooltipItems) {
+                                    if(planDataset.length === 0) return "";
+                                    const index = tooltipItems[0].dataIndex;
+                                    const planVal = planDataset[index] || 0;
+                                    const actVal = actualDataset[index] || 0;
+                                    const diff = planVal - actVal;
+                                    if (diff > 0) return `ค้างตรวจรับมอบ: ${diff} เครื่อง`;
+                                    if (diff < 0) return `ส่งมอบล่วงหน้าสะสม: ${Math.abs(diff)} เครื่อง`;
+                                    return `ตรวจรับครบถ้วนตามสัญญา`;
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -1218,10 +1289,11 @@
             document.getElementById('dash-modal-filter-vendor').value = vendor;
             document.getElementById('dash-modal-filter-type').value = typeName;
             
-            let titleText = "ตารางรายงานตรวจเช็คพัสดุ";
-            if(status === 'received') titleText = "พัสดุลงคลังสำเร็จ";
-            if(status === 'pending') titleText = "พัสดุรอตรวจรับมอบ";
-            if(status === 'delayed') titleText = "พัสดุล่าช้าเกินข้อตกลง";
+            let titleText = "รายงานรายการอุปกรณ์ครุภัณฑ์";
+            if(status === 'received') titleText = "พัสดุตรวจรับเรียบร้อยแล้ว";
+            if(status === 'pending') titleText = "พัสดุรอดำเนินการส่งมอบ";
+            if(status === 'delayed') titleText = "รายการพัสดุล่าช้ากว่าดิวสัญญากำหนด";
+            if(typeName !== 'all') titleText = `กลุ่มพัสดุ: ${typeName}`;
             document.getElementById('dash-modal-title').innerText = titleText;
             
             filterDashModalTable();
@@ -1246,27 +1318,27 @@
             
             tbody.innerHTML = '';
             if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">ไม่พบทะเบียนอุปกรณ์</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 font-bold">ไม่พบข้อมูลตามตัวเลือกที่กำหนด</td></tr>`;
                 return;
             }
             
             filtered.forEach((item, index) => {
                 let statusBadge = '';
-                if(item.status === 'received') statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400">ตรวจรับแล้ว</span>`;
-                else if(isItemDelayed(item)) statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-400">ล่าช้า</span>`;
-                else statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400">รอดำเนินการ</span>`;
+                if(item.status === 'received') statusBadge = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"><i class="fa-solid fa-circle-check mr-1.5"></i>ตรวจรับสำเร็จ</span>`;
+                else if(isItemDelayed(item)) statusBadge = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i>ล่าช้า</span>`;
+                else statusBadge = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400"><i class="fa-solid fa-hourglass-start mr-1.5"></i>รอดำเนินการ</span>`;
                 
                 tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60 border-b border-slate-100 dark:border-slate-750 cursor-pointer" onclick="showItemDetails('${item.id}')">
-                        <td class="p-2.5 text-center text-slate-400">${index + 1}</td>
-                        <td class="p-2.5 font-bold text-brand-600 dark:text-brand-400">${item.id}</td>
-                        <td class="p-2.5">
-                            <div class="font-bold text-slate-800 dark:text-white">${item.name}</div>
-                            <span class="text-[10px] text-slate-400">${item.brand} | ${item.model}</span>
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/55 border-b border-slate-100 dark:border-slate-750 cursor-pointer transition-all" onclick="showItemDetails('${item.id}')">
+                        <td class="p-3.5 text-center text-slate-400 font-bold">${index + 1}</td>
+                        <td class="p-3.5 font-bold text-brand-600 dark:text-brand-400">${item.id}</td>
+                        <td class="p-3.5">
+                            <div class="font-bold text-slate-800 dark:text-white leading-snug">${item.name}</div>
+                            <span class="text-[10px] text-slate-400 font-bold block mt-0.5">${item.brand} | ${item.model}</span>
                         </td>
-                        <td class="p-2.5 text-slate-600 dark:text-slate-300">${item.vendor}</td>
-                        <td class="p-2.5 font-mono">${formatDateTH(item.planDate)}</td>
-                        <td class="p-2.5">${statusBadge}</td>
+                        <td class="p-3.5 text-slate-600 dark:text-slate-300 font-semibold">${item.vendor}</td>
+                        <td class="p-3.5 text-slate-600 dark:text-slate-300 font-mono font-bold">${formatDateTH(item.planDate)}</td>
+                        <td class="p-3.5">${statusBadge}</td>
                     </tr>
                 `);
             });
@@ -1299,24 +1371,25 @@
                     const progress = data.total > 0 ? Math.round((data.received / data.total) * 100) : 0;
                     
                     grid.insertAdjacentHTML('beforeend', `
-                        <div onclick="openDashboardItemsModal('all', 'all', '${name}')" class="cursor-pointer hover:scale-[1.01] bg-white dark:bg-slate-800 rounded-xl p-4 shadow-premium border border-slate-100 dark:border-slate-800 hover:border-brand-400 transition-all flex flex-col justify-between">
-                            <div class="mb-3">
-                                <span class="text-[9px] uppercase font-bold text-brand-500 tracking-wider">กลุ่มพัสดุตามสัญญา</span>
-                                <h4 class="font-bold text-slate-800 dark:text-white text-sm line-clamp-1 mt-0.5">${name}</h4>
+                        <div onclick="openDashboardItemsModal('all', 'all', '${name}')" class="cursor-pointer hover:scale-[1.02] active:scale-[0.98] bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-premium dark:shadow-premium-dark border border-slate-100 dark:border-slate-800 hover:border-brand-400 transition-all flex flex-col group">
+                            <div class="mb-4">
+                                <span class="text-[10px] uppercase font-bold text-brand-500 tracking-wider">กลุ่มระบบงานพัสดุ</span>
+                                <h4 class="font-extrabold text-slate-800 dark:text-white text-base md:text-lg group-hover:text-brand-500 transition-colors line-clamp-2 leading-snug mt-1">${name}</h4>
+                                <p class="text-xs text-slate-400 mt-1.5"><i class="fa-solid fa-tag mr-1 text-brand-500"></i> ยี่ห้อรุ่นคีย์เวิร์ด: ${Array.from(data.brands).join(', ') || '-'}</p>
                             </div>
-                            <div class="mb-3">
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-500">เปอร์เซ็นต์นำส่ง</span>
-                                    <span class="font-bold text-brand-600">${progress}%</span>
+                            <div class="mb-4">
+                                <div class="flex justify-between text-xs mb-1.5">
+                                    <span class="font-bold text-slate-500">ความสำเร็จตรวจรับ</span>
+                                    <span class="font-extrabold text-brand-600 dark:text-brand-400">${progress}%</span>
                                 </div>
-                                <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
-                                    <div class="bg-brand-500 h-2 rounded-full" style="width: ${progress}%"></div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2.5 shadow-inner">
+                                    <div class="bg-gradient-to-r from-brand-500 to-teal-400 h-2.5 rounded-full shadow-glow" style="width: ${progress}%"></div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-3 gap-1 pt-2 border-t text-center text-xs">
-                                <div><div class="font-bold text-slate-800 dark:text-white">${data.total}</div><div class="text-[9px] text-slate-400">ทั้งหมด</div></div>
-                                <div class="border-l border-r"><div class="font-bold text-emerald-500">${data.received}</div><div class="text-[9px] text-slate-400">คลังรับแล้ว</div></div>
-                                <div><div class="font-bold text-amber-500">${data.pending}</div><div class="text-[9px] text-slate-400">รอดำเนินการ</div></div>
+                            <div class="mt-auto grid grid-cols-3 gap-2 border-t border-slate-100 dark:border-slate-700/50 pt-3.5 text-center">
+                                <div><div class="text-base font-extrabold text-slate-800 dark:text-white">${data.total}</div><div class="text-[10px] text-slate-400 font-bold">ทั้งหมด</div></div>
+                                <div class="border-l border-r border-slate-100 dark:border-slate-700/50"><div class="text-base font-extrabold text-emerald-500">${data.received}</div><div class="text-[10px] text-slate-400 font-bold">ตรวจรับสำเร็จ</div></div>
+                                <div><div class="text-base font-extrabold ${data.delayed > 0 ? 'text-red-500' : 'text-amber-500'}">${data.pending}</div><div class="text-[10px] text-slate-400 font-bold flex flex-col items-center"><span>รอดำเนินการ</span>${data.delayed > 0 ? `<span class="text-red-500 font-extrabold text-[9px]">(ล่าช้า ${data.delayed})</span>` : ''}</div></div>
                             </div>
                         </div>
                     `);
@@ -1358,6 +1431,7 @@
                 }
             });
             
+            // Render blank slots matching starting day alignment
             for(let i = 0; i < firstDay; i++) {
                 grid.insertAdjacentHTML('beforeend', '<div class="aspect-square"></div>');
             }
@@ -1369,10 +1443,10 @@
                 
                 let cellBgClass = 'hover:bg-slate-100 dark:hover:bg-slate-700/50';
                 let textClass = 'text-slate-700 dark:text-slate-300';
-                let dotIndicatorHtml = '<div class="flex gap-1 justify-center mt-1 h-1">';
+                let dotIndicatorHtml = '<div class="flex gap-1 justify-center mt-1 h-1.5">';
                 
                 if(isToday) {
-                    cellBgClass = 'bg-brand-500 text-white shadow-md';
+                    cellBgClass = 'bg-brand-500 text-white shadow-md shadow-brand-500/20';
                     textClass = 'text-white font-extrabold';
                 }
                 
@@ -1381,42 +1455,45 @@
                     const delayedCount = dData.plan.filter(i => isItemDelayed(i)).length;
                     const receivedCount = dData.rcv.length;
                     
+                    // Render soft premium color highlights inside circles for active days
                     if(!isToday) {
                         if (delayedCount > 0) {
-                            cellBgClass = 'bg-red-500/10 border border-red-500/10';
-                            textClass = 'text-red-600 dark:text-red-400 font-bold';
+                            cellBgClass = 'bg-red-500/10 border border-red-500/20 hover:bg-red-500/20';
+                            textClass = 'text-red-600 dark:text-red-400 font-extrabold';
                         } else if (receivedCount > 0 && pendingCount === 0) {
-                            cellBgClass = 'bg-emerald-500/10 border border-emerald-500/10';
-                            textClass = 'text-emerald-600 dark:text-emerald-400 font-bold';
+                            cellBgClass = 'bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20';
+                            textClass = 'text-emerald-600 dark:text-emerald-400 font-extrabold';
                         } else if (pendingCount > 0) {
-                            cellBgClass = 'bg-amber-500/10 border border-amber-500/10';
-                            textClass = 'text-amber-600 dark:text-amber-400 font-bold';
+                            cellBgClass = 'bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20';
+                            textClass = 'text-amber-600 dark:text-amber-400 font-extrabold';
                         }
                     }
                     
+                    // Tiny colorful indicator dots below the numbers
                     if(pendingCount > 0 && pendingCount > delayedCount) {
-                        dotIndicatorHtml += `<span class="w-1 h-1 rounded-full bg-amber-500"></span>`;
+                        dotIndicatorHtml += `<span class="w-1.5 h-1.5 rounded-full bg-amber-500" title="ดิวส่งมอบ: ${pendingCount}"></span>`;
                     }
                     if(delayedCount > 0) {
-                        dotIndicatorHtml += `<span class="w-1 h-1 rounded-full bg-red-500"></span>`;
+                        dotIndicatorHtml += `<span class="w-1.5 h-1.5 rounded-full bg-red-500" title="ล่าช้า: ${delayedCount}"></span>`;
                     }
                     if(receivedCount > 0) {
-                        dotIndicatorHtml += `<span class="w-1 h-1 rounded-full bg-emerald-500"></span>`;
+                        dotIndicatorHtml += `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500" title="เข้าคลัง: ${receivedCount}"></span>`;
                     }
                 }
                 dotIndicatorHtml += `</div>`;
                 
-                grid.insertAdjacentHTML('beforeend', `
+                let html = `
                     <div class="cal-cell-modern flex flex-col justify-center items-center ${cellBgClass}" onclick="showCalendarDay(${year}, ${month}, ${d})">
-                        <span class="text-xs font-bold ${textClass}">${d}</span>
+                        <span class="text-xs sm:text-sm font-extrabold ${textClass}">${d}</span>
                         ${dotIndicatorHtml}
                     </div>
-                `);
+                `;
+                grid.insertAdjacentHTML('beforeend', html);
             }
         }
 
         function showCalendarDay(year, month, day) {
-            document.getElementById('cal-day-title').innerText = `กำหนดการรับของวันที่ ${day} ${thaiMonths[month]} ${year}`;
+            document.getElementById('cal-day-title').innerText = `รายการครุภัณฑ์วันที่ ${day} ${thaiMonths[month]} ${year}`;
             const listContainer = document.getElementById('cal-day-list');
             listContainer.innerHTML = '';
             
@@ -1433,24 +1510,24 @@
                 if(isPlanDate || isRcvDate) {
                     foundAny = true;
                     let tagHtml = '';
-                    if(isRcvDate) tagHtml += `<span class="bg-emerald-100 text-emerald-855 text-[9px] font-bold px-2 py-0.5 rounded-full border border-emerald-200">ตรวจรับจริง</span>`;
-                    else if (isItemDelayed(item)) tagHtml += `<span class="bg-red-100 text-red-800 text-[9px] font-bold px-2 py-0.5 rounded-full border border-red-200">ส่งล่าช้า</span>`;
-                    else tagHtml += `<span class="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full border border-amber-200">ตามแผนสัญญา</span>`;
+                    if(isRcvDate) tagHtml += `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200">รับเข้าคลังค่ำวันนี้</span>`;
+                    else if (isItemDelayed(item)) tagHtml += `<span class="bg-red-100 text-red-800 text-[10px] font-bold px-2.5 py-1 rounded-full border border-red-200">ล่าช้า</span>`;
+                    else tagHtml += `<span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2.5 py-1 rounded-full border border-amber-200">กำหนดพัสดุเข้าคลัง</span>`;
                     
                     listContainer.insertAdjacentHTML('beforeend', `
-                        <div class="p-3.5 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-colors" onclick="showItemDetails('${item.id}')">
-                            <div class="flex justify-between items-center gap-2 mb-1">
-                                <span class="font-bold text-brand-600 dark:text-brand-400 text-xs">${item.id}</span>
+                        <div class="border-b border-slate-100 dark:border-slate-700/50 p-4.5 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-colors" onclick="showItemDetails('${item.id}')">
+                            <div class="flex justify-between items-start gap-2 mb-2">
+                                <span class="font-bold text-brand-600 dark:text-brand-400 text-sm">${item.id}</span>
                                 <div>${tagHtml}</div>
                             </div>
-                            <div class="text-xs font-bold text-slate-800 dark:text-white line-clamp-1">${item.name}</div>
-                            <div class="text-[10px] text-slate-400 mt-1"><i class="fa-solid fa-building mr-1"></i>${item.vendor}</div>
+                            <div class="text-sm font-extrabold text-slate-800 dark:text-white leading-snug">${item.name}</div>
+                            <div class="text-xs text-slate-400 mt-1.5 font-bold"><i class="fa-solid fa-building mr-1"></i>${item.vendor}</div>
                         </div>
                     `);
                 }
             });
             
-            if(!foundAny) listContainer.innerHTML = `<div class="p-6 text-center text-xs text-slate-400">ไม่มีกำหนดการและแผนในวันนี้</div>`;
+            if(!foundAny) listContainer.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold">ไม่มีประวัติกำหนดการรับมอบในวันนี้</div>`;
             document.getElementById('cal-day-modal').classList.remove('hidden');
         }
 
@@ -1473,29 +1550,30 @@
             tbody.innerHTML = '';
             
             if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">ไม่พบคลังพัสดุอุปกรณ์</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 font-bold">ไม่พบข้อมูล</td></tr>`;
                 return;
             }
 
             filtered.forEach(item => {
                 let statusBadge = '';
-                if(item.status === 'received') statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400">ตรวจรับสำเร็จ</span>`;
-                else if(isItemDelayed(item)) statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-400">ล่าช้า</span>`;
-                else statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400">รอตรวจของ</span>`;
+                if(item.status === 'received') statusBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"><i class="fa-solid fa-check-double mr-1.5 text-[10px]"></i>ตรวจรับสำเร็จ</span>`;
+                else if(isItemDelayed(item)) statusBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-400"><i class="fa-solid fa-circle-exclamation mr-1.5 text-[10px]"></i>ล่าช้า</span>`;
+                else statusBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400"><i class="fa-solid fa-hourglass mr-1.5 text-[10px]"></i>รอตรวจส่งมอบ</span>`;
                 
                 const planDateClass = isItemDelayed(item) ? 'text-red-500 font-bold' : 'text-slate-500';
                 
+                // Optimized column structure using Tailwind's truncate and hiding vendor on smaller viewports to prevent layout overflow
                 tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="hover:bg-brand-50/30 dark:hover:bg-slate-700/60 transition-all border-b border-slate-100 dark:border-slate-750 cursor-pointer" onclick="showItemDetails('${item.id}')">
-                        <td class="p-3 text-center text-slate-400">${item.no}</td>
-                        <td class="p-3 font-bold text-brand-600 dark:text-brand-400">${item.id}</td>
-                        <td class="p-3">
-                            <div class="text-slate-800 dark:text-white font-bold">${item.name}</div>
-                            <div class="text-[10px] text-slate-400">${item.brand || '-'} | ${item.model || '-'}</div>
+                    <tr class="hover:bg-brand-50/50 dark:hover:bg-slate-700/60 transition-all border-b border-slate-100 dark:border-slate-750 last:border-0 cursor-pointer" onclick="showItemDetails('${item.id}')">
+                        <td class="p-4 text-center text-slate-400 font-bold">${item.no}</td>
+                        <td class="p-4 font-bold text-brand-600 dark:text-brand-400 whitespace-nowrap">${item.id}</td>
+                        <td class="p-4">
+                            <div class="text-slate-800 dark:text-white font-bold leading-tight break-words max-w-[200px] md:max-w-none">${item.name}</div>
+                            <div class="text-[11px] text-slate-400 font-semibold mt-0.5">${item.brand || '-'}</div>
                         </td>
-                        <td class="p-3 text-slate-500 hidden md:table-cell">${item.vendor}</td>
-                        <td class="p-3 ${planDateClass} font-mono">${formatDateTH(item.planDate)}</td>
-                        <td class="p-3 text-center">${statusBadge}</td>
+                        <td class="p-4 text-slate-500 dark:text-slate-400 text-xs font-semibold truncate max-w-[170px] hidden md:table-cell">${item.vendor}</td>
+                        <td class="p-4 ${planDateClass} text-xs font-mono font-bold whitespace-nowrap">${formatDateTH(item.planDate)}</td>
+                        <td class="p-4 text-center">${statusBadge}</td>
                     </tr>
                 `);
             });
@@ -1505,6 +1583,7 @@
             const item = equipmentData.find(d => d.id === id);
             if(!item) return;
             
+            // Revert edit view to normal view first
             disableDetEditMode();
             
             const cleanPlanDate = formatDateTH(item.planDate);
@@ -1518,64 +1597,60 @@
             document.getElementById('det-planDate').innerText = cleanPlanDate;
             document.getElementById('det-rcvDate').innerText = cleanRcvDate;
             document.getElementById('det-sn').innerText = item.sn || '-';
-            document.getElementById('det-notes').innerText = item.warehouseNotes || item.notes || 'ไม่มีบันทึกการส่งมอบและการตรวจสอบ';
+            document.getElementById('det-notes').innerText = item.notes || 'ไม่มีประวัติบันทึกหมายเหตุแนบเพิ่มเติม';
             
-            // Set values into Edit Form
+            // Set values into Edit Details Form inputs
             document.getElementById('det-edit-id').value = item.id;
             document.getElementById('det-edit-id-label').innerText = item.id;
             document.getElementById('det-edit-name-label').innerText = item.name;
             
             const parsedRcv = parseDate(item.receiveDate);
-            document.getElementById('det-edit-rcvDate-input').value = parsedRcv ? parsedRcv.toISOString().split('T')[0] : '';
+            if (parsedRcv) {
+                document.getElementById('det-edit-rcvDate-input').value = parsedRcv.toISOString().split('T')[0];
+            } else {
+                document.getElementById('det-edit-rcvDate-input').value = '';
+            }
             
             document.getElementById('det-edit-status-input').value = item.status;
             document.getElementById('det-edit-sn-input').value = item.sn || '';
-            document.getElementById('det-edit-notes-input').value = item.warehouseNotes || item.notes || '';
+            document.getElementById('det-edit-notes-input').value = item.notes || '';
             
-            // รีเซ็ตการตั้งค่าพรีวิวรูปภาพในฟอร์มแก้ไขพัสดุ
-            const editPreview = document.getElementById('edit-upload-preview');
-            const editPlaceholder = document.getElementById('edit-upload-placeholder');
-            const editLabel = document.getElementById('edit-upload-status-text');
-            
-            if (item.hasDoc && item.docUrl && item.docUrl.startsWith("http")) {
-                editPreview.src = item.docUrl;
-                editPreview.classList.remove('hidden');
-                editPlaceholder.classList.add('opacity-0');
-                editLabel.innerText = "📷 มีไฟล์ภาพแนบอยู่ (แตะเพื่ออัปใหม่)";
-            } else {
-                editPreview.src = "";
-                editPreview.classList.add('hidden');
-                editPlaceholder.classList.remove('opacity-0');
-                editLabel.innerText = "แตะเพื่อถ่ายรูปหรืออัปภาพ";
-            }
+            // Reset upload field status text on opening detail view
+            document.getElementById('edit-upload-status-text').innerText = "แตะเพื่อถ่าย/อัปภาพ";
+            document.getElementById('edit-upload-status-text').className = "text-xs font-bold text-slate-600 dark:text-slate-300";
             
             const docStatus = document.getElementById('det-doc-status');
             if(item.status === 'received') {
-                const docContent = item.hasDoc && item.docUrl 
-                    ? `<a href="${item.docUrl}" target="_blank" class="inline-flex items-center gap-1.5 p-2 text-xs font-bold text-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 rounded-xl hover:bg-emerald-100/50">
-                            <i class="fa-solid fa-file-image"></i> คลิกเปิดภาพใบส่งของพัสดุจริง
-                       </a>`
-                    : `<span class="text-slate-400 italic">ไม่มีไฟล์ภาพใบส่งของแนบ</span>`;
-                docStatus.innerHTML = `<div class="mt-1">${docContent}</div>`;
+                const baseDocText = item.hasDoc ? `อัปโหลดไฟล์รูปภาพแนบสำเร็จ` : `ไม่มีไฟล์เอกสารแนบ`;
+                
+                docStatus.innerHTML = `
+                    <div class="space-y-2 mt-1">
+                        <span class="inline-flex items-center gap-1.5 p-1.5 px-3 text-xs font-bold ${item.hasDoc ? 'text-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200/20' : 'text-slate-400 bg-slate-100 dark:bg-slate-750 dark:text-slate-400 border border-slate-200/20'} rounded-xl">
+                            <i class="fa-solid ${item.hasDoc ? 'fa-circle-check' : 'fa-file-circle-xmark'}"></i> ${baseDocText}
+                        </span>
+                    </div>
+                `;
             } else {
-                docStatus.innerHTML = `<span class="text-xs text-amber-500 italic">⏳ รอดำเนินการส่งพัสดุ</span>`;
+                docStatus.innerHTML = `<span class="text-xs text-amber-500 font-bold italic">⏳ รอดำเนินการจัดส่งมอบจากคู่ค้าพัสดุ</span>`;
             }
             
             let badgeHtml = '';
-            if(item.status === 'received') badgeHtml = `<span class="bg-emerald-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full"><i class="fa-solid fa-check mr-1"></i>คลังตรวจรับสำเร็จ</span>`;
-            else if(isItemDelayed(item)) badgeHtml = `<span class="bg-red-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full animate-pulse"><i class="fa-solid fa-clock mr-1"></i>ส่งมอบล่าช้า</span>`;
-            else badgeHtml = `<span class="bg-amber-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full"><i class="fa-solid fa-hourglass-start mr-1"></i>รอตรวจของ</span>`;
+            if(item.status === 'received') badgeHtml = `<span class="bg-emerald-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm"><i class="fa-solid fa-check mr-1.5"></i>รับของแล้ว</span>`;
+            else if(isItemDelayed(item)) badgeHtml = `<span class="bg-red-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm animate-pulse"><i class="fa-solid fa-clock-rotate-left mr-1.5"></i>ล่าช้า</span>`;
+            else badgeHtml = `<span class="bg-amber-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm"><i class="fa-solid fa-hourglass-start mr-1.5"></i>อยู่ในกำหนดแผน</span>`;
             
             document.getElementById('det-status-badge').innerHTML = badgeHtml;
             document.getElementById('details-modal').classList.remove('hidden');
         }
 
         function enableDetEditMode() {
+            document.getElementById('det-title-text').innerText = "แก้ไขรายละเอียดพัสดุครุภัณฑ์";
             document.getElementById('det-view-mode').classList.add('hidden');
             document.getElementById('det-edit-form').classList.remove('hidden');
         }
 
         function disableDetEditMode() {
+            document.getElementById('det-title-text').innerText = "รายละเอียดพัสดุครุภัณฑ์";
             document.getElementById('det-view-mode').classList.remove('hidden');
             document.getElementById('det-edit-form').classList.add('hidden');
         }
@@ -1583,7 +1658,7 @@
         async function saveDetEdit(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-save-det-edit');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> กำลังบันทึกแก้ไข...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> กำลังบันทึกการแก้ไข...';
             btn.disabled = true;
 
             const id = document.getElementById('det-edit-id').value;
@@ -1600,6 +1675,7 @@
             const notes = document.getElementById('det-edit-notes-input').value.trim();
             const fileInput = document.getElementById('det-edit-file-input');
 
+            // Encode Image file into Base64 to transmit to Apps Script
             let fileBase64 = "";
             let fileName = "";
             if (fileInput.files && fileInput.files.length > 0) {
@@ -1607,58 +1683,39 @@
                 fileName = fileInput.files[0].name;
             }
 
+            // Force strict casting to strings to prevent Apps Script .toString() errors
             const updatePayload = {
                 id: String(id || ""),
                 status: String(status || ""),
                 receiveDate: String(rcvDateStr || ""),
                 sn: String(sn || "-"),
-                warehouseNotes: String(notes || "แก้ไขข้อมูลตรวจรับ"),
-                notes: String(notes || "แก้ไขข้อมูลตรวจรับ"),
-                fileBase64: String(fileBase64 || ""), 
+                notes: String(notes || "แก้ไขข้อมูลพัสดุเรียบร้อย"),
+                docUrl: String(fileName || ""), // fallback parameter backward compatibility
+                fileBase64: String(fileBase64 || ""), // Pass Image File encoding directly
                 fileName: String(fileName || "")
             };
 
             try {
-                if (API_URL && !API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE") && !API_URL.includes("AKfycby1-pX-XcGyuyyl8Aa9UW89A66B9H2Yh-rm8RzpBeEi-LIb79kOwmMwcEjPZ0pVRGNy")) {
-                    // ส่งข้อมูลแบบ text/plain เป็น JSON เพื่อเลี่ยงปัญหา CORS Preflight บล็อกสคริปต์
+                if (API_URL && !API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
                     const response = await fetch(API_URL, {
                         method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'text/plain;charset=utf-8'
-                        },
                         body: JSON.stringify({ action: 'receiveItem', data: updatePayload })
                     });
-                    
-                    const text = await response.text();
-                    const resJson = JSON.parse(text);
+                    const resJson = await response.json();
                     if (resJson.status !== 'success') throw new Error(resJson.message);
-                    
-                    // หากหลังบ้านคืนลิงก์รูปภาพ Google Drive จริงมา ให้ใช้ค่านั้นบันทึกฝั่งไคลเอนต์
-                    if (resJson.data && resJson.data.docUrl) {
-                        updatePayload.docUrl = resJson.data.docUrl;
-                    }
-                    
-                    showToast(`บันทึกการแก้ไขพัสดุ ${id} ลงชีทสำเร็จ`, 'success');
+                    showToast(`แก้ไขข้อมูลพัสดุ ${id} ลงใน Google Sheets สำเร็จ!`, 'success');
                 } else {
-                    showToast(`บันทึกแก้พัสดุสำเร็จ (โหมดจำลองออฟไลน์)`, 'success');
+                    showToast(`แก้ไขข้อมูลพัสดุ ${id} สำเร็จ! (โหมด Local)`, 'success');
                 }
 
+                // Update Client database array
                 const itemIndex = equipmentData.findIndex(d => d.id === id);
                 if(itemIndex > -1) {
                     equipmentData[itemIndex].status = status;
                     equipmentData[itemIndex].receiveDate = rcvDateStr;
                     equipmentData[itemIndex].sn = sn || "-";
-                    equipmentData[itemIndex].warehouseNotes = notes;
-                    equipmentData[itemIndex].notes = notes;
-                    if(fileInput.files.length > 0) {
-                        equipmentData[itemIndex].hasDoc = true;
-                        if(updatePayload.docUrl) {
-                            equipmentData[itemIndex].docUrl = updatePayload.docUrl;
-                        } else {
-                            equipmentData[itemIndex].docUrl = "https://drive.google.com/drive/folders/1MNHSnlQ3MBXWiQd275kwUmFhQK1okF64";
-                        }
-                    }
+                    equipmentData[itemIndex].notes = notes || "แก้ไขข้อมูลพัสดุเรียบร้อย";
+                    equipmentData[itemIndex].hasDoc = fileInput.files.length > 0;
                 }
 
                 closeModal('details-modal');
@@ -1669,9 +1726,9 @@
                 renderCalendar();
             } catch (err) {
                 console.error(err);
-                showToast(`แก้ไขผิดพลาด: ${err.message}`, 'error');
+                showToast(`แก้ไขข้อมูลผิดพลาด: ${err.message}`, 'error');
             } finally {
-                btn.innerHTML = '<i class="fa-solid fa-save mr-1.5"></i>บันทึกการแก้ไข';
+                btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i>บันทึกการแก้ไข';
                 btn.disabled = false;
             }
         }
@@ -1709,26 +1766,28 @@
                 
                 filteredItems.forEach(item => {
                     const isDelayed = isItemDelayed(item);
-                    const accentColorClass = isDelayed ? 'border-l-[5px] border-l-red-500' : 'border-l-[5px] border-l-amber-500';
+                    
+                    const accentColorClass = isDelayed ? 'border-l-[6px] border-l-red-500' : 'border-l-[6px] border-l-amber-500';
                     const badgeColorClass = isDelayed ? 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400' : 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400';
-                    const badgeText = isDelayed ? 'ส่งมอบล่าช้า' : 'รอดำเนินการ';
+                    const badgeText = isDelayed ? 'ล่าช้า' : 'รอดำเนินการ';
                     
                     grid.insertAdjacentHTML('beforeend', `
-                        <div onclick="openReceiveModal('${item.id}')" class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-premium border border-slate-200/40 dark:border-slate-700/50 ${accentColorClass} hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer flex flex-col justify-between h-full group">
+                        <div onclick="openReceiveModal('${item.id}')" class="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-premium dark:shadow-premium-dark border border-slate-200/50 dark:border-slate-700/50 ${accentColorClass} hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer flex flex-col justify-between h-full group">
                             <div>
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-[10px] font-bold bg-slate-100 text-slate-600 dark:bg-slate-900 px-2 py-0.5 rounded-lg">${item.id}</span>
-                                    <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${badgeColorClass}">${badgeText}</span>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-xs font-extrabold bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-400 px-2.5 py-1 rounded-lg border border-slate-200/30 dark:border-slate-700/40">${item.id}</span>
+                                    <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider ${badgeColorClass}">${badgeText}</span>
                                 </div>
-                                <h4 class="font-bold text-slate-800 dark:text-white text-xs leading-snug line-clamp-2">${item.name}</h4>
+                                <h4 class="font-extrabold text-slate-800 dark:text-white text-sm leading-snug group-hover:text-brand-500 transition-colors line-clamp-2">${item.name}</h4>
+                                <div class="text-[11px] text-slate-400 dark:text-slate-500 font-bold mt-1">${item.brand || '-'} | ${item.model || '-'}</div>
                             </div>
-                            <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700/50 flex flex-col gap-2">
-                                <div class="text-[10px] text-slate-500 space-y-1">
-                                    <div class="flex items-center"><i class="fa-solid fa-building w-3.5 text-brand-500"></i><span class="truncate">${item.vendor}</span></div>
-                                    <div class="flex items-center ${isDelayed ? 'text-red-500 font-bold' : ''}"><i class="fa-regular fa-calendar w-3.5 text-brand-500"></i>นัดรับมอบ: ${formatDateTH(item.planDate)}</div>
+                            <div class="mt-4 pt-3.5 border-t border-slate-100 dark:border-slate-700/50 flex flex-col gap-2.5">
+                                <div class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 font-bold">
+                                    <div class="flex items-center"><i class="fa-solid fa-building w-4 text-brand-500"></i><span class="truncate">${item.vendor}</span></div>
+                                    <div class="flex items-center ${isDelayed ? 'text-red-500' : ''}"><i class="fa-regular fa-calendar-check w-4 text-brand-500"></i>ดิวส่งมอบ: <span class="ml-1">${formatDateTH(item.planDate)}</span></div>
                                 </div>
-                                <button class="w-full bg-slate-50 dark:bg-slate-900 group-hover:bg-brand-500 group-hover:text-white dark:group-hover:bg-brand-600 text-brand-600 dark:text-brand-400 font-bold text-[10px] py-1.5 rounded-lg border border-brand-200/30 transition-all flex items-center justify-center gap-1">
-                                    <i class="fa-solid fa-clipboard-check"></i> บันทึกใบรับและตรวจพัสดุ
+                                <button class="w-full bg-slate-50 hover:bg-brand-500 dark:bg-slate-900 dark:hover:bg-brand-600 hover:text-white dark:hover:text-white text-brand-600 dark:text-brand-400 font-extrabold text-xs py-2 rounded-xl border border-brand-200/30 transition-all flex items-center justify-center gap-1.5 shadow-sm group-hover:border-transparent">
+                                    <i class="fa-solid fa-clipboard-check"></i> แตะเพื่อบันทึกตรวจรับ
                                 </button>
                             </div>
                         </div>
@@ -1744,7 +1803,7 @@
             if(!item) return;
             document.getElementById('modal-item-id').innerText = item.id;
             document.getElementById('modal-item-name').innerText = item.name;
-            document.getElementById('modal-item-desc').innerText = `${item.brand} | ${item.model}`;
+            document.getElementById('modal-item-desc').innerText = `${item.brand} ${item.model ? '- '+item.model : ''}`;
             document.getElementById('modal-item-vendor').innerText = item.vendor;
             
             const delayBadge = document.getElementById('modal-item-delay-badge');
@@ -1760,11 +1819,9 @@
             document.getElementById('modal-input-notes').value = '';
             document.getElementById('modal-input-document').value = ''; 
             
-            // รีเซ็ตตัวอย่างพรีวิวภาพถ่ายตรวจของคลัง
-            document.getElementById('receive-upload-preview').src = "";
-            document.getElementById('receive-upload-preview').classList.add('hidden');
-            document.getElementById('receive-upload-placeholder').classList.remove('opacity-0');
-            document.getElementById('upload-status-text').innerText = "แตะเพื่อถ่าย/อัปภาพใบรับของ";
+            // Reset upload field status text on opening receive modal
+            document.getElementById('upload-status-text').innerText = "แตะเพื่อถ่าย/อัปภาพ";
+            document.getElementById('upload-status-text').className = "text-xs font-bold text-slate-600 dark:text-slate-300";
             
             document.getElementById('receive-modal').classList.remove('hidden');
         }
@@ -1776,7 +1833,7 @@
         document.getElementById('receive-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-save-receive');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> กำลังตรวจรับลงคลัง...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> กำลังตรวจบันทึกข้อมูล...';
             btn.disabled = true;
             
             const id = document.getElementById('modal-input-id').value;
@@ -1786,6 +1843,7 @@
             const notes = document.getElementById('modal-input-notes').value.trim();
             const fileInput = document.getElementById('modal-input-document');
             
+            // Encode Image file into Base64 to transmit to Apps Script
             let fileBase64 = "";
             let fileName = "";
             if (fileInput.files && fileInput.files.length > 0) {
@@ -1793,38 +1851,29 @@
                 fileName = fileInput.files[0].name;
             }
 
+            // Force strict casting to strings to prevent Apps Script .toString() errors
             const updatePayload = {
                 id: String(id || ""),
                 status: "received",
                 receiveDate: String(rcvDateStr || ""),
                 sn: String(sn || "-"),
-                warehouseNotes: String(notes || "ตรวจพัสดุลงคลังสำเร็จ"),
-                notes: String(notes || "ตรวจพัสดุลงคลังสำเร็จ"),
-                fileBase64: String(fileBase64 || ""), 
+                notes: String(notes || "ตรวจมอบสภาพเรียบร้อยดี"),
+                docUrl: String(fileName || ""), // fallback parameter backward compatibility
+                fileBase64: String(fileBase64 || ""), // Pass Image File encoding directly
                 fileName: String(fileName || "")
             };
             
             try {
-                if (API_URL && !API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE") && !API_URL.includes("AKfycby1-pX-XcGyuyyl8Aa9UW89A66B9H2Yh-rm8RzpBeEi-LIb79kOwmMwcEjPZ0pVRGNy")) {
+                if (API_URL && !API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
                     const response = await fetch(API_URL, {
                         method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'text/plain;charset=utf-8'
-                        },
                         body: JSON.stringify({ action: 'receiveItem', data: updatePayload })
                     });
-                    const text = await response.text();
-                    const resJson = JSON.parse(text);
+                    const resJson = await response.json();
                     if (resJson.status !== 'success') throw new Error(resJson.message);
-                    
-                    if (resJson.data && resJson.data.docUrl) {
-                        updatePayload.docUrl = resJson.data.docUrl;
-                    }
-                    
-                    showToast(`ตรวจรับครุภัณฑ์ ${id} และบันทึกรูปภาพใบส่งของสำเร็จ!`, 'success');
+                    showToast(`ตรวจรับครุภัณฑ์ ${id} ลงใน Sheets สำเร็จ!`, 'success');
                 } else {
-                    showToast(`บันทึกตรวจรับ ${id} สำเร็จ! (โหมดจำลองออฟไลน์)`, 'success');
+                    showToast(`บันทึกตรวจรับ ${id} สำเร็จ! (โหมด Local)`, 'success');
                 }
                 
                 const itemIndex = equipmentData.findIndex(d => d.id === id);
@@ -1832,16 +1881,8 @@
                     equipmentData[itemIndex].status = 'received';
                     equipmentData[itemIndex].receiveDate = rcvDateStr;
                     equipmentData[itemIndex].sn = sn || "-";
-                    equipmentData[itemIndex].warehouseNotes = notes;
-                    equipmentData[itemIndex].notes = notes;
-                    if(fileInput.files.length > 0) {
-                        equipmentData[itemIndex].hasDoc = true;
-                        if(updatePayload.docUrl) {
-                            equipmentData[itemIndex].docUrl = updatePayload.docUrl;
-                        } else {
-                            equipmentData[itemIndex].docUrl = "https://drive.google.com/drive/folders/1MNHSnlQ3MBXWiQd275kwUmFhQK1okF64";
-                        }
-                    }
+                    equipmentData[itemIndex].notes = notes || "ตรวจมอบสภาพเรียบร้อยดี";
+                    equipmentData[itemIndex].hasDoc = fileInput.files.length > 0; 
                 }
                 
                 closeModal('receive-modal');
@@ -1852,9 +1893,9 @@
                 renderCalendar();
             } catch (err) {
                 console.error(err);
-                showToast(`ส่งตรวจล้มเหลว: ${err.message}`, 'error');
+                showToast(`บันทึกผิดพลาด: ${err.message}`, 'error');
             } finally {
-                btn.innerHTML = '<i class="fa-solid fa-save mr-1.5"></i> บันทึกรับของ'; 
+                btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i> บันทึกตรวจรับ'; 
                 btn.disabled = false;
             }
         });
@@ -1866,21 +1907,21 @@
             document.getElementById('toast-text').innerText = message;
             
             if(type === "warning") { 
-                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-amber-100 text-amber-500"; 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-xl bg-amber-100 text-amber-500 shadow-md shadow-amber-500/10"; 
                 icon.className = "fa-solid fa-exclamation"; 
             } else if (type === "error") { 
-                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-red-100 text-red-500"; 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-xl bg-red-100 text-red-500 shadow-md shadow-red-500/10"; 
                 icon.className = "fa-solid fa-circle-xmark"; 
             } else if (type === "info") { 
-                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-blue-100 text-blue-500"; 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-xl bg-blue-100 text-blue-500 shadow-md shadow-blue-500/10"; 
                 icon.className = "fa-solid fa-circle-info"; 
             } else { 
-                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-100 text-emerald-500 shadow-sm"; 
+                iconBg.className = "inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-100 text-emerald-500 shadow-md shadow-emerald-500/10"; 
                 icon.className = "fa-solid fa-check"; 
             }
             
             toast.classList.remove('opacity-0', 'translate-y-[1rem]', 'pointer-events-none');
-            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-[1rem]', 'pointer-events-none'), 3000);
+            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-[1rem]', 'pointer-events-none'), 3500);
         }
 
         window.onload = function() {
