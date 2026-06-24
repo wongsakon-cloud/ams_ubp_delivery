@@ -23,6 +23,9 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Sarabun', 'sans-serif'] },
+                    screens: {
+                        'xs': '375px',
+                    },
                     colors: {
                         brand: { 
                             50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4',
@@ -239,59 +242,59 @@
                 </div>
             </div>
             
-            <!-- Cards Statistics Grid (3D Glass Cards) -->
+            <!-- Cards Statistics Grid (3D Glass Cards - Responsive & Anti-Overlap Optimized) -->
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
                 <!-- Stat: Total -->
-                <div onclick="openDashboardItemsModal('all')" class="glass-card interactive-3d p-5 md:p-6 rounded-3xl flex flex-col justify-between">
-                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-blue-500/10 rounded-full blur-2xl"></div>
-                    <div class="absolute right-3 top-4 text-slate-300 dark:text-slate-600 opacity-50"><i class="fa-solid fa-boxes-stacked text-3xl"></i></div>
-                    <div class="relative z-10">
-                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider">อุปกรณ์ในสัญญา</span>
-                        <div id="stat-total" class="text-3xl md:text-5xl font-black text-slate-800 dark:text-white mt-2 drop-shadow-sm">0</div>
+                <div onclick="openDashboardItemsModal('all')" class="glass-card interactive-3d p-4 sm:p-5 md:p-6 rounded-3xl flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-blue-500/10 rounded-full blur-2xl pointer-events-none z-0"></div>
+                    <div class="absolute right-3 top-3 text-slate-300 dark:text-slate-600 opacity-30 md:opacity-50 pointer-events-none z-0"><i class="fa-solid fa-boxes-stacked text-2xl md:text-3xl"></i></div>
+                    <div class="relative z-10 flex flex-col justify-between h-full">
+                        <span class="text-slate-500 dark:text-slate-400 text-[11px] xs:text-xs md:text-sm font-bold uppercase tracking-wider leading-tight">อุปกรณ์ในสัญญา</span>
+                        <div id="stat-total" class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-slate-800 dark:text-white mt-3 drop-shadow-sm">0</div>
                     </div>
                 </div>
 
                 <!-- Stat: Received -->
-                <div onclick="openDashboardItemsModal('received')" class="glass-card interactive-3d p-5 md:p-6 rounded-3xl flex flex-col justify-between">
-                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
-                    <div class="absolute right-3 top-4 text-emerald-500 opacity-20"><i class="fa-solid fa-circle-check text-3xl"></i></div>
-                    <div class="relative z-10">
-                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider">ตรวจรับสำเร็จ</span>
-                        <div id="stat-received" class="text-3xl md:text-5xl font-black text-emerald-500 mt-2 drop-shadow-sm">0</div>
+                <div onclick="openDashboardItemsModal('received')" class="glass-card interactive-3d p-4 sm:p-5 md:p-6 rounded-3xl flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none z-0"></div>
+                    <div class="absolute right-3 top-3 text-emerald-500 opacity-15 md:opacity-25 pointer-events-none z-0"><i class="fa-solid fa-circle-check text-2xl md:text-3xl"></i></div>
+                    <div class="relative z-10 flex flex-col justify-between h-full">
+                        <span class="text-slate-500 dark:text-slate-400 text-[11px] xs:text-xs md:text-sm font-bold uppercase tracking-wider leading-tight">ตรวจรับสำเร็จ</span>
+                        <div id="stat-received" class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-emerald-500 mt-3 drop-shadow-sm">0</div>
                     </div>
                 </div>
 
                 <!-- Stat: Pending -->
-                <div onclick="openDashboardItemsModal('pending')" class="glass-card interactive-3d p-5 md:p-6 rounded-3xl flex flex-col justify-between">
-                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
-                    <div class="absolute right-3 top-4 text-amber-500 opacity-20"><i class="fa-solid fa-box-open text-3xl"></i></div>
-                    <div class="relative z-10">
-                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider">รอดำเนินการ</span>
-                        <div id="stat-pending" class="text-3xl md:text-5xl font-black text-amber-500 mt-2 drop-shadow-sm">0</div>
+                <div onclick="openDashboardItemsModal('pending')" class="glass-card interactive-3d p-4 sm:p-5 md:p-6 rounded-3xl flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-amber-500/10 rounded-full blur-2xl pointer-events-none z-0"></div>
+                    <div class="absolute right-3 top-3 text-amber-500 opacity-15 md:opacity-25 pointer-events-none z-0"><i class="fa-solid fa-box-open text-2xl md:text-3xl"></i></div>
+                    <div class="relative z-10 flex flex-col justify-between h-full">
+                        <span class="text-slate-500 dark:text-slate-400 text-[11px] xs:text-xs md:text-sm font-bold uppercase tracking-wider leading-tight">รอดำเนินการ</span>
+                        <div id="stat-pending" class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-amber-500 mt-3 drop-shadow-sm">0</div>
                     </div>
                 </div>
 
                 <!-- Stat: Delayed -->
-                <div onclick="openDashboardItemsModal('delayed')" class="glass-card interactive-3d p-5 md:p-6 rounded-3xl flex flex-col justify-between group border-red-100 dark:border-red-900/30">
-                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-red-500/10 rounded-full blur-2xl group-hover:bg-red-500/20 transition-colors"></div>
-                    <div class="absolute right-3 top-4 text-red-500 opacity-20 group-hover:animate-pulse"><i class="fa-solid fa-clock-rotate-left text-3xl"></i></div>
-                    <div class="relative z-10">
-                        <span class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider">ส่งล่าช้า/เกินดิว</span>
-                        <div id="stat-delayed" class="text-3xl md:text-5xl font-black text-red-500 mt-2 drop-shadow-sm">0</div>
+                <div onclick="openDashboardItemsModal('delayed')" class="glass-card interactive-3d p-4 sm:p-5 md:p-6 rounded-3xl flex flex-col justify-between group border-red-100 dark:border-red-900/30 relative overflow-hidden">
+                    <div class="absolute right-[-10px] top-[-10px] w-24 h-24 bg-red-500/10 rounded-full blur-2xl group-hover:bg-red-500/20 transition-colors pointer-events-none z-0"></div>
+                    <div class="absolute right-3 top-3 text-red-500 opacity-15 md:opacity-25 group-hover:animate-pulse pointer-events-none z-0"><i class="fa-solid fa-clock-rotate-left text-2xl md:text-3xl"></i></div>
+                    <div class="relative z-10 flex flex-col justify-between h-full">
+                        <span class="text-slate-500 dark:text-slate-400 text-[11px] xs:text-xs md:text-sm font-bold uppercase tracking-wider leading-tight">ส่งล่าช้า/เกินดิว</span>
+                        <div id="stat-delayed" class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-red-500 mt-3 drop-shadow-sm">0</div>
                     </div>
                 </div>
 
                 <!-- Project Progression Gauge (3D Look) -->
-                <div class="col-span-2 xl:col-span-1 bg-gradient-to-br from-brand-500 to-teal-600 p-5 md:p-6 rounded-3xl shadow-[0_10px_30px_-10px_rgba(20,184,166,0.5)] relative overflow-hidden flex flex-col justify-between border border-white/20">
-                    <div class="absolute right-[-20px] bottom-[-20px] opacity-10 transform rotate-12"><i class="fa-solid fa-chart-pie text-9xl text-white"></i></div>
-                    <div class="absolute top-0 left-0 w-full h-1/2 bg-white/10 blur-xl"></div>
+                <div class="col-span-2 xl:col-span-1 bg-gradient-to-br from-brand-500 to-teal-600 p-4 sm:p-5 md:p-6 rounded-3xl shadow-[0_10px_30px_-10px_rgba(20,184,166,0.5)] relative overflow-hidden flex flex-col justify-between border border-white/20">
+                    <div class="absolute right-[-20px] bottom-[-20px] opacity-10 transform rotate-12 pointer-events-none z-0"><i class="fa-solid fa-chart-pie text-9xl text-white"></i></div>
+                    <div class="absolute top-0 left-0 w-full h-1/2 bg-white/10 blur-xl pointer-events-none z-0"></div>
                     <div class="relative z-10">
-                        <span class="text-xs text-brand-100 font-black uppercase tracking-widest drop-shadow-sm">ความคืบหน้าโครงการ</span>
-                        <div class="flex items-baseline gap-1 mt-2">
-                            <span id="stat-percentage" class="text-4xl md:text-5xl font-black text-white drop-shadow-md">0%</span>
+                        <span class="text-[10px] sm:text-xs text-brand-100 font-black uppercase tracking-widest drop-shadow-sm">ความคืบหน้าโครงการ</span>
+                        <div class="flex items-baseline gap-1 mt-1">
+                            <span id="stat-percentage" class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-white drop-shadow-md">0%</span>
                         </div>
                     </div>
-                    <div class="mt-6 z-10">
+                    <div class="mt-4 z-10">
                         <div class="w-full bg-black/20 rounded-full h-3 shadow-inner backdrop-blur-sm p-0.5">
                             <div id="gauge-bar" class="bg-gradient-to-r from-white/80 to-white h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(255,255,255,0.5)]" style="width: 0%"></div>
                         </div>
@@ -1556,7 +1559,7 @@
             if(item.status === 'received') {
                 docStatus.innerHTML = `<span class="inline-flex items-center px-3 py-1.5 text-xs font-black ${item.hasDoc ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-500'} rounded-lg"><i class="fa-solid ${item.hasDoc ? 'fa-file-check' : 'fa-file-excel'} mr-2"></i> ${item.hasDoc ? 'แนบเอกสารแล้ว' : 'ไม่มีเอกสารแนบ'}</span>`;
             } else {
-                docStatus.innerHTML = `<span class="text-xs text-amber-500 font-bold bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200"><i class="fa-solid fa-spinner fa-spin mr-1"></i> รอพัสดุจัดส่ง</span>`;
+                docStatus.innerHTML = `<span class="text-xs text-amber-500 font-bold bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200"><i class="fa-solid fa-slate-spinner fa-spin mr-1"></i> รอพัสดุจัดส่ง</span>`;
             }
             
             document.getElementById('det-status-badge').innerHTML = item.status === 'received' ? `<span class="bg-emerald-500 text-white text-xs font-black px-3.5 py-1.5 rounded-xl shadow-md">รับแล้ว</span>` : (isItemDelayed(item) ? `<span class="bg-red-500 text-white text-xs font-black px-3.5 py-1.5 rounded-xl shadow-md animate-pulse">ล่าช้า</span>` : `<span class="bg-amber-500 text-white text-xs font-black px-3.5 py-1.5 rounded-xl shadow-md">รอรับ</span>`);
