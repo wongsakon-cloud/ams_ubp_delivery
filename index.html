@@ -1703,7 +1703,7 @@
                     });
                     const resJson = await response.json();
                     if (resJson.status !== 'success') throw new Error(resJson.message);
-                    showToast(`แก้ไขข้อมูลพัสดุ ${id} ลงใน Google Sheets สำเร็จ!`, 'success');
+                    showToast(`แก้ไขข้อมูลพัสดุ ${id} ลงในระบบสำเร็จ!`, 'success');
                 } else {
                     showToast(`แก้ไขข้อมูลพัสดุ ${id} สำเร็จ! (โหมด Local)`, 'success');
                 }
