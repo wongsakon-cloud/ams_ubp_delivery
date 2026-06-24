@@ -573,8 +573,8 @@
                                 </div>
                                 <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 line-clamp-1" id="upload-status-text">แตะเพื่อแนบไฟล์</span>
                             </div>
-                            <!-- อัปเกรดระบบ accept เป็น MIME Type สากล เพื่อรองรับการเปิดหาไฟล์ PDF บนมือถือสมบูรณ์แบบ -->
-                            <input type="file" id="modal-input-document" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
+                            <!-- อัปเกรดระบบ accept เป็นรูปแบบผสมเพื่อเสถียรภาพสูงสุดบนมือถือ (iOS/Android) ในการเปิดหาไฟล์ PDF -->
+                            <input type="file" id="modal-input-document" accept="image/*,application/pdf,.pdf,.doc,.docx,.xls,.xlsx" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
                         </div>
                     </div>
                     <div>
@@ -696,7 +696,7 @@
                         </div>
                         <div class="flex flex-col pt-1" id="det-doc-container">
                             <span class="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest mb-2"><i class="fa-solid fa-file-invoice w-5 text-brand-500"></i> ไฟล์แนบ</span>
-                            <!-- ตัวแปรเอกสารจะถูกเขียนทับดึงปุ่มดาวน์โหลด Google Drive ทันทีที่ API ส่งลิงก์กลับมา -->
+                            <!-- แสดงผลสติกเกอร์ลิงก์ดาวน์โหลดที่สามารถคลิกเปิดเอกสารแนบจริงได้ -->
                             <div id="det-doc-status" class="text-sm"></div>
                         </div>
                     </div>
@@ -749,8 +749,8 @@
                             </div>
                             <span class="text-xs font-bold text-slate-600 dark:text-slate-300" id="edit-upload-status-text">แตะเพื่อเปลี่ยนไฟล์แนบ</span>
                         </div>
-                        <!-- ปรับ accept ของไฟล์แนบในระบบแก้ไข เป็น MIME Type สากลเช่นกัน -->
-                        <input type="file" id="det-edit-file-input" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
+                        <!-- ปรับ accept ของไฟล์แนบในระบบแก้ไข เป็น MIME Type สากลที่เหมาะกับระบบปฏิบัติการมือถือ -->
+                        <input type="file" id="det-edit-file-input" accept="image/*,application/pdf,.pdf,.doc,.docx,.xls,.xlsx" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
                     </div>
 
                     <div>
@@ -790,7 +790,7 @@
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbycDK-56TIgrhu0aTNgItPClsIRAWS5A3mldaThO7wYTOLo9g2WQBW9-y-UNQ56fFfFfg/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzPqJfYxf5emo1dVn6EpxLvICUTHg-fFgnLwT6_rpDySZ8Hi8PV9KPMGLp_5cQNdxarEw/exec";
         let equipmentData = [];
         const today = new Date();
         today.setHours(0,0,0,0);
