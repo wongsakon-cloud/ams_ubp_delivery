@@ -510,14 +510,14 @@
                         
                         <!-- Tap to Photo File upload zone -->
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">รูปภาพหรือใบส่งของ *</label>
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">รูปภาพหรือไฟล์เอกสาร (PDF/Word) *</label>
                             <div onclick="document.getElementById('modal-input-document').click()" class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-400 rounded-2xl p-3.5 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all flex flex-col items-center justify-center gap-1.5 group">
                                 <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white transition-all">
-                                    <i class="fa-solid fa-camera text-sm"></i>
+                                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
                                 </div>
-                                <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 line-clamp-1" id="upload-status-text">แตะเพื่อถ่าย/อัปภาพ</span>
+                                <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 line-clamp-1" id="upload-status-text">แตะเพื่อแนบไฟล์/รูปภาพ</span>
                             </div>
-                            <input type="file" id="modal-input-document" accept="image/*" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
+                            <input type="file" id="modal-input-document" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
                         </div>
                     </div>
                     <div>
@@ -690,17 +690,17 @@
                     <!-- Modernized Tap-to-Photo section inside Detail Editor -->
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">ภาพใบรับเอกสาร</label>
+                            <label class="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">แนบไฟล์เอกสารใบรับ (รูป/PDF)</label>
                         </div>
                         
                         <!-- Tap to Photo Area -->
                         <div onclick="document.getElementById('det-edit-file-input').click()" class="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-400 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all flex flex-col items-center justify-center gap-1.5 group mb-3">
                             <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white transition-all">
-                                <i class="fa-solid fa-camera text-sm"></i>
+                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
                             </div>
-                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300" id="edit-upload-status-text">แตะเพื่อถ่าย/อัปภาพ</span>
+                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300" id="edit-upload-status-text">แตะเพื่อแนบไฟล์/รูปภาพ</span>
                         </div>
-                        <input type="file" id="det-edit-file-input" accept="image/*" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
+                        <input type="file" id="det-edit-file-input" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
                     </div>
 
                     <div>
@@ -738,7 +738,7 @@
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
         // Endpoint Google Apps Script API_URL
-        const API_URL = "https://script.google.com/macros/s/AKfycbyUyfUFdO1AUIRpLBGKa0YImTLnzOFyueHqu5THjPr_kF8E6n_kuC90EP5zDYf6NYoafw/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbycDK-56TIgrhu0aTNgItPClsIRAWS5A3mldaThO7wYTOLo9g2WQBW9-y-UNQ56fFfFfg/exec";
         
         // Mockup Database fallback - Set to zero as requested
         let equipmentData = [];
@@ -759,10 +759,10 @@
         function updateUploadStatus(input, textId) {
             const label = document.getElementById(textId);
             if (input.files && input.files.length > 0) {
-                label.innerText = `📷 เลือกไฟล์แล้ว: ${input.files[0].name}`;
+                label.innerText = `📁 เลือกไฟล์แล้ว: ${input.files[0].name}`;
                 label.className = "text-xs font-extrabold text-emerald-500 dark:text-emerald-400";
             } else {
-                label.innerText = "แตะเพื่อถ่าย/อัปภาพ";
+                label.innerText = "แตะเพื่อแนบไฟล์/รูปภาพ";
                 label.className = "text-xs font-bold text-slate-600 dark:text-slate-300";
             }
         }
@@ -1616,12 +1616,12 @@
             document.getElementById('det-edit-notes-input').value = item.notes || '';
             
             // Reset upload field status text on opening detail view
-            document.getElementById('edit-upload-status-text').innerText = "แตะเพื่อถ่าย/อัปภาพ";
+            document.getElementById('edit-upload-status-text').innerText = "แตะเพื่อแนบไฟล์/รูปภาพ";
             document.getElementById('edit-upload-status-text').className = "text-xs font-bold text-slate-600 dark:text-slate-300";
             
             const docStatus = document.getElementById('det-doc-status');
             if(item.status === 'received') {
-                const baseDocText = item.hasDoc ? `อัปโหลดไฟล์รูปภาพแนบสำเร็จ` : `ไม่มีไฟล์เอกสารแนบ`;
+                const baseDocText = item.hasDoc ? `มีไฟล์เอกสารแนบในระบบแล้ว` : `ไม่มีไฟล์เอกสารแนบ`;
                 
                 docStatus.innerHTML = `
                     <div class="space-y-2 mt-1">
@@ -1820,7 +1820,7 @@
             document.getElementById('modal-input-document').value = ''; 
             
             // Reset upload field status text on opening receive modal
-            document.getElementById('upload-status-text').innerText = "แตะเพื่อถ่าย/อัปภาพ";
+            document.getElementById('upload-status-text').innerText = "แตะเพื่อแนบไฟล์/รูปภาพ";
             document.getElementById('upload-status-text').className = "text-xs font-bold text-slate-600 dark:text-slate-300";
             
             document.getElementById('receive-modal').classList.remove('hidden');
