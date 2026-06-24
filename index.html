@@ -570,7 +570,7 @@
                                 </div>
                                 <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 line-clamp-1" id="upload-status-text">แตะเพื่อแนบไฟล์</span>
                             </div>
-                            <input type="file" id="fileInput class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
+                            <input type="file" id="modal-input-document" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
                         </div>
                     </div>
                     <div>
@@ -744,7 +744,7 @@
                             </div>
                             <span class="text-xs font-bold text-slate-600 dark:text-slate-300" id="edit-upload-status-text">แตะเพื่อเปลี่ยนไฟล์แนบ</span>
                         </div>
-                        <input type="file" id="fileInput" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
+                        <input type="file" id="det-edit-file-input" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
                     </div>
 
                     <div>
