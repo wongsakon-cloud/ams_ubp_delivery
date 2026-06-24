@@ -573,7 +573,8 @@
                                 </div>
                                 <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 line-clamp-1" id="upload-status-text">แตะเพื่อแนบไฟล์</span>
                             </div>
-                            <input type="file" id="modal-input-document" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
+                            <!-- อัปเกรดระบบ accept เป็น MIME Type สากล เพื่อรองรับการเปิดหาไฟล์ PDF บนมือถือสมบูรณ์แบบ -->
+                            <input type="file" id="modal-input-document" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden" onchange="updateUploadStatus(this, 'upload-status-text')">
                         </div>
                     </div>
                     <div>
@@ -695,6 +696,7 @@
                         </div>
                         <div class="flex flex-col pt-1" id="det-doc-container">
                             <span class="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest mb-2"><i class="fa-solid fa-file-invoice w-5 text-brand-500"></i> ไฟล์แนบ</span>
+                            <!-- ตัวแปรเอกสารจะถูกเขียนทับดึงปุ่มดาวน์โหลด Google Drive ทันทีที่ API ส่งลิงก์กลับมา -->
                             <div id="det-doc-status" class="text-sm"></div>
                         </div>
                     </div>
@@ -747,7 +749,8 @@
                             </div>
                             <span class="text-xs font-bold text-slate-600 dark:text-slate-300" id="edit-upload-status-text">แตะเพื่อเปลี่ยนไฟล์แนบ</span>
                         </div>
-                        <input type="file" id="det-edit-file-input" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
+                        <!-- ปรับ accept ของไฟล์แนบในระบบแก้ไข เป็น MIME Type สากลเช่นกัน -->
+                        <input type="file" id="det-edit-file-input" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden" onchange="updateUploadStatus(this, 'edit-upload-status-text')">
                     </div>
 
                     <div>
@@ -1509,17 +1512,30 @@
             const payload = { id: String(id), status: "received", receiveDate: String(rcvDateStr), sn: String(sn || "-"), notes: String(notes || "ตรวจรับสภาพเรียบร้อย"), docUrl: String(fileName), fileBase64: String(fileBase64), fileName: String(fileName) };
             
             try {
+                let fileUrl = fileName;
                 if (API_URL && !API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
                     const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'receiveItem', data: payload }) });
                     const json = await res.json();
                     if (json.status !== 'success') throw new Error(json.message);
+                    
+                    // ดึง URL จริงที่ได้จาก Google Drive มาบันทึกเก็บในแอปพลิเคชัน
+                    fileUrl = json.fileUrl || json.url || json.docUrl || fileName;
                     showToast(`บันทึกรับ ${id} สำเร็จ!`, 'success', 'ข้อมูลเข้าระบบแล้ว');
                 } else {
                     showToast(`จำลองบันทึก ${id} สำเร็จ!`, 'success', 'โหมด Offline');
                 }
                 
                 const idx = equipmentData.findIndex(d => d.id === id);
-                if(idx > -1) { Object.assign(equipmentData[idx], { status: 'received', receiveDate: rcvDateStr, sn: sn || "-", notes: notes || "ตรวจรับสภาพเรียบร้อย", hasDoc: fileInput.files.length > 0 }); }
+                if(idx > -1) { 
+                    Object.assign(equipmentData[idx], { 
+                        status: 'received', 
+                        receiveDate: rcvDateStr, 
+                        sn: sn || "-", 
+                        notes: notes || "ตรวจรับสภาพเรียบร้อย", 
+                        hasDoc: fileInput.files.length > 0,
+                        docUrl: fileInput.files.length > 0 ? fileUrl : ""
+                    }); 
+                }
                 
                 closeModal('receive-modal'); renderPendingCards(); renderDashboard(); renderEquipmentSummary(); renderAllItemsTable(); renderCalendar();
             } catch (err) {
@@ -1557,9 +1573,27 @@
             
             const docStatus = document.getElementById('det-doc-status');
             if(item.status === 'received') {
-                docStatus.innerHTML = `<span class="inline-flex items-center px-3 py-1.5 text-xs font-black ${item.hasDoc ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-500'} rounded-lg"><i class="fa-solid ${item.hasDoc ? 'fa-file-check' : 'fa-file-excel'} mr-2"></i> ${item.hasDoc ? 'แนบเอกสารแล้ว' : 'ไม่มีเอกสารแนบ'}</span>`;
+                // ตรวจสอบว่าแนบเอกสารเป็น URL ลิงก์ที่กดเปิดได้ (Google Drive) หรือไม่
+                const hasLink = item.docUrl && (item.docUrl.startsWith('http://') || item.docUrl.startsWith('https://'));
+                if (item.hasDoc) {
+                    if (hasLink) {
+                        docStatus.innerHTML = `
+                            <a href="${item.docUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-black bg-emerald-500 hover:bg-emerald-600 hover:scale-[1.03] active:scale-95 text-white rounded-xl transition-all shadow-md">
+                                <i class="fa-solid fa-file-pdf text-sm"></i>
+                                <span>เปิดเอกสารแนบ (Google Drive)</span>
+                                <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                            </a>`;
+                    } else {
+                        docStatus.innerHTML = `
+                            <span class="inline-flex items-center px-3 py-1.5 text-xs font-black bg-emerald-100 text-emerald-700 rounded-lg border border-emerald-200">
+                                <i class="fa-solid fa-file-check mr-2"></i> แนบเอกสารแล้ว (${item.docUrl || 'ไม่มีชื่อไฟล์'})
+                            </span>`;
+                    }
+                } else {
+                    docStatus.innerHTML = `<span class="inline-flex items-center px-3 py-1.5 text-xs font-black bg-slate-200 text-slate-500 rounded-lg"><i class="fa-solid fa-file-excel mr-2"></i> ไม่มีเอกสารแนบ</span>`;
+                }
             } else {
-                docStatus.innerHTML = `<span class="text-xs text-amber-500 font-bold bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200"><i class="fa-solid fa-slate-spinner fa-spin mr-1"></i> รอพัสดุจัดส่ง</span>`;
+                docStatus.innerHTML = `<span class="text-xs text-amber-500 font-bold bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200"><i class="fa-solid fa-spinner fa-spin mr-1"></i> รอพัสดุจัดส่ง</span>`;
             }
             
             document.getElementById('det-status-badge').innerHTML = item.status === 'received' ? `<span class="bg-emerald-500 text-white text-xs font-black px-3.5 py-1.5 rounded-xl shadow-md">รับแล้ว</span>` : (isItemDelayed(item) ? `<span class="bg-red-500 text-white text-xs font-black px-3.5 py-1.5 rounded-xl shadow-md animate-pulse">ล่าช้า</span>` : `<span class="bg-amber-500 text-white text-xs font-black px-3.5 py-1.5 rounded-xl shadow-md">รอรับ</span>`);
@@ -1584,14 +1618,27 @@
             const payload = { id: String(id), status: String(status), receiveDate: rcvD ? new Date(rcvD).toLocaleDateString('en-GB') : "", sn: String(sn || "-"), notes: String(notes || "แก้ไขแล้ว"), docUrl: String(fileName), fileBase64: String(fileBase64), fileName: String(fileName) };
 
             try {
+                let fileUrl = fileName;
                 if (API_URL && !API_URL.includes("MAK_YOUR_APP_SCRIPT_URL_HERE")) {
                     const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'receiveItem', data: payload }) });
                     const json = await res.json(); if (json.status !== 'success') throw new Error(json.message);
+                    
+                    // ดึง URL ลิงก์ที่ได้จากการเขียนไฟล์สำเร็จรอบแก้ไข
+                    fileUrl = json.fileUrl || json.url || json.docUrl || fileName;
                     showToast(`อัปเดตข้อมูล ${id} สำเร็จ!`, 'success');
                 } else showToast(`จำลองอัปเดต ${id} สำเร็จ!`, 'success');
 
                 const idx = equipmentData.findIndex(d => d.id === id);
-                if(idx > -1) Object.assign(equipmentData[idx], { status: status, receiveDate: payload.receiveDate, sn: sn || "-", notes: notes || "แก้ไขแล้ว", hasDoc: fileInput.files.length > 0 ? true : equipmentData[idx].hasDoc });
+                if(idx > -1) {
+                    Object.assign(equipmentData[idx], { 
+                        status: status, 
+                        receiveDate: payload.receiveDate, 
+                        sn: sn || "-", 
+                        notes: notes || "แก้ไขแล้ว", 
+                        hasDoc: fileInput.files.length > 0 ? true : equipmentData[idx].hasDoc,
+                        docUrl: fileInput.files.length > 0 ? fileUrl : equipmentData[idx].docUrl
+                    });
+                }
 
                 closeModal('details-modal'); renderPendingCards(); renderDashboard(); renderEquipmentSummary(); renderAllItemsTable(); renderCalendar();
             } catch (err) { showToast(err.message, 'error'); } 
